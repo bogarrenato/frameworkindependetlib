@@ -9,6 +9,7 @@
     "./brand-1-light.css": "./src/brand-1-light.css",
     "./brand-1-dark.css": "./src/brand-1-dark.css",
     "./brand-2-light.css": "./src/brand-2-light.css",
+    "./brand-2-dark.css": "./src/brand-2-dark.css",
     "./client-acme.css": "./src/client-acme.css",
     "./custom-brand-light.css": "./src/custom-brand-light.css",
     "./custom-brand-dark.css": "./src/custom-brand-dark.css",

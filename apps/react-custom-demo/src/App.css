@@ -25,8 +25,8 @@
 .hero-card h1,
 .eyebrow,
 .body-copy,
-.info-card pre,
-.info-card ul {
+.detail-block,
+.proof-list {
   margin: 0;
 }
 
@@ -48,11 +48,6 @@
   max-width: 62ch;
   line-height: 1.7;
   color: var(--ff-color-text-secondary);
-}
-
-.body-copy code,
-.info-card pre {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 .button-row,
@@ -112,18 +107,26 @@
   padding: 1.2rem;
 }
 
-.info-card pre {
-  overflow: auto;
+.detail-block {
+  display: grid;
+  gap: 0.45rem;
   padding: 1rem;
   border: 1px solid var(--ff-color-border-subtle);
   background: color-mix(in srgb, var(--ff-color-canvas) 88%, transparent);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   line-height: 1.6;
 }
 
-.info-card ul {
+.detail-line--gap {
+  margin-top: 0.5rem;
+}
+
+.proof-list {
   display: grid;
   gap: 0.7rem;
-  padding-left: 1.1rem;
+}
+
+.proof-item {
   color: var(--ff-color-text-secondary);
 }
 

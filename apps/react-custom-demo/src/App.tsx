@@ -19,10 +19,8 @@ function App() {
         <h1>The same React wrapper gets a completely custom identity from external CSS.</h1>
         <p className="body-copy">
           No design comes from the wrapper package itself. This application only imports the
-          neutral contract and <code>@fuggetlenfe/brand-styles/custom-brand-light.css</code>,
-          <code> @fuggetlenfe/brand-styles/custom-brand-dark.css</code>, then the same
-          <code> ff-button</code> logic immediately picks up a different font, radius, and color
-          system from the outer shell.
+          neutral contract and the custom brand light and dark packs, then the same button logic
+          immediately picks up a different font, radius, and color system from the outer shell.
         </p>
 
         <div className="theme-bar" role="group" aria-label="Theme switcher">
@@ -57,29 +55,34 @@ function App() {
       <section className="info-grid">
         <article className="info-card">
           <p className="eyebrow">Consumer imports</p>
-          <pre>{`import { FfButton } from '@fuggetlenfe/react-wrapper'
-import '@fuggetlenfe/tokens/contract.css'
-import '@fuggetlenfe/brand-styles/custom-brand-light.css'
-import '@fuggetlenfe/brand-styles/custom-brand-dark.css'
-
-<main data-brand="custom-brand" data-theme={theme}>
-  <FfButton />
-</main>`}</pre>
+          <div className="detail-block" aria-label="Consumer imports">
+            <div className="detail-line">import &#123; FfButton &#125; from '@fuggetlenfe/react-wrapper'</div>
+            <div className="detail-line">import '@fuggetlenfe/tokens/contract.css'</div>
+            <div className="detail-line">import '@fuggetlenfe/brand-styles/custom-brand-light.css'</div>
+            <div className="detail-line">import '@fuggetlenfe/brand-styles/custom-brand-dark.css'</div>
+            <div className="detail-line detail-line--gap">&lt;main data-brand="custom-brand" data-theme=&#123;theme&#125;&gt;</div>
+            <div className="detail-line">&nbsp;&nbsp;&lt;FfButton /&gt;</div>
+            <div className="detail-line">&lt;/main&gt;</div>
+          </div>
         </article>
 
         <article className="info-card">
           <p className="eyebrow">Theme behavior</p>
-          <pre>{`<main data-theme={theme}>`}</pre>
+          <div className="detail-block" aria-label="Theme behavior">
+            <div className="detail-line">The shell flips between light and dark.</div>
+            <div className="detail-line">The button keeps the same logic API in both modes.</div>
+            <div className="detail-line">Only the imported custom CSS pack changes the look.</div>
+          </div>
         </article>
 
         <article className="info-card">
           <p className="eyebrow">Why this matters</p>
-          <ul>
-            <li>The wrapper stays reusable across every React product.</li>
-            <li>A separate CSS library swaps in a different identity without touching logic.</li>
-            <li>The same wrapper logic swaps between light and dark with CSS alone.</li>
-            <li>Per-instance classes and CSS properties still let the consumer tune details.</li>
-          </ul>
+          <div className="proof-list">
+            <div className="proof-item">The wrapper stays reusable across every React product.</div>
+            <div className="proof-item">A separate CSS library swaps in a different identity without touching logic.</div>
+            <div className="proof-item">The same wrapper logic swaps between light and dark with CSS alone.</div>
+            <div className="proof-item">Per-instance classes and CSS properties still let the consumer tune details.</div>
+          </div>
         </article>
       </section>
     </main>

@@ -1,0 +1,26 @@
+[data-theme='dark'] {
+  --ff-color-canvas: #434040;
+  --ff-color-surface: #434040;
+  --ff-color-text-primary: #fafafa;
+  --ff-color-text-secondary: #d2d2d2;
+  --ff-color-text-muted: #949494;
+  --ff-color-border-subtle: #6c6a6a;
+}
+
+[data-brand='brand-2'] {
+  --ff-font-family-brand: 'Inter', Arial, sans-serif;
+  --ff-button-radius: 4px;
+  --ff-button-padding-inline: 8px;
+  --ff-button-padding-block: 0px;
+}
+
+[data-brand='brand-2'][data-theme='dark'] {
+  --ff-button-bg-default: #6ee96e;
+  --ff-button-fg-default: #fafafa;
+  --ff-button-bg-hover: #32a532;
+  --ff-button-fg-hover: #fafafa;
+  --ff-button-bg-active: #0e610e;
+  --ff-button-fg-active: #bdbdbd;
+  --ff-button-bg-disabled: #808080;
+  --ff-button-fg-disabled: #949494;
+}

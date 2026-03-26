@@ -3,11 +3,8 @@
     <p class="eyebrow">Angular app · external CSS brand pack</p>
     <h1>Angular consumes only wrapper logic, then Brand 1 arrives from CSS.</h1>
     <p class="body-copy">
-      This application imports <code>@fuggetlenfe/angular-wrapper</code>, plus
-      <code>@fuggetlenfe/tokens/contract.css</code> and
-      <code>@fuggetlenfe/brand-styles/brand-1-light.css</code> together with
-      <code>@fuggetlenfe/brand-styles/brand-1-dark.css</code>. The component library itself stays
-      visually neutral until the external stylesheet is present.
+      This application imports the Angular wrapper plus the Brand 1 light and dark packs. The
+      component library itself stays visually neutral until the external stylesheet is present.
     </p>
 
     <div class="theme-bar" role="group" aria-label="Theme switcher">
@@ -38,30 +35,34 @@
   <section class="info-grid">
     <article class="info-card">
       <p class="eyebrow">Consumer imports</p>
-      <pre>import &#123; FfButton &#125; from '@fuggetlenfe/angular-wrapper'
-@import '@fuggetlenfe/tokens/contract.css';
-@import '@fuggetlenfe/brand-styles/brand-1-light.css';
-@import '@fuggetlenfe/brand-styles/brand-1-dark.css';
-
-&lt;main data-brand="brand-1" [attr.data-theme]="theme()"&gt;
-  &lt;ff-button&gt;&lt;/ff-button&gt;
-&lt;/main&gt;</pre>
+      <div class="detail-block" aria-label="Consumer imports">
+        <div class="detail-line">import &#123; FfButton &#125; from '@fuggetlenfe/angular-wrapper'</div>
+        <div class="detail-line">@import '@fuggetlenfe/tokens/contract.css';</div>
+        <div class="detail-line">@import '@fuggetlenfe/brand-styles/brand-1-light.css';</div>
+        <div class="detail-line">@import '@fuggetlenfe/brand-styles/brand-1-dark.css';</div>
+        <div class="detail-line detail-line--gap">&lt;main data-brand="brand-1" [attr.data-theme]="theme()"&gt;</div>
+        <div class="detail-line">&nbsp;&nbsp;&lt;ff-button&gt;&lt;/ff-button&gt;</div>
+        <div class="detail-line">&lt;/main&gt;</div>
+      </div>
     </article>
 
     <article class="info-card">
       <p class="eyebrow">Theme behavior</p>
-      <pre>[attr.data-theme]=\"theme()\"
-data-theme=\"{{ theme() }}\"</pre>
+      <div class="detail-block" aria-label="Theme behavior">
+        <div class="detail-line">The shell flips between light and dark.</div>
+        <div class="detail-line">The button keeps the same logic API in both modes.</div>
+        <div class="detail-line">Brand 1 colors come entirely from the imported CSS pack.</div>
+      </div>
     </article>
 
     <article class="info-card">
       <p class="eyebrow">What proves the separation</p>
-      <ul>
-        <li>The Angular wrapper provides framework integration only.</li>
-        <li>The imported CSS library gives the component its brand and surface tokens.</li>
-        <li>The same wrapper logic swaps between light and dark with CSS alone.</li>
-        <li>Host classes and per-instance CSS properties still tailor the component locally.</li>
-      </ul>
+      <div class="proof-list">
+        <div class="proof-item">The Angular wrapper provides framework integration only.</div>
+        <div class="proof-item">The imported CSS library gives the component its brand and surface tokens.</div>
+        <div class="proof-item">The same wrapper logic swaps between light and dark with CSS alone.</div>
+        <div class="proof-item">Host classes and per-instance CSS properties still tailor the component locally.</div>
+      </div>
     </article>
   </section>
 </main>

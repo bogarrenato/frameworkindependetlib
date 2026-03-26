@@ -4,9 +4,8 @@
     <h1>The same Angular wrapper gets a custom identity from a separate stylesheet.</h1>
     <p class="body-copy">
       The component and wrapper stay logic-focused. This application applies a completely separate
-      visual system by importing <code>@fuggetlenfe/brand-styles/custom-brand-light.css</code> and
-      <code>@fuggetlenfe/brand-styles/custom-brand-dark.css</code> next to the neutral contract
-      CSS.
+      visual system by importing the custom light and dark brand packs next to the neutral
+      contract CSS.
     </p>
 
     <div class="theme-bar" role="group" aria-label="Theme switcher">
@@ -37,30 +36,34 @@
   <section class="info-grid">
     <article class="info-card">
       <p class="eyebrow">Consumer imports</p>
-      <pre>import &#123; FfButton &#125; from '@fuggetlenfe/angular-wrapper'
-@import '@fuggetlenfe/tokens/contract.css';
-@import '@fuggetlenfe/brand-styles/custom-brand-light.css';
-@import '@fuggetlenfe/brand-styles/custom-brand-dark.css';
-
-&lt;main data-brand="custom-brand" [attr.data-theme]="theme()"&gt;
-  &lt;ff-button&gt;&lt;/ff-button&gt;
-&lt;/main&gt;</pre>
+      <div class="detail-block" aria-label="Consumer imports">
+        <div class="detail-line">import &#123; FfButton &#125; from '@fuggetlenfe/angular-wrapper'</div>
+        <div class="detail-line">@import '@fuggetlenfe/tokens/contract.css';</div>
+        <div class="detail-line">@import '@fuggetlenfe/brand-styles/custom-brand-light.css';</div>
+        <div class="detail-line">@import '@fuggetlenfe/brand-styles/custom-brand-dark.css';</div>
+        <div class="detail-line detail-line--gap">&lt;main data-brand="custom-brand" [attr.data-theme]="theme()"&gt;</div>
+        <div class="detail-line">&nbsp;&nbsp;&lt;ff-button&gt;&lt;/ff-button&gt;</div>
+        <div class="detail-line">&lt;/main&gt;</div>
+      </div>
     </article>
 
     <article class="info-card">
       <p class="eyebrow">Theme behavior</p>
-      <pre>[attr.data-theme]=\"theme()\"
-data-theme=\"{{ theme() }}\"</pre>
+      <div class="detail-block" aria-label="Theme behavior">
+        <div class="detail-line">The shell flips between light and dark.</div>
+        <div class="detail-line">The button keeps the same logic API in both modes.</div>
+        <div class="detail-line">Only the imported custom CSS pack changes the look.</div>
+      </div>
     </article>
 
     <article class="info-card">
       <p class="eyebrow">Why this matters</p>
-      <ul>
-        <li>The Angular wrapper stays reusable across multiple products.</li>
-        <li>The brand arrives from a different CSS package, not from the component code.</li>
-        <li>The same wrapper logic swaps between light and dark with CSS alone.</li>
-        <li>Host classes and custom CSS properties still allow local ownership and tuning.</li>
-      </ul>
+      <div class="proof-list">
+        <div class="proof-item">The Angular wrapper stays reusable across multiple products.</div>
+        <div class="proof-item">The brand arrives from a different CSS package, not from the component code.</div>
+        <div class="proof-item">The same wrapper logic swaps between light and dark with CSS alone.</div>
+        <div class="proof-item">Host classes and custom CSS properties still allow local ownership and tuning.</div>
+      </div>
     </article>
   </section>
 </main>
