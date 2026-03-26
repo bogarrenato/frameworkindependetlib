@@ -12,9 +12,9 @@
     "storybook": "storybook dev -p 6007 -c .storybook --ci"
   },
   "dependencies": {
-    "@fuggetlenfe/components": "workspace:*",
+    "@fuggetlenfe/brand-styles": "workspace:*",
+    "@fuggetlenfe/react-wrapper": "workspace:*",
     "@fuggetlenfe/tokens": "workspace:*",
-    "@stencil/react-output-target": "^0.8.2",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },

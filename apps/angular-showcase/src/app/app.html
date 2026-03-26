@@ -43,9 +43,9 @@
         <p class="hero-kicker">{{ activeBrand().label }}</p>
         <h2>Angular consumes the same runtime, registry handoff, and token contract.</h2>
         <p class="hero-text">
-          The Angular wrapper is emitted from the Stencil build, while the active visual identity
-          can come from the shipped Figma preset, a consumer CSS override, or a registry-installed
-          brand pack that the app owns after checkout.
+          This app consumes a compiled Angular wrapper library on top of the Stencil web component
+          package, while the visual identity arrives at app level from the token contract, the
+          shipped Figma preset, and optional brand override libraries.
         </p>
 
         <div class="hero-actions">
@@ -125,6 +125,13 @@
           published package, or copy the component source and a brand starter into their app and
           take responsibility for local edits there.
         </p>
+
+        <div class="command-stack">
+          <code>import &#123; FfButton &#125; from '@fuggetlenfe/angular-wrapper'</code>
+          <code>@import '@fuggetlenfe/tokens/contract.css'</code>
+          <code>@import '@fuggetlenfe/tokens/figma-preset.css'</code>
+          <code>@import '@fuggetlenfe/brand-styles/demo.css'</code>
+        </div>
 
         <div class="command-stack">
           <code>pnpm registry:list</code>

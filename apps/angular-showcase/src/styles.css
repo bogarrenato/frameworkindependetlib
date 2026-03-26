@@ -1,7 +1,6 @@
-@import '../../../packages/tokens/src/contract.css';
-@import '../../../packages/tokens/src/figma-preset.css';
-@import '../../../examples/external-brand.css';
-@import '../../../examples/registry-installed/owned-brand-pack/owned-brand.css';
+@import '@fuggetlenfe/tokens/contract.css';
+@import '@fuggetlenfe/tokens/figma-preset.css';
+@import '@fuggetlenfe/brand-styles/demo.css';
 
 html {
   background: #0b0b0b;

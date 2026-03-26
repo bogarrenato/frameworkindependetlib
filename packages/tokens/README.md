@@ -55,7 +55,7 @@ Pelda:
 ```ts
 import '@fuggetlenfe/tokens/contract.css'
 import '@fuggetlenfe/tokens/figma-preset.css'
-import '../../../examples/external-brand.css'
+import '@fuggetlenfe/brand-styles/client-acme.css'
 ```
 
 ## Fontos fajlok

@@ -1,0 +1,13 @@
+{
+  "name": "@fuggetlenfe/brand-styles",
+  "version": "0.1.0",
+  "type": "module",
+  "sideEffects": [
+    "./src/*.css"
+  ],
+  "exports": {
+    "./client-acme.css": "./src/client-acme.css",
+    "./registry-owned.css": "./src/registry-owned.css",
+    "./demo.css": "./src/demo.css"
+  }
+}

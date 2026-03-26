@@ -13,7 +13,8 @@
   "private": true,
   "packageManager": "pnpm@10.20.0",
   "dependencies": {
-    "@fuggetlenfe/components": "workspace:*",
+    "@fuggetlenfe/angular-wrapper": "workspace:*",
+    "@fuggetlenfe/brand-styles": "workspace:*",
     "@fuggetlenfe/tokens": "workspace:*",
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",

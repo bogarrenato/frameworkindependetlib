@@ -1,8 +1,7 @@
 import type { Preview } from '@storybook/web-components-vite';
 import '../../tokens/src/contract.css';
 import '../../tokens/src/figma-preset.css';
-import '../../../examples/external-brand.css';
-import '../../../examples/registry-installed/owned-brand-pack/owned-brand.css';
+import '../../brand-styles/src/demo.css';
 import './preview.css';
 import { defineCustomElement as defineFfButton } from '../dist/components/ff-button.js';
 

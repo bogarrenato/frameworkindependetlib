@@ -1,6 +1,6 @@
 # React Showcase
 
-React demo app a Stencil komponenskonyvtar generated React wrappereivel.
+React demo app, ami a kulon leforditott `@fuggetlenfe/react-wrapper` libraryt fogyasztja.
 
 ## Mire valo
 
@@ -9,18 +9,23 @@ Ez az app azt mutatja meg, hogyan hasznalhato a komponenskonyvtar React kornyeze
 - a Figma preset aktiv
 - a dark/light tema valthato
 - a brand valthato
-- kulso consumer CSS override is ra tud ulni a token contractra
+- kulon consumer CSS override library is ra tud ulni a token contractra
 - registrybol telepitett consumer-owned brand pack is behozhato
 
-Az app a `@fuggetlenfe/components` csomag wrappereit es a `@fuggetlenfe/tokens` stylesheetjeit hasznalja.
+Az app nem kozvetlenul a Stencil source-generated fajlokat hasznalja, hanem ezt a lancot:
+
+1. `@fuggetlenfe/components`
+2. `@fuggetlenfe/react-wrapper`
+3. `@fuggetlenfe/tokens` es `@fuggetlenfe/brand-styles`
+4. `apps/react-showcase`
 
 ## Hogyan mukodik
 
-A belso layering:
+Az app-szintu design layering:
 
 1. `@fuggetlenfe/tokens/contract.css`
 2. `@fuggetlenfe/tokens/figma-preset.css`
-3. `examples/external-brand.css`
+3. `@fuggetlenfe/brand-styles/demo.css`
 
 Az app a brand/theme allapot alapjan a megfelelo `data-brand` es `data-theme` attributumokat alkalmazza, a komponensek pedig ezekbol a tokenekbol olvasnak.
 
@@ -108,6 +113,5 @@ pnpm build
 ## Fontos fajlok
 
 - `src/main.tsx`: token stylesheet importok
-- `src/App.tsx`: theme es brand valtas, demo felulet
-- `src/stencil-generated/`: generated React wrappers
+- `src/App.tsx`: wrapper fogyasztas, theme es brand valtas, demo felulet
 - `.storybook/`: React wrapper Storybook konfiguracio

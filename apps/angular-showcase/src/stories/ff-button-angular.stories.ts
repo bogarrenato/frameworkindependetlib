@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
+import { FfButton } from '@fuggetlenfe/angular-wrapper';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
-import { FfButton } from '../stencil-generated/components';
 
 const brandOptions = ['brand-1', 'brand-2', 'brand-3', 'client-acme', 'registry-owned'] as const;
 const stateOptions = ['default', 'hover', 'active', 'disabled'] as const;

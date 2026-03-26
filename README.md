@@ -1,32 +1,44 @@
 # Fuggetlenfe Design System POC
 
 Monorepo egy Figma-bol szinkronizalt, multi-brand design systemhez.
-A workspace tartalmaz:
+A workspace a kovetkezo, kulon felelossegu retegekre van bontva:
 
-- egy Figma token csomagot
-- egy Stencil alapu, framework-fuggetlen komponenskonyvtarat
-- egy React showcase appot a generated React wrapperrel
-- egy Angular showcase appot a generated Angular wrapperrel
-- kulon Storybookokat a Stencil, React es Angular nezethez
+- `@fuggetlenfe/tokens`: a publikus design token contract es a Figma preset
+- `@fuggetlenfe/brand-styles`: kulon consumer-oldali brand override csomag
+- `@fuggetlenfe/components`: a Stencil web component library
+- `@fuggetlenfe/react-wrapper`: a React-specifikus wrapper library
+- `@fuggetlenfe/angular-wrapper`: az Angular-specifikus wrapper library
+- `apps/react-showcase`: kulon React app, ami a leforditott React wrapper libraryt fogyasztja
+- `apps/angular-showcase`: kulon Angular app, ami a leforditott Angular wrapper libraryt fogyasztja
+- kulon Storybookok a Stencil, React es Angular nezethez
 
 ## Workspace csomagok
 
 - `packages/tokens`: Figma-bol generalt tokenek, publikus CSS contracttal
-- `packages/components`: Stencil komponenskonyvtar es wrapper generalas
+- `packages/brand-styles`: kulso vagy consumer-oldali brand override csomagok
+- `packages/components`: Stencil komponenskonyvtar, ami web componentet epit
+- `packages/react-wrapper`: React wrapper library a Stencil komponensekhez
+- `packages/angular-wrapper`: Angular standalone wrapper library a Stencil komponensekhez
 - `apps/react-showcase`: React demo app
 - `apps/angular-showcase`: Angular demo app
 - `registry`: lokalis registry manifestok es installalhato ownership itemek
-- `examples/external-brand.css`: kulso consumer override pelda
 
-## Hogyan mukodik
+## ArchitekturA
 
-A design retegzett, hogy a komponensek ne legyenek egyetlen beégetett arculathoz kotve.
+A projekt a kovetkezo fogyasztasi modellt mutatja be:
+
+1. a Stencil package leforditja a framework-fuggetlen web componenteket
+2. a React es Angular wrapper package-ek erre a leforditott Stencil libraryre epulnek
+3. a demo appok mar nem generalt forrast hasznalnak, hanem a sajat wrapper libraryjukat fogyasztjak
+4. a design rendszer app-szinten jon be CSS importokon keresztul, akar kulon brand librarybol
+
+A design retegzett, hogy a komponensek ne legyenek egyetlen beégetett arculathoz kotve:
 
 1. `@fuggetlenfe/tokens/contract.css`
 2. `@fuggetlenfe/tokens/figma-preset.css`
-3. sajat consumer override CSS
+3. `@fuggetlenfe/brand-styles/...`
 
-Ez a minta hasonlo a shadcn szemleletehez: a komponens a stabil token contractot hasznalja, a vegso kinezet pedig kivulrol felulirhato.
+Ez a minta hasonlo a shadcn szemleletehez: a komponens a stabil token contractot hasznalja, a vegso kinezet pedig kivulrol felulirhato, vagy akar registry alapon be is huzhato sajat ownership ala.
 
 ## Elofeltetelek
 
@@ -158,4 +170,7 @@ A mostani sync a file jelenlegi struktura alapjan a palette-eket, a light/dark f
 - React app: `apps/react-showcase/README.md`
 - Angular app: `apps/angular-showcase/README.md`
 - Stencil komponensek: `packages/components/README.md`
+- React wrapper lib: `packages/react-wrapper/README.md`
+- Angular wrapper lib: `packages/angular-wrapper/README.md`
+- Brand override csomag: `packages/brand-styles/README.md`
 - Token csomag: `packages/tokens/README.md`

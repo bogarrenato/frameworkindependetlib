@@ -1,6 +1,6 @@
 # Angular Showcase
 
-Angular demo app a Stencil komponenskonyvtar generated Angular wrappereivel.
+Angular demo app, ami a kulon leforditott `@fuggetlenfe/angular-wrapper` libraryt fogyasztja.
 
 ## Mire valo
 
@@ -9,13 +9,19 @@ Ez az app azt mutatja meg, hogyan integralhato a komponenskonyvtar Angular stand
 - a Figma design preset aktiv
 - a dark/light tema valthato
 - a brand runtime-ban valthato
-- kulso CSS override-dal uj brand is behozhato
+- kulon CSS brand libraryvel uj brand is behozhato
 - registrybol telepitett consumer-owned brand pack is hasznalhato
 
 ## Hogyan mukodik
 
-Az Angular app a generated directive proxykat hasznalja a `src/stencil-generated/` mappabol.
-Az oldalszintu stilusok importaljak a token contractot, a Figma presetet es a consumer oldali override-ot.
+Az Angular app nem appon beluli generated wrapper source-t hasznal, hanem ezt a lancot:
+
+1. `@fuggetlenfe/components`
+2. `@fuggetlenfe/angular-wrapper`
+3. `@fuggetlenfe/tokens` es `@fuggetlenfe/brand-styles`
+4. `apps/angular-showcase`
+
+Az oldalszintu stilusok a token contractot, a Figma presetet es a consumer oldali override libraryt importaljak.
 
 Az aktualis demo ezen felul megmutatja:
 
@@ -97,5 +103,4 @@ pnpm build
 - `src/styles.css`: token stylesheet importok
 - `src/app/app.ts`: theme/brand allapot es demo logika
 - `src/app/app.html`: showcase markup
-- `src/stencil-generated/`: generated Angular wrappers
 - `.storybook/`: Angular Storybook konfiguracio

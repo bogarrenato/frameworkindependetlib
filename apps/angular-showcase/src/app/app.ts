@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, signal } from '@angular/core';
+import { FfButton } from '@fuggetlenfe/angular-wrapper';
 import { tokens } from '@fuggetlenfe/tokens';
-import { FfButton } from '../stencil-generated/components';
 
 const themeOptions = ['light', 'dark'] as const;
 const registryBrandKey = 'registry-owned';

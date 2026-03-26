@@ -28,9 +28,12 @@ importers:
       '@angular/router':
         specifier: ^21.2.0
         version: 21.2.5(@angular/common@21.2.5(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2))(@angular/platform-browser@21.2.5(@angular/common@21.2.5(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2)))(rxjs@7.8.2)
-      '@fuggetlenfe/components':
+      '@fuggetlenfe/angular-wrapper':
         specifier: workspace:*
-        version: link:../../packages/components
+        version: link:../../packages/angular-wrapper
+      '@fuggetlenfe/brand-styles':
+        specifier: workspace:*
+        version: link:../../packages/brand-styles
       '@fuggetlenfe/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
@@ -80,15 +83,15 @@ importers:
 
   apps/react-showcase:
     dependencies:
-      '@fuggetlenfe/components':
+      '@fuggetlenfe/brand-styles':
         specifier: workspace:*
-        version: link:../../packages/components
+        version: link:../../packages/brand-styles
+      '@fuggetlenfe/react-wrapper':
+        specifier: workspace:*
+        version: link:../../packages/react-wrapper
       '@fuggetlenfe/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
-      '@stencil/react-output-target':
-        specifier: ^0.8.2
-        version: 0.8.2(@stencil/core@4.43.3)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react:
         specifier: ^19.2.4
         version: 19.2.4
@@ -145,6 +148,36 @@ importers:
         specifier: ^8.0.1
         version: 8.0.2(@types/node@24.12.0)(esbuild@0.27.3)(jiti@2.6.1)(less@4.4.2)(sass@1.97.3)(terser@5.46.1)
 
+  packages/angular-wrapper:
+    dependencies:
+      '@angular/common':
+        specifier: ^21.2.0
+        version: 21.2.5(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@angular/core':
+        specifier: ^21.2.0
+        version: 21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2)
+      '@fuggetlenfe/components':
+        specifier: workspace:*
+        version: link:../components
+      rxjs:
+        specifier: ~7.8.0
+        version: 7.8.2
+      tslib:
+        specifier: ^2.3.0
+        version: 2.8.1
+    devDependencies:
+      '@angular/compiler':
+        specifier: ^21.2.0
+        version: 21.2.5
+      '@angular/compiler-cli':
+        specifier: ^21.2.0
+        version: 21.2.5(@angular/compiler@21.2.5)(typescript@5.9.3)
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+
+  packages/brand-styles: {}
+
   packages/components:
     dependencies:
       tslib:
@@ -172,6 +205,31 @@ importers:
       storybook:
         specifier: ^10.3.3
         version: 10.3.3(@testing-library/dom@10.4.1)(prettier@3.8.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+
+  packages/react-wrapper:
+    dependencies:
+      '@fuggetlenfe/components':
+        specifier: workspace:*
+        version: link:../components
+      '@stencil/react-output-target':
+        specifier: ^0.8.2
+        version: 0.8.2(@stencil/core@4.43.3)(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.14
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.14)
+      react:
+        specifier: ^19.2.4
+        version: 19.2.4
+      react-dom:
+        specifier: ^19.2.4
+        version: 19.2.4(react@19.2.4)
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
 
   packages/tokens: {}
 

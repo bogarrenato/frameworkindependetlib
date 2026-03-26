@@ -4,7 +4,8 @@ Framework-fuggetlen komponenskonyvtar StencilJS-szel.
 
 ## Mire valo
 
-Ez a csomag tartalmazza a web komponenseket, es build kozben innen generalodnak a React es Angular wrapperek is.
+Ez a csomag tartalmazza a framework-fuggetlen web komponenseket.
+A build kozben innen generalodnak a React es Angular wrapper libraryk forrasai is, de a consuming appok mar nem ezt a generated outputot importaljak kozvetlenul, hanem a sajat wrapper package-eiket.
 A komponensek nem egy fix designra vannak egetve: a publikus token contractot hasznaljak, igy a vegso brand es tema kivulrol cserelheto.
 
 ## Hogyan mukodik
@@ -12,8 +13,8 @@ A komponensek nem egy fix designra vannak egetve: a publikus token contractot ha
 Fobb elemek:
 
 - Stencil komponensek a `src/components/` alatt
-- React wrapper generalas az `apps/react-showcase/src/stencil-generated/` mappaba
-- Angular wrapper generalas az `apps/angular-showcase/src/stencil-generated/` mappaba
+- React wrapper generalas a `packages/react-wrapper/` csomagba
+- Angular wrapper generalas a `packages/angular-wrapper/` csomagba
 - Storybook a library ellenorzesere es dokumentalasara
 - lokalis registry ownership flow a forras vagy brand pack atadasahoz
 
@@ -95,7 +96,7 @@ pnpm test
 
 ## Megjegyzes
 
-Ha a komponenseket modositasz, utana a React es Angular showcase appok a generated wrapper outputokon keresztul kapjak meg a frissitest.
+Ha a komponenseket modositasz, utana a React es Angular wrapper package-ek kapjak meg a frissitest, es a showcase appok mar ezeket a wrapper libraryket fogyasztjak.
 
 Consumer-owned forkhoz hasznalhato:
 

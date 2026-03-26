@@ -1,6 +1,6 @@
 import { startTransition, useState, type CSSProperties } from 'react'
 import { tokens } from '@fuggetlenfe/tokens'
-import { FfButton } from './stencil-generated/components'
+import { FfButton } from '@fuggetlenfe/react-wrapper'
 import './App.css'
 
 const themeOptions = ['light', 'dark'] as const
@@ -310,9 +310,9 @@ function App() {
             <p className="hero-kicker">{brandMeta.label}</p>
             <h2>One component runtime. Five brand identities. Two visual modes.</h2>
             <p className="hero-text">
-              The same Stencil runtime drives the React wrapper, while the active design can come
-              from the shipped Figma preset, a consumer CSS override, or a registry-installed brand
-              pack that the app fully owns after checkout.
+              This app consumes a compiled React wrapper library on top of the Stencil web
+              component package, while the active design comes in at app level from the token
+              contract, the shipped Figma preset, and optional brand override libraries.
             </p>
             <div className="hero-actions">
               <FfButton theme={theme} brand={brand} onClick={() => queueLaunch(brand)}>
@@ -392,6 +392,13 @@ function App() {
               published package, or copy the component source and brand starter into their app and
               then customize it at their own responsibility.
             </p>
+
+            <div className="command-stack">
+              <code>import {'{'} FfButton {'}'} from '@fuggetlenfe/react-wrapper'</code>
+              <code>import '@fuggetlenfe/tokens/contract.css'</code>
+              <code>import '@fuggetlenfe/tokens/figma-preset.css'</code>
+              <code>import '@fuggetlenfe/brand-styles/demo.css'</code>
+            </div>
 
             <div className="command-stack">
               <code>pnpm registry:list</code>

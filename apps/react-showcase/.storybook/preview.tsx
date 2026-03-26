@@ -2,8 +2,7 @@ import type { Preview } from '@storybook/react-vite';
 import React from 'react';
 import '@fuggetlenfe/tokens/contract.css';
 import '@fuggetlenfe/tokens/figma-preset.css';
-import '../../../examples/external-brand.css';
-import '../../../examples/registry-installed/owned-brand-pack/owned-brand.css';
+import '@fuggetlenfe/brand-styles/demo.css';
 import '../src/index.css';
 
 const preview: Preview = {

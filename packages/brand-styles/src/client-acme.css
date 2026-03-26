@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
+
+[data-brand='client-acme'] {
+  --ff-font-family-brand: 'Space Grotesk', Inter, Arial, sans-serif;
+  --ff-button-radius: 14px;
+  --ff-button-padding-inline: 18px;
+  --ff-button-padding-block: 6px;
+}
+
+[data-brand='client-acme'][data-theme='light'] {
+  --ff-button-bg-default: #e06f25;
+  --ff-button-fg-default: #fff4e8;
+  --ff-button-bg-hover: #ff8b3d;
+  --ff-button-fg-hover: #fff4e8;
+  --ff-button-bg-active: #ffe4c2;
+  --ff-button-fg-active: #6e3207;
+  --ff-button-bg-disabled: #d2d2d2;
+  --ff-button-fg-disabled: #808080;
+}
+
+[data-brand='client-acme'][data-theme='dark'] {
+  --ff-button-bg-default: #ffb56b;
+  --ff-button-fg-default: #4a2000;
+  --ff-button-bg-hover: #e06f25;
+  --ff-button-fg-hover: #fff4e8;
+  --ff-button-bg-active: #6e3207;
+  --ff-button-fg-active: #ffe4c2;
+  --ff-button-bg-disabled: #6c6a6a;
+  --ff-button-fg-disabled: #bdbdbd;
+}

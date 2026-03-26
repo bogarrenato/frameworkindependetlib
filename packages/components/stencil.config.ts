@@ -7,13 +7,13 @@ export const config: Config = {
   srcDir: 'src',
   outputTargets: [
     reactOutputTarget({
-      outDir: '../../apps/react-showcase/src/stencil-generated',
+      outDir: '../react-wrapper/src/generated',
       stencilPackageName: '@fuggetlenfe/components'
     }),
     angularOutputTarget({
       componentCorePackage: '@fuggetlenfe/components',
-      directivesProxyFile: '../../apps/angular-showcase/src/stencil-generated/components.ts',
-      directivesArrayFile: '../../apps/angular-showcase/src/stencil-generated/index.ts',
+      directivesProxyFile: '../angular-wrapper/src/lib/generated/components.ts',
+      directivesArrayFile: '../angular-wrapper/src/lib/generated/index.ts',
       valueAccessorConfigs: [],
       outputType: 'standalone'
     }),

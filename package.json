@@ -5,18 +5,18 @@
   "packageManager": "pnpm@10.20.0",
   "scripts": {
     "build": "pnpm --recursive --if-present build",
-    "dev:react": "pnpm --filter @fuggetlenfe/components build && pnpm --filter @fuggetlenfe/react-showcase dev",
-    "dev:angular": "pnpm --filter @fuggetlenfe/components build && pnpm --filter @fuggetlenfe/angular-showcase start",
+    "dev:react": "pnpm --filter @fuggetlenfe/components build && pnpm --filter @fuggetlenfe/react-wrapper build && pnpm --filter @fuggetlenfe/react-showcase dev",
+    "dev:angular": "pnpm --filter @fuggetlenfe/components build && pnpm --filter @fuggetlenfe/angular-wrapper build && pnpm --filter @fuggetlenfe/angular-showcase start",
     "dev:stencil": "pnpm --filter @fuggetlenfe/components dev",
     "figma:sync": "node ./scripts/sync-figma.mjs",
     "lint": "pnpm --recursive --if-present lint",
     "pages:build": "node ./scripts/build-pages.mjs",
     "registry:list": "node ./scripts/registry.mjs list",
     "registry:add": "node ./scripts/registry.mjs add",
-    "storybook:build": "pnpm --recursive --if-present build-storybook",
+    "storybook:build": "pnpm --filter @fuggetlenfe/components build && pnpm --filter @fuggetlenfe/react-wrapper build && pnpm --filter @fuggetlenfe/angular-wrapper build && pnpm --recursive --if-present build-storybook",
     "storybook:dev:stencil": "pnpm --filter @fuggetlenfe/components build && pnpm --filter @fuggetlenfe/components storybook",
-    "storybook:dev:react": "pnpm --filter @fuggetlenfe/components build && pnpm --filter @fuggetlenfe/react-showcase storybook",
-    "storybook:dev:angular": "pnpm --filter @fuggetlenfe/components build && pnpm --filter @fuggetlenfe/angular-showcase storybook",
+    "storybook:dev:react": "pnpm --filter @fuggetlenfe/components build && pnpm --filter @fuggetlenfe/react-wrapper build && pnpm --filter @fuggetlenfe/react-showcase storybook",
+    "storybook:dev:angular": "pnpm --filter @fuggetlenfe/components build && pnpm --filter @fuggetlenfe/angular-wrapper build && pnpm --filter @fuggetlenfe/angular-showcase storybook",
     "test": "pnpm --recursive --if-present test"
   }
 }

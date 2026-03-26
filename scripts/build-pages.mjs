@@ -13,6 +13,8 @@ await rm(siteRoot, { recursive: true, force: true });
 await mkdir(siteRoot, { recursive: true });
 
 await run('pnpm', ['--filter', '@fuggetlenfe/components', 'build'], { cwd: repoRoot });
+await run('pnpm', ['--filter', '@fuggetlenfe/react-wrapper', 'build'], { cwd: repoRoot });
+await run('pnpm', ['--filter', '@fuggetlenfe/angular-wrapper', 'build'], { cwd: repoRoot });
 await run('pnpm', ['--filter', '@fuggetlenfe/react-showcase', 'build'], {
   cwd: repoRoot,
   env: {

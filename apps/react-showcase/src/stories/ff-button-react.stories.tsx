@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
-import { FfButton } from '../stencil-generated/components';
+import { FfButton } from '@fuggetlenfe/react-wrapper';
 
 const brandOptions = ['brand-1', 'brand-2', 'brand-3', 'client-acme', 'registry-owned'] as const;
 const stateOptions = ['default', 'hover', 'active', 'disabled'] as const;
