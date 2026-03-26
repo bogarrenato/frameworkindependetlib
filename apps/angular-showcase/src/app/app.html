@@ -1,13 +1,26 @@
-<main class="consumer-shell" data-brand="brand-1" data-theme="light">
+<main class="consumer-shell" data-brand="brand-1" [attr.data-theme]="theme()">
   <section class="hero-card">
     <p class="eyebrow">Angular app · external CSS brand pack</p>
     <h1>Angular consumes only wrapper logic, then Brand 1 arrives from CSS.</h1>
     <p class="body-copy">
       This application imports <code>@fuggetlenfe/angular-wrapper</code>, plus
       <code>@fuggetlenfe/tokens/contract.css</code> and
-      <code>@fuggetlenfe/brand-styles/brand-1-light.css</code>. The component library itself
-      stays visually neutral until the external stylesheet is present.
+      <code>@fuggetlenfe/brand-styles/brand-1-light.css</code> together with
+      <code>@fuggetlenfe/brand-styles/brand-1-dark.css</code>. The component library itself stays
+      visually neutral until the external stylesheet is present.
     </p>
+
+    <div class="theme-bar" role="group" aria-label="Theme switcher">
+      <p class="theme-label">Theme pack</p>
+      <div class="theme-actions">
+        <button type="button" class="theme-button" [attr.data-selected]="theme() === 'light'" (click)="setTheme('light')">
+          Light
+        </button>
+        <button type="button" class="theme-button" [attr.data-selected]="theme() === 'dark'" (click)="setTheme('dark')">
+          Dark
+        </button>
+      </div>
+    </div>
 
     <div class="button-row">
       <ff-button brand="brand-1" class="brand-host">Brand 1 default</ff-button>
@@ -28,7 +41,14 @@
       <p class="eyebrow">Consumer imports</p>
       <pre>import &#123; FfButton &#125; from '@fuggetlenfe/angular-wrapper'
 @import '@fuggetlenfe/tokens/contract.css';
-@import '@fuggetlenfe/brand-styles/brand-1-light.css';</pre>
+@import '@fuggetlenfe/brand-styles/brand-1-light.css';
+@import '@fuggetlenfe/brand-styles/brand-1-dark.css';</pre>
+    </article>
+
+    <article class="info-card">
+      <p class="eyebrow">Theme behavior</p>
+      <pre>[attr.data-theme]=\"theme()\"
+data-theme=\"{{ theme() }}\"</pre>
     </article>
 
     <article class="info-card">
@@ -36,6 +56,7 @@
       <ul>
         <li>The Angular wrapper provides framework integration only.</li>
         <li>The imported CSS library gives the component its brand and surface tokens.</li>
+        <li>The same wrapper logic swaps between light and dark with CSS alone.</li>
         <li>Host classes and per-instance CSS properties still tailor the component locally.</li>
       </ul>
     </article>

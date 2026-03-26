@@ -1,12 +1,25 @@
-<main class="consumer-shell" data-brand="custom-brand" data-theme="light">
+<main class="consumer-shell" data-brand="custom-brand" [attr.data-theme]="theme()">
   <section class="hero-card">
     <p class="eyebrow">Angular app · custom brand CSS lib</p>
     <h1>The same Angular wrapper gets a custom identity from a separate stylesheet.</h1>
     <p class="body-copy">
       The component and wrapper stay logic-focused. This application applies a completely separate
-      visual system by importing <code>@fuggetlenfe/brand-styles/custom-brand.css</code> next to
-      the neutral contract CSS.
+      visual system by importing <code>@fuggetlenfe/brand-styles/custom-brand-light.css</code> and
+      <code>@fuggetlenfe/brand-styles/custom-brand-dark.css</code> next to the neutral contract
+      CSS.
     </p>
+
+    <div class="theme-bar" role="group" aria-label="Theme switcher">
+      <p class="theme-label">Theme pack</p>
+      <div class="theme-actions">
+        <button type="button" class="theme-button" [attr.data-selected]="theme() === 'light'" (click)="setTheme('light')">
+          Light
+        </button>
+        <button type="button" class="theme-button" [attr.data-selected]="theme() === 'dark'" (click)="setTheme('dark')">
+          Dark
+        </button>
+      </div>
+    </div>
 
     <div class="button-row">
       <ff-button brand="custom-brand" class="custom-shadow">Custom brand default</ff-button>
@@ -27,7 +40,14 @@
       <p class="eyebrow">Consumer imports</p>
       <pre>import &#123; FfButton &#125; from '@fuggetlenfe/angular-wrapper'
 @import '@fuggetlenfe/tokens/contract.css';
-@import '@fuggetlenfe/brand-styles/custom-brand.css';</pre>
+@import '@fuggetlenfe/brand-styles/custom-brand-light.css';
+@import '@fuggetlenfe/brand-styles/custom-brand-dark.css';</pre>
+    </article>
+
+    <article class="info-card">
+      <p class="eyebrow">Theme behavior</p>
+      <pre>[attr.data-theme]=\"theme()\"
+data-theme=\"{{ theme() }}\"</pre>
     </article>
 
     <article class="info-card">
@@ -35,6 +55,7 @@
       <ul>
         <li>The Angular wrapper stays reusable across multiple products.</li>
         <li>The brand arrives from a different CSS package, not from the component code.</li>
+        <li>The same wrapper logic swaps between light and dark with CSS alone.</li>
         <li>Host classes and custom CSS properties still allow local ownership and tuning.</li>
       </ul>
     </article>

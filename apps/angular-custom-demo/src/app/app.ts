@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FfButton } from '@fuggetlenfe/angular-wrapper';
 
 @Component({
@@ -7,4 +7,10 @@ import { FfButton } from '@fuggetlenfe/angular-wrapper';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {}
+export class App {
+  readonly theme = signal<'light' | 'dark'>('light');
+
+  setTheme(theme: 'light' | 'dark') {
+    this.theme.set(theme);
+  }
+}

@@ -1,0 +1,19 @@
+[data-theme='dark'] {
+  --ff-color-canvas: #0d1020;
+  --ff-color-surface: #161a32;
+  --ff-color-text-primary: #f4f2ff;
+  --ff-color-text-secondary: #c8c1ff;
+  --ff-color-text-muted: #9c93d6;
+  --ff-color-border-subtle: #302c59;
+}
+
+[data-brand='brand-1'][data-theme='dark'] {
+  --ff-button-bg-default: #8d83ff;
+  --ff-button-fg-default: #0d092d;
+  --ff-button-bg-hover: #a49cff;
+  --ff-button-fg-hover: #0d092d;
+  --ff-button-bg-active: #c3bdff;
+  --ff-button-fg-active: #0d092d;
+  --ff-button-bg-disabled: #27224d;
+  --ff-button-fg-disabled: #8b84c5;
+}

@@ -65,6 +65,43 @@
   gap: 1rem;
 }
 
+.theme-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--ff-color-border-subtle);
+  background: color-mix(in srgb, var(--ff-color-surface) 86%, transparent);
+}
+
+.theme-label {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ff-color-text-secondary);
+}
+
+.theme-actions {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+.theme-button {
+  border: 1px solid var(--ff-color-border-subtle);
+  background: transparent;
+  color: var(--ff-color-text-primary);
+  padding: 0.65rem 0.95rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.theme-button[data-selected='true'] {
+  background: var(--ff-button-bg-default);
+  color: var(--ff-button-fg-default);
+  border-color: transparent;
+}
+
 .button-row {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
@@ -120,5 +157,17 @@
   .hero-card,
   .info-card {
     padding: 1rem;
+  }
+
+  .theme-bar {
+    align-items: stretch;
+  }
+
+  .theme-actions {
+    width: 100%;
+  }
+
+  .theme-button {
+    flex: 1;
   }
 }

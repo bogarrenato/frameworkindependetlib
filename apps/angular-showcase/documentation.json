@@ -9,7 +9,7 @@
     "components": [
         {
             "name": "App",
-            "id": "component-App-d112c99630e86d9625ec8a8834d56d2430d1c002e2e0405fd25fa0a6a997686a9c4fda73c7a6045fbfc8f9fdcd8ad952d43033ff86e54729288ff46f5f4ae1e5",
+            "id": "component-App-ac9654341dc4c2171e003cf03bd12db77de7cd5cc3a3f8679453a16401e3566b5a20e207984e972863d6beb54527c706b5ee80c2c1b01db4450621d399e54046",
             "file": "src/app/app.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -26,8 +26,56 @@
             "hostDirectives": [],
             "inputsClass": [],
             "outputsClass": [],
-            "propertiesClass": [],
-            "methodsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "theme",
+                    "defaultValue": "signal<'light' | 'dark'>('light')",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 11,
+                    "modifierKind": [
+                        148
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "setTheme",
+                    "args": [
+                        {
+                            "name": "theme",
+                            "type": "\"light\" | \"dark\"",
+                            "optional": false,
+                            "dotDotDotToken": false,
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 13,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "theme",
+                            "type": "\"light\" | \"dark\"",
+                            "optional": false,
+                            "dotDotDotToken": false,
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [],
@@ -41,13 +89,13 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component } from '@angular/core';\nimport { FfButton } from '@fuggetlenfe/angular-wrapper';\n\n@Component({\n  selector: 'app-root',\n  imports: [FfButton],\n  templateUrl: './app.html',\n  styleUrl: './app.css'\n})\nexport class App {}\n",
+            "sourceCode": "import { Component, signal } from '@angular/core';\nimport { FfButton } from '@fuggetlenfe/angular-wrapper';\n\n@Component({\n  selector: 'app-root',\n  imports: [FfButton],\n  templateUrl: './app.html',\n  styleUrl: './app.css'\n})\nexport class App {\n  readonly theme = signal<'light' | 'dark'>('light');\n\n  setTheme(theme: 'light' | 'dark') {\n    this.theme.set(theme);\n  }\n}\n",
             "styleUrl": "./app.css",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<main class=\"consumer-shell\" data-brand=\"brand-1\" data-theme=\"light\">\n  <section class=\"hero-card\">\n    <p class=\"eyebrow\">Angular app · external CSS brand pack</p>\n    <h1>Angular consumes only wrapper logic, then Brand 1 arrives from CSS.</h1>\n    <p class=\"body-copy\">\n      This application imports <code>@fuggetlenfe/angular-wrapper</code>, plus\n      <code>@fuggetlenfe/tokens/contract.css</code> and\n      <code>@fuggetlenfe/brand-styles/brand-1-light.css</code>. The component library itself\n      stays visually neutral until the external stylesheet is present.\n    </p>\n\n    <div class=\"button-row\">\n      <ff-button brand=\"brand-1\" class=\"brand-host\">Brand 1 default</ff-button>\n      <ff-button brand=\"brand-1\" class=\"pill-host\">Class-based override</ff-button>\n      <ff-button\n        brand=\"brand-1\"\n        class=\"inline-host\"\n        [style.--ff-button-padding-inline]=\"'1.5rem'\"\n        [style.--ff-button-padding-block]=\"'0.7rem'\"\n      >\n        Inline CSS property\n      </ff-button>\n    </div>\n  </section>\n\n  <section class=\"info-grid\">\n    <article class=\"info-card\">\n      <p class=\"eyebrow\">Consumer imports</p>\n      <pre>import &#123; FfButton &#125; from '@fuggetlenfe/angular-wrapper'\n@import '@fuggetlenfe/tokens/contract.css';\n@import '@fuggetlenfe/brand-styles/brand-1-light.css';</pre>\n    </article>\n\n    <article class=\"info-card\">\n      <p class=\"eyebrow\">What proves the separation</p>\n      <ul>\n        <li>The Angular wrapper provides framework integration only.</li>\n        <li>The imported CSS library gives the component its brand and surface tokens.</li>\n        <li>Host classes and per-instance CSS properties still tailor the component locally.</li>\n      </ul>\n    </article>\n  </section>\n</main>\n"
+            "templateData": "<main class=\"consumer-shell\" data-brand=\"brand-1\" [attr.data-theme]=\"theme()\">\n  <section class=\"hero-card\">\n    <p class=\"eyebrow\">Angular app · external CSS brand pack</p>\n    <h1>Angular consumes only wrapper logic, then Brand 1 arrives from CSS.</h1>\n    <p class=\"body-copy\">\n      This application imports <code>@fuggetlenfe/angular-wrapper</code>, plus\n      <code>@fuggetlenfe/tokens/contract.css</code> and\n      <code>@fuggetlenfe/brand-styles/brand-1-light.css</code> together with\n      <code>@fuggetlenfe/brand-styles/brand-1-dark.css</code>. The component library itself stays\n      visually neutral until the external stylesheet is present.\n    </p>\n\n    <div class=\"theme-bar\" role=\"group\" aria-label=\"Theme switcher\">\n      <p class=\"theme-label\">Theme pack</p>\n      <div class=\"theme-actions\">\n        <button type=\"button\" class=\"theme-button\" [attr.data-selected]=\"theme() === 'light'\" (click)=\"setTheme('light')\">\n          Light\n        </button>\n        <button type=\"button\" class=\"theme-button\" [attr.data-selected]=\"theme() === 'dark'\" (click)=\"setTheme('dark')\">\n          Dark\n        </button>\n      </div>\n    </div>\n\n    <div class=\"button-row\">\n      <ff-button brand=\"brand-1\" class=\"brand-host\">Brand 1 default</ff-button>\n      <ff-button brand=\"brand-1\" class=\"pill-host\">Class-based override</ff-button>\n      <ff-button\n        brand=\"brand-1\"\n        class=\"inline-host\"\n        [style.--ff-button-padding-inline]=\"'1.5rem'\"\n        [style.--ff-button-padding-block]=\"'0.7rem'\"\n      >\n        Inline CSS property\n      </ff-button>\n    </div>\n  </section>\n\n  <section class=\"info-grid\">\n    <article class=\"info-card\">\n      <p class=\"eyebrow\">Consumer imports</p>\n      <pre>import &#123; FfButton &#125; from '@fuggetlenfe/angular-wrapper'\n@import '@fuggetlenfe/tokens/contract.css';\n@import '@fuggetlenfe/brand-styles/brand-1-light.css';\n@import '@fuggetlenfe/brand-styles/brand-1-dark.css';</pre>\n    </article>\n\n    <article class=\"info-card\">\n      <p class=\"eyebrow\">Theme behavior</p>\n      <pre>[attr.data-theme]=\\\"theme()\\\"\ndata-theme=\\\"{{ theme() }}\\\"</pre>\n    </article>\n\n    <article class=\"info-card\">\n      <p class=\"eyebrow\">What proves the separation</p>\n      <ul>\n        <li>The Angular wrapper provides framework integration only.</li>\n        <li>The imported CSS library gives the component its brand and surface tokens.</li>\n        <li>The same wrapper logic swaps between light and dark with CSS alone.</li>\n        <li>Host classes and per-instance CSS properties still tailor the component locally.</li>\n      </ul>\n    </article>\n  </section>\n</main>\n"
         }
     ],
     "modules": [],
@@ -472,7 +520,7 @@
                 "linktype": "component",
                 "name": "App",
                 "coveragePercent": 0,
-                "coverageCount": "0/1",
+                "coverageCount": "0/3",
                 "status": "low"
             },
             {

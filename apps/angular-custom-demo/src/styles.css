@@ -1,8 +1,9 @@
 @import '@fuggetlenfe/tokens/contract.css';
-@import '@fuggetlenfe/brand-styles/custom-brand.css';
+@import '@fuggetlenfe/brand-styles/custom-brand-light.css';
+@import '@fuggetlenfe/brand-styles/custom-brand-dark.css';
 
 html {
-  background: #fff8f2;
+  background: #140e0d;
 }
 
 body {

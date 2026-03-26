@@ -1,8 +1,9 @@
 @import '@fuggetlenfe/tokens/contract.css';
 @import '@fuggetlenfe/brand-styles/brand-1-light.css';
+@import '@fuggetlenfe/brand-styles/brand-1-dark.css';
 
 html {
-  background: #fafafa;
+  background: #0f1322;
 }
 
 body {
