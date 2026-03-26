@@ -97,6 +97,42 @@ python3 -m http.server 6007 --bind 127.0.0.1 --directory storybook-static/react
 python3 -m http.server 6008 --bind 127.0.0.1 --directory storybook-static/angular
 ```
 
+## GitHub Pages hostolas
+
+Ingyenesen hostolhato GitHub Pages-en egyetlen kozos statikus site-kent.
+
+Build:
+
+```bash
+pnpm pages:build
+```
+
+Ez egy `.pages/` mappat general, amiben benne van:
+
+- landing page
+- React showcase
+- Angular showcase
+- Stencil Storybook
+- React Storybook
+- Angular Storybook
+
+Lokalis ellenorzes:
+
+```bash
+python3 -m http.server 6010 --bind 127.0.0.1 --directory .pages
+```
+
+Ha a repo neve `frameworkindependetlib`, akkor a publikus URL-ek:
+
+- `https://bogarrenato.github.io/frameworkindependetlib/`
+- `https://bogarrenato.github.io/frameworkindependetlib/react/`
+- `https://bogarrenato.github.io/frameworkindependetlib/angular/`
+- `https://bogarrenato.github.io/frameworkindependetlib/storybook/stencil/`
+- `https://bogarrenato.github.io/frameworkindependetlib/storybook/react/`
+- `https://bogarrenato.github.io/frameworkindependetlib/storybook/angular/`
+
+Az automatikus deploy workflow a `.github/workflows/pages.yml` fajlban van. Elso alkalommal a GitHub repo `Settings > Pages` reszen a source-ot erdemes `GitHub Actions`-ra allitani.
+
 ## Registry ownership
 
 A workspace lokalis registryt is tartalmaz a shadcn-szeru ownership flow-hoz.

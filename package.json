@@ -10,6 +10,7 @@
     "dev:stencil": "pnpm --filter @fuggetlenfe/components dev",
     "figma:sync": "node ./scripts/sync-figma.mjs",
     "lint": "pnpm --recursive --if-present lint",
+    "pages:build": "node ./scripts/build-pages.mjs",
     "registry:list": "node ./scripts/registry.mjs list",
     "registry:add": "node ./scripts/registry.mjs add",
     "storybook:build": "pnpm --recursive --if-present build-storybook",
