@@ -1,0 +1,19 @@
+{
+  "registryVersion": 1,
+  "items": [
+    {
+      "name": "ff-button-source",
+      "type": "component",
+      "title": "FfButton Source",
+      "entry": "./items/ff-button-source.json",
+      "description": "Copies the Stencil button source into a consumer-owned folder so teams can fork it locally."
+    },
+    {
+      "name": "owned-brand-pack",
+      "type": "brand-pack",
+      "title": "Owned Brand Pack",
+      "entry": "./items/owned-brand-pack.json",
+      "description": "Copies a starter CSS override pack for a consumer-owned brand key."
+    }
+  ]
+}

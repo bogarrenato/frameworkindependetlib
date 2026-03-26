@@ -1,0 +1,39 @@
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 2rem;
+  background: var(--ff-color-canvas);
+  color: var(--ff-color-text-primary);
+  font-family: Inter, Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+#storybook-root,
+#storybook-docs {
+  min-height: calc(100vh - 4rem);
+}
+
+.sb-show-main.sb-main-padded {
+  padding: 0;
+}
+
+.sbdocs,
+.sbdocs-wrapper,
+.sbdocs-content {
+  background: var(--ff-color-canvas);
+  color: var(--ff-color-text-primary);
+}
+
+.sbdocs-preview {
+  background: var(--ff-color-surface);
+}

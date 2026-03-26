@@ -1,0 +1,21 @@
+{
+  "name": "fuggetlenfepoc",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.20.0",
+  "scripts": {
+    "build": "pnpm --recursive --if-present build",
+    "dev:react": "pnpm --filter @fuggetlenfe/components build && pnpm --filter @fuggetlenfe/react-showcase dev",
+    "dev:angular": "pnpm --filter @fuggetlenfe/components build && pnpm --filter @fuggetlenfe/angular-showcase start",
+    "dev:stencil": "pnpm --filter @fuggetlenfe/components dev",
+    "figma:sync": "node ./scripts/sync-figma.mjs",
+    "lint": "pnpm --recursive --if-present lint",
+    "registry:list": "node ./scripts/registry.mjs list",
+    "registry:add": "node ./scripts/registry.mjs add",
+    "storybook:build": "pnpm --recursive --if-present build-storybook",
+    "storybook:dev:stencil": "pnpm --filter @fuggetlenfe/components build && pnpm --filter @fuggetlenfe/components storybook",
+    "storybook:dev:react": "pnpm --filter @fuggetlenfe/components build && pnpm --filter @fuggetlenfe/react-showcase storybook",
+    "storybook:dev:angular": "pnpm --filter @fuggetlenfe/components build && pnpm --filter @fuggetlenfe/angular-showcase storybook",
+    "test": "pnpm --recursive --if-present test"
+  }
+}

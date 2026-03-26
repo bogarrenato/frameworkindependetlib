@@ -1,0 +1,13 @@
+node_modules
+dist
+www
+.stencil
+.angular
+.cache
+coverage
+*.log
+apps/angular-showcase/.angular
+storybook-static
+figma-*.png
+tmp-*.png
+.DS_Store

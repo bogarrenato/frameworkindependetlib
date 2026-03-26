@@ -1,0 +1,36 @@
+{
+  "name": "@fuggetlenfe/components",
+  "version": "0.1.0",
+  "description": "Multi-brand Stencil component library generated from the provided Figma design system.",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
+  "es2015": "dist/esm/index.mjs",
+  "es2017": "dist/esm/index.mjs",
+  "types": "dist/types/components.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "files": [
+    "dist/",
+    "loader/",
+    "components/"
+  ],
+  "scripts": {
+    "build": "stencil build",
+    "build-storybook": "storybook build -c .storybook -o ../../storybook-static/stencil",
+    "dev": "stencil build --dev --watch",
+    "storybook": "storybook dev -p 6006 -c .storybook --ci",
+    "test": "stencil test --spec --e2e"
+  },
+  "dependencies": {
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^10.3.3",
+    "@storybook/addon-docs": "^10.3.3",
+    "@storybook/web-components-vite": "^10.3.3",
+    "@stencil/angular-output-target": "^0.10.2",
+    "@stencil/core": "^4.38.2",
+    "@stencil/react-output-target": "^0.8.0",
+    "storybook": "^10.3.3"
+  }
+}

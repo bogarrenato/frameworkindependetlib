@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
+
+/*
+  Consumer-side override example.
+  This file intentionally lives outside the component and token packages
+  to demonstrate the shadcn-like layering model:
+
+  1. import the public token contract
+  2. import the shipped Figma preset
+  3. import your own brand/theme layer after it
+*/
+
+[data-brand='client-acme'] {
+  --ff-font-family-brand: 'Space Grotesk', Inter, Arial, sans-serif;
+  --ff-button-radius: 14px;
+  --ff-button-padding-inline: 18px;
+  --ff-button-padding-block: 6px;
+}
+
+[data-brand='client-acme'][data-theme='light'] {
+  --ff-button-bg-default: #E06F25;
+  --ff-button-fg-default: #FFF4E8;
+  --ff-button-bg-hover: #FF8B3D;
+  --ff-button-fg-hover: #FFF4E8;
+  --ff-button-bg-active: #FFE4C2;
+  --ff-button-fg-active: #6E3207;
+  --ff-button-bg-disabled: #D2D2D2;
+  --ff-button-fg-disabled: #808080;
+}
+
+[data-brand='client-acme'][data-theme='dark'] {
+  --ff-button-bg-default: #FFB56B;
+  --ff-button-fg-default: #4A2000;
+  --ff-button-bg-hover: #E06F25;
+  --ff-button-fg-hover: #FFF4E8;
+  --ff-button-bg-active: #6E3207;
+  --ff-button-fg-active: #FFE4C2;
+  --ff-button-bg-disabled: #6C6A6A;
+  --ff-button-fg-disabled: #BDBDBD;
+}

@@ -1,0 +1,21 @@
+{
+  "name": "ff-button-source",
+  "type": "component",
+  "title": "FfButton Source",
+  "description": "Consumer-owned copy of the Figma-aligned Stencil button primitive.",
+  "consumerOwnership": "After installation these files belong to the consuming app. Teams may edit markup, styles, and props at their own responsibility.",
+  "files": [
+    {
+      "source": "packages/components/src/components/ff-button/ff-button.tsx",
+      "target": "ff-button.tsx"
+    },
+    {
+      "source": "packages/components/src/components/ff-button/ff-button.css",
+      "target": "ff-button.css"
+    },
+    {
+      "source": "packages/components/src/components/ff-button/readme.md",
+      "target": "README.md"
+    }
+  ]
+}

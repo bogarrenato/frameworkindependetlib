@@ -1,0 +1,18 @@
+@import '../../../packages/tokens/src/contract.css';
+@import '../../../packages/tokens/src/figma-preset.css';
+@import '../../../examples/external-brand.css';
+@import '../../../examples/registry-installed/owned-brand-pack/owned-brand.css';
+
+html {
+  background: #0b0b0b;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: Inter, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}

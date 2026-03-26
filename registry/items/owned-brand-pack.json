@@ -1,0 +1,22 @@
+{
+  "name": "owned-brand-pack",
+  "type": "brand-pack",
+  "title": "Owned Brand Pack",
+  "description": "Starter CSS override pack for a consumer-owned brand named registry-owned.",
+  "brandKey": "registry-owned",
+  "consumerOwnership": "After installation the consuming app owns the override pack and may change tokens, fonts, and state colors freely.",
+  "files": [
+    {
+      "source": "registry/templates/owned-brand.css",
+      "target": "owned-brand.css"
+    },
+    {
+      "source": "registry/templates/owned-brand.tokens.json",
+      "target": "owned-brand.tokens.json"
+    },
+    {
+      "source": "registry/templates/README.brand-pack.md",
+      "target": "README.md"
+    }
+  ]
+}
