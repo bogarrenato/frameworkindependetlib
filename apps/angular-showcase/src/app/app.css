@@ -146,10 +146,6 @@
   text-transform: uppercase;
 }
 
-.inline-host::part(button) {
-  border: 1px solid color-mix(in srgb, var(--ff-button-fg-default) 22%, transparent);
-}
-
 @media (max-width: 640px) {
   .consumer-shell {
     padding: 1rem;

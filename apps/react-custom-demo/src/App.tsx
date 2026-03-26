@@ -4,8 +4,9 @@ import { FfButton } from '@fuggetlenfe/react-wrapper';
 import './App.css';
 
 const customInstanceStyle = {
-  '--ff-button-radius': '28px',
-  '--ff-button-padding-inline': '1.8rem'
+  '--ff-button-radius': '20px',
+  '--ff-button-padding-inline': '1.3rem',
+  '--ff-button-padding-block': '0.68rem'
 } as CSSProperties;
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
           neutral contract and <code>@fuggetlenfe/brand-styles/custom-brand-light.css</code>,
           <code> @fuggetlenfe/brand-styles/custom-brand-dark.css</code>, then the same
           <code> ff-button</code> logic immediately picks up a different font, radius, and color
-          system.
+          system from the outer shell.
         </p>
 
         <div className="theme-bar" role="group" aria-label="Theme switcher">
@@ -47,15 +48,9 @@ function App() {
         </div>
 
         <div className="button-row">
-          <FfButton brand="custom-brand" className="custom-shadow">
-            Custom brand default
-          </FfButton>
-          <FfButton brand="custom-brand" className="poster-host">
-            Host class override
-          </FfButton>
-          <FfButton brand="custom-brand" className="inline-host" style={customInstanceStyle}>
-            Inline CSS property
-          </FfButton>
+          <FfButton className="custom-shadow">Custom brand default</FfButton>
+          <FfButton className="poster-host">Host class override</FfButton>
+          <FfButton style={customInstanceStyle}>Inline token tweak</FfButton>
         </div>
       </section>
 
@@ -65,7 +60,11 @@ function App() {
           <pre>{`import { FfButton } from '@fuggetlenfe/react-wrapper'
 import '@fuggetlenfe/tokens/contract.css'
 import '@fuggetlenfe/brand-styles/custom-brand-light.css'
-import '@fuggetlenfe/brand-styles/custom-brand-dark.css'`}</pre>
+import '@fuggetlenfe/brand-styles/custom-brand-dark.css'
+
+<main data-brand="custom-brand" data-theme={theme}>
+  <FfButton />
+</main>`}</pre>
         </article>
 
         <article className="info-card">

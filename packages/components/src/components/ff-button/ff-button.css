@@ -44,21 +44,6 @@
   transform: translateY(1px);
 }
 
-:host([data-state='default']) .ff-button {
-  --_button-bg: var(--ff-button-bg-default, transparent);
-  --_button-fg: var(--ff-button-fg-default, inherit);
-}
-
-:host([data-state='hover']) .ff-button {
-  --_button-bg: var(--ff-button-bg-hover, var(--ff-button-bg-default, transparent));
-  --_button-fg: var(--ff-button-fg-hover, var(--ff-button-fg-default, inherit));
-}
-
-:host([data-state='active']) .ff-button {
-  --_button-bg: var(--ff-button-bg-active, var(--ff-button-bg-default, transparent));
-  --_button-fg: var(--ff-button-fg-active, var(--ff-button-fg-default, inherit));
-}
-
 .ff-button:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--ff-color-text-primary, currentColor) 28%, transparent);
   outline-offset: 2px;

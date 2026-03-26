@@ -4,12 +4,23 @@ import { FfButton } from '@fuggetlenfe/react-wrapper';
 
 const brandOptions = ['brand-1', 'brand-2', 'brand-3', 'client-acme', 'registry-owned'] as const;
 const stateOptions = ['default', 'hover', 'active', 'disabled'] as const;
+const statePreviewStyles = `
+  ff-button.demo-state--hover::part(button) {
+    background: var(--ff-button-bg-hover, var(--ff-button-bg-default, transparent));
+    color: var(--ff-button-fg-hover, var(--ff-button-fg-default, inherit));
+  }
+
+  ff-button.demo-state--active::part(button) {
+    background: var(--ff-button-bg-active, var(--ff-button-bg-default, transparent));
+    color: var(--ff-button-fg-active, var(--ff-button-fg-default, inherit));
+    transform: translateY(1px);
+  }
+`;
 
 type StoryArgs = {
   label: string;
   disabled: boolean;
   fullWidth: boolean;
-  previewState: 'auto' | 'default' | 'hover' | 'active';
   type: 'button' | 'submit' | 'reset';
 };
 
@@ -21,29 +32,22 @@ const meta = {
     label: 'Launch selected brand',
     disabled: false,
     fullWidth: false,
-    previewState: 'auto',
     type: 'button'
   },
   argTypes: {
     label: { control: 'text' },
     disabled: { control: 'boolean' },
     fullWidth: { control: 'boolean' },
-    previewState: {
-      control: 'inline-radio',
-      options: ['auto', 'default', 'hover', 'active']
-    },
     type: {
       control: 'inline-radio',
       options: ['button', 'submit', 'reset']
-    },
-    brand: { table: { disable: true } },
-    theme: { table: { disable: true } }
+    }
   },
   parameters: {
     docs: {
       description: {
         component:
-          'React-generated wrapper around the Stencil web component. The playground now also proves runtime interaction and the registry-style ownership flow for consumer-side brand packs.'
+          'React-generated wrapper around the Stencil web component. Brand and theme now live entirely on the outer shell and the imported CSS pack.'
       }
     }
   },
@@ -66,56 +70,67 @@ export const StateMatrix: Story = {
     controls: { disable: true },
     docs: {
       description: {
-        story: 'The same state matrix rendered through the React wrapper instead of the raw Stencil custom element.'
+        story: 'State previews are applied from Storybook classes and external CSS tokens, not from component-level theme props.'
       }
     }
   },
   render: (_, context) => (
     <div
+      data-theme={String(context.globals.theme ?? 'light')}
       style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-        gap: '1rem',
-        maxWidth: '1200px'
+        minHeight: '100vh',
+        padding: '2rem',
+        background: 'var(--ff-color-canvas)',
+        color: 'var(--ff-color-text-primary)',
+        fontFamily: 'Inter, Arial, sans-serif'
       }}
     >
-      {brandOptions.map((brand) => (
-        <section
-          key={brand}
-          style={{
-            border: '1px solid var(--ff-color-border-subtle)',
-            background: 'var(--ff-color-surface)',
-            padding: '1rem'
-          }}
-        >
-          <h3 style={{ margin: '0 0 1rem', fontSize: '1rem' }}>{brandLabel(brand)}</h3>
-          {stateOptions.map((state) => (
-            <div
-              key={`${brand}-${state}`}
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '5rem minmax(0, 1fr)',
-                alignItems: 'center',
-                gap: '0.75rem',
-                marginBottom: '0.75rem'
-              }}
-            >
-              <span style={{ fontSize: '0.8rem', color: 'var(--ff-color-text-secondary)' }}>
-                {state[0].toUpperCase() + state.slice(1)}
-              </span>
-              <FfButton
-                brand={brand}
-                theme={String(context.globals.theme ?? 'light')}
-                disabled={state === 'disabled'}
-                fullWidth
-                previewState={state === 'disabled' ? 'auto' : state}
+      <style>{statePreviewStyles}</style>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+          gap: '1rem',
+          maxWidth: '1200px'
+        }}
+      >
+        {brandOptions.map((brand) => (
+          <section
+            key={brand}
+            data-brand={brand}
+            style={{
+              border: '1px solid var(--ff-color-border-subtle)',
+              background: 'var(--ff-color-surface)',
+              padding: '1rem'
+            }}
+          >
+            <h3 style={{ margin: '0 0 1rem', fontSize: '1rem' }}>{brandLabel(brand)}</h3>
+            {stateOptions.map((state) => (
+              <div
+                key={`${brand}-${state}`}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '5rem minmax(0, 1fr)',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  marginBottom: '0.75rem'
+                }}
               >
-                {brandLabel(brand)}
-              </FfButton>
-            </div>
-          ))}
-        </section>
-      ))}
+                <span style={{ fontSize: '0.8rem', color: 'var(--ff-color-text-secondary)' }}>
+                  {state[0].toUpperCase() + state.slice(1)}
+                </span>
+                <FfButton
+                  className={stateClassFor(state)}
+                  disabled={state === 'disabled'}
+                  fullWidth
+                >
+                  {brandLabel(brand)}
+                </FfButton>
+              </div>
+            ))}
+          </section>
+        ))}
+      </div>
     </div>
   )
 };
@@ -130,11 +145,24 @@ function PlaygroundDemo(args: StoryArgs & { brand: string; theme: string }) {
   }, [args.brand, args.theme]);
 
   return (
-    <div style={{ display: 'grid', gap: '1rem', maxWidth: args.fullWidth ? '100%' : '420px' }}>
+    <div
+      data-brand={args.brand}
+      data-theme={args.theme}
+      style={{
+        display: 'grid',
+        gap: '1rem',
+        maxWidth: args.fullWidth ? '100%' : '420px',
+        minHeight: '100vh',
+        padding: '2rem',
+        background: 'var(--ff-color-canvas)',
+        color: 'var(--ff-color-text-primary)',
+        fontFamily: 'Inter, Arial, sans-serif'
+      }}
+    >
       <FfButton
-        {...args}
-        brand={args.brand}
-        theme={args.theme}
+        disabled={args.disabled}
+        fullWidth={args.fullWidth}
+        type={args.type}
         onClick={() => {
           setLaunchCount((current) => current + 1);
           setLaunchMessage(
@@ -183,6 +211,18 @@ function PlaygroundDemo(args: StoryArgs & { brand: string; theme: string }) {
       </div>
     </div>
   );
+}
+
+function stateClassFor(state: (typeof stateOptions)[number]) {
+  if (state === 'hover') {
+    return 'demo-state--hover';
+  }
+
+  if (state === 'active') {
+    return 'demo-state--active';
+  }
+
+  return undefined;
 }
 
 function brandLabel(brand: string) {

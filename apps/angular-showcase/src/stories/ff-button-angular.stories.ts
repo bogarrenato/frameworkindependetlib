@@ -5,12 +5,23 @@ import { moduleMetadata } from '@storybook/angular';
 
 const brandOptions = ['brand-1', 'brand-2', 'brand-3', 'client-acme', 'registry-owned'] as const;
 const stateOptions = ['default', 'hover', 'active', 'disabled'] as const;
+const statePreviewStyles = `
+  ff-button.demo-state--hover::part(button) {
+    background: var(--ff-button-bg-hover, var(--ff-button-bg-default, transparent));
+    color: var(--ff-button-fg-hover, var(--ff-button-fg-default, inherit));
+  }
+
+  ff-button.demo-state--active::part(button) {
+    background: var(--ff-button-bg-active, var(--ff-button-bg-default, transparent));
+    color: var(--ff-button-fg-active, var(--ff-button-fg-default, inherit));
+    transform: translateY(1px);
+  }
+`;
 
 type StoryArgs = {
   label?: string;
   disabled?: boolean;
   fullWidth?: boolean;
-  previewState?: 'auto' | 'default' | 'hover' | 'active';
   type?: 'button' | 'submit' | 'reset';
 };
 
@@ -27,29 +38,22 @@ const meta = {
     label: 'Launch selected brand',
     disabled: false,
     fullWidth: false,
-    previewState: 'auto',
     type: 'button'
   },
   argTypes: {
     label: { control: 'text' },
     disabled: { control: 'boolean' },
     fullWidth: { control: 'boolean' },
-    previewState: {
-      control: 'inline-radio',
-      options: ['auto', 'default', 'hover', 'active']
-    },
     type: {
       control: 'inline-radio',
       options: ['button', 'submit', 'reset']
-    },
-    brand: { table: { disable: true } },
-    theme: { table: { disable: true } }
+    }
   },
   parameters: {
     docs: {
       description: {
         component:
-          'Angular-generated standalone wrapper around the shared Stencil button. The playground now also proves click handling and the local registry handoff flow.'
+          'Angular-generated standalone wrapper around the shared Stencil button. Brand and theme now live entirely on the outer shell and the imported CSS pack.'
       }
     }
   },
@@ -60,7 +64,6 @@ const meta = {
       label: args.label ?? 'Launch selected brand',
       disabled: args.disabled ?? false,
       fullWidth: args.fullWidth ?? false,
-      previewState: args.previewState ?? 'auto',
       type: args.type ?? 'button',
       brand,
       theme,
@@ -81,11 +84,8 @@ const meta = {
           style="display:grid;gap:1rem;max-width:420px;min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif"
         >
           <ff-button
-            [brand]="brand"
-            [theme]="theme"
             [disabled]="disabled"
             [fullWidth]="fullWidth"
-            [previewState]="previewState"
             [type]="type"
             (click)="launch()"
           >
@@ -122,7 +122,7 @@ export const StateMatrix: Story = {
     controls: { disable: true },
     docs: {
       description: {
-        story: 'State comparison rendered through the Angular standalone wrapper.'
+        story: 'State previews are applied from Storybook-only classes and external CSS tokens, not from component-level theme props.'
       }
     }
   },
@@ -138,6 +138,7 @@ export const StateMatrix: Story = {
         [attr.data-theme]="brandTheme"
         style="min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif"
       >
+        <style>${statePreviewStyles}</style>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;max-width:1200px">
           <section
             *ngFor="let brand of brands"
@@ -153,11 +154,10 @@ export const StateMatrix: Story = {
                 {{ state[0].toUpperCase() + state.slice(1) }}
               </span>
               <ff-button
-                [brand]="brand"
-                [theme]="brandTheme"
                 [disabled]="state === 'disabled'"
                 [fullWidth]="true"
-                [previewState]="state === 'disabled' ? 'auto' : state"
+                [class.demo-state--hover]="state === 'hover'"
+                [class.demo-state--active]="state === 'active'"
               >
                 {{ brandLabel(brand) }}
               </ff-button>

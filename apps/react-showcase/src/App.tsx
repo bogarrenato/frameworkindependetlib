@@ -3,8 +3,9 @@ import { FfButton } from '@fuggetlenfe/react-wrapper';
 import './App.css';
 
 const instanceStyle = {
-  '--ff-button-padding-inline': '1.6rem',
-  '--ff-button-padding-block': '0.75rem'
+  '--ff-button-padding-inline': '1.45rem',
+  '--ff-button-padding-block': '0.72rem',
+  '--ff-button-radius': '6px'
 } as CSSProperties;
 
 function App() {
@@ -16,20 +17,15 @@ function App() {
         <p className="body-copy">
           This app imports the compiled <code>@fuggetlenfe/react-wrapper</code>, then applies
           design through <code>@fuggetlenfe/tokens/contract.css</code> and
-          <code> @fuggetlenfe/brand-styles/brand-2-light.css</code>. The Stencil component stays
-          visually naked until the external brand stylesheet is present.
+          <code> @fuggetlenfe/brand-styles/brand-2-light.css</code>. Brand and theme live on the
+          outer app shell, so the Stencil primitive stays visually naked until the external brand
+          stylesheet is present.
         </p>
 
         <div className="button-row">
-          <FfButton brand="brand-2" className="brand-host">
-            Brand 2 default
-          </FfButton>
-          <FfButton brand="brand-2" className="pill-host">
-            Class-based override
-          </FfButton>
-          <FfButton brand="brand-2" className="inline-host" style={instanceStyle}>
-            Inline CSS property
-          </FfButton>
+          <FfButton className="brand-host">Brand 2 default</FfButton>
+          <FfButton className="pill-host">Class-based override</FfButton>
+          <FfButton style={instanceStyle}>Inline token tweak</FfButton>
         </div>
       </section>
 
@@ -38,7 +34,11 @@ function App() {
           <p className="eyebrow">Consumer imports</p>
           <pre>{`import { FfButton } from '@fuggetlenfe/react-wrapper'
 import '@fuggetlenfe/tokens/contract.css'
-import '@fuggetlenfe/brand-styles/brand-2-light.css'`}</pre>
+import '@fuggetlenfe/brand-styles/brand-2-light.css'
+
+<main data-brand="brand-2" data-theme="light">
+  <FfButton />
+</main>`}</pre>
         </article>
 
         <article className="info-card">

@@ -22,15 +22,14 @@
     </div>
 
     <div class="button-row">
-      <ff-button brand="custom-brand" class="custom-shadow">Custom brand default</ff-button>
-      <ff-button brand="custom-brand" class="poster-host">Host class override</ff-button>
+      <ff-button class="custom-shadow">Custom brand default</ff-button>
+      <ff-button class="poster-host">Host class override</ff-button>
       <ff-button
-        brand="custom-brand"
-        class="inline-host"
-        [style.--ff-button-radius]="'28px'"
-        [style.--ff-button-padding-inline]="'1.85rem'"
+        [style.--ff-button-radius]="'20px'"
+        [style.--ff-button-padding-inline]="'1.3rem'"
+        [style.--ff-button-padding-block]="'0.68rem'"
       >
-        Inline CSS property
+        Inline token tweak
       </ff-button>
     </div>
   </section>
@@ -41,7 +40,11 @@
       <pre>import &#123; FfButton &#125; from '@fuggetlenfe/angular-wrapper'
 @import '@fuggetlenfe/tokens/contract.css';
 @import '@fuggetlenfe/brand-styles/custom-brand-light.css';
-@import '@fuggetlenfe/brand-styles/custom-brand-dark.css';</pre>
+@import '@fuggetlenfe/brand-styles/custom-brand-dark.css';
+
+&lt;main data-brand="custom-brand" [attr.data-theme]="theme()"&gt;
+  &lt;ff-button&gt;&lt;/ff-button&gt;
+&lt;/main&gt;</pre>
     </article>
 
     <article class="info-card">

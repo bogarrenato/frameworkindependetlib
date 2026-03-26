@@ -9,14 +9,14 @@ import type { Components } from '@fuggetlenfe/components/components';
 import { defineCustomElement as defineFfButton } from '@fuggetlenfe/components/components/ff-button.js';
 @ProxyCmp({
   defineCustomElementFn: defineFfButton,
-  inputs: ['brand', 'disabled', 'fullWidth', 'label', 'previewState', 'theme', 'type']
+  inputs: ['disabled', 'fullWidth', 'label', 'type']
 })
 @Component({
   selector: 'ff-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-  inputs: ['brand', 'disabled', 'fullWidth', 'label', 'previewState', 'theme', 'type'],
+  inputs: ['disabled', 'fullWidth', 'label', 'type'],
   standalone: true
 })
 export class FfButton {

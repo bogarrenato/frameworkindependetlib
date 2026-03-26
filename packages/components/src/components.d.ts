@@ -8,11 +8,6 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface FfButton {
         /**
-          * Brand key resolved against the external CSS token contract. This stays open so apps can ship brand overrides outside the component package.
-          * @default 'inherit'
-         */
-        "brand": string;
-        /**
           * @default false
          */
         "disabled": boolean;
@@ -21,15 +16,6 @@ export namespace Components {
          */
         "fullWidth": boolean;
         "label"?: string;
-        /**
-          * @default 'auto'
-         */
-        "previewState": PreviewState;
-        /**
-          * Theme key resolved against the external CSS token contract. Consumers can keep the shipped `light` / `dark` values or define their own.
-          * @default 'inherit'
-         */
-        "theme": string;
         /**
           * @default 'button'
          */
@@ -50,11 +36,6 @@ declare global {
 declare namespace LocalJSX {
     interface FfButton {
         /**
-          * Brand key resolved against the external CSS token contract. This stays open so apps can ship brand overrides outside the component package.
-          * @default 'inherit'
-         */
-        "brand"?: string;
-        /**
           * @default false
          */
         "disabled"?: boolean;
@@ -64,28 +45,16 @@ declare namespace LocalJSX {
         "fullWidth"?: boolean;
         "label"?: string;
         /**
-          * @default 'auto'
-         */
-        "previewState"?: PreviewState;
-        /**
-          * Theme key resolved against the external CSS token contract. Consumers can keep the shipped `light` / `dark` values or define their own.
-          * @default 'inherit'
-         */
-        "theme"?: string;
-        /**
           * @default 'button'
          */
         "type"?: 'button' | 'submit' | 'reset';
     }
 
     interface FfButtonAttributes {
-        "theme": string;
-        "brand": string;
         "disabled": boolean;
         "type": 'button' | 'submit' | 'reset';
         "fullWidth": boolean;
         "label": string;
-        "previewState": PreviewState;
     }
 
     interface IntrinsicElements {
