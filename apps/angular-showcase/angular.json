@@ -75,7 +75,7 @@
             "host": "127.0.0.1",
             "ci": true,
             "styles": [
-              "src/styles.css"
+              "src/storybook-styles.css"
             ],
             "assets": [
               {
@@ -95,7 +95,7 @@
             "tsConfig": "tsconfig.storybook.json",
             "outputDir": "../../storybook-static/angular",
             "styles": [
-              "src/styles.css"
+              "src/storybook-styles.css"
             ],
             "assets": [
               {

@@ -6,7 +6,10 @@
     "./src/*.css"
   ],
   "exports": {
+    "./brand-1-light.css": "./src/brand-1-light.css",
+    "./brand-2-light.css": "./src/brand-2-light.css",
     "./client-acme.css": "./src/client-acme.css",
+    "./custom-brand.css": "./src/custom-brand.css",
     "./registry-owned.css": "./src/registry-owned.css",
     "./demo.css": "./src/demo.css"
   }

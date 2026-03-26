@@ -19,7 +19,14 @@ await run('pnpm', ['--filter', '@fuggetlenfe/react-showcase', 'build'], {
   cwd: repoRoot,
   env: {
     ...process.env,
-    VITE_BASE_PATH: `${pagesBasePath}react/`
+    VITE_BASE_PATH: `${pagesBasePath}react-brand-2/`
+  }
+});
+await run('pnpm', ['--filter', '@fuggetlenfe/react-custom-demo', 'build'], {
+  cwd: repoRoot,
+  env: {
+    ...process.env,
+    VITE_BASE_PATH: `${pagesBasePath}react-custom/`
   }
 });
 await run(
@@ -31,9 +38,24 @@ await run(
     'ng',
     'build',
     '--base-href',
-    `${pagesBasePath}angular/`,
+    `${pagesBasePath}angular-brand-1/`,
     '--output-path',
     'dist/angular-pages'
+  ],
+  { cwd: repoRoot }
+);
+await run(
+  'pnpm',
+  [
+    '--filter',
+    '@fuggetlenfe/angular-custom-demo',
+    'exec',
+    'ng',
+    'build',
+    '--base-href',
+    `${pagesBasePath}angular-custom/`,
+    '--output-path',
+    'dist/angular-custom-pages'
   ],
   { cwd: repoRoot }
 );
@@ -41,11 +63,19 @@ await run('pnpm', ['--filter', '@fuggetlenfe/components', 'build-storybook'], { 
 await run('pnpm', ['--filter', '@fuggetlenfe/react-showcase', 'build-storybook'], { cwd: repoRoot });
 await run('pnpm', ['--filter', '@fuggetlenfe/angular-showcase', 'build-storybook'], { cwd: repoRoot });
 
-await cp(path.join(repoRoot, 'apps', 'react-showcase', 'dist'), path.join(siteRoot, 'react'), {
+await cp(path.join(repoRoot, 'apps', 'react-showcase', 'dist'), path.join(siteRoot, 'react-brand-2'), {
   recursive: true
 });
 
-await cp(resolveAngularBrowserDir(), path.join(siteRoot, 'angular'), {
+await cp(path.join(repoRoot, 'apps', 'react-custom-demo', 'dist'), path.join(siteRoot, 'react-custom'), {
+  recursive: true
+});
+
+await cp(resolveAngularBrowserDir('angular-showcase', 'angular-pages'), path.join(siteRoot, 'angular-brand-1'), {
+  recursive: true
+});
+
+await cp(resolveAngularBrowserDir('angular-custom-demo', 'angular-custom-pages'), path.join(siteRoot, 'angular-custom'), {
   recursive: true
 });
 
@@ -159,20 +189,30 @@ const landingPage = `<!doctype html>
         <p class="eyebrow">GitHub Pages deployment</p>
         <h1>Fuggetlenfe multi-brand design system</h1>
         <p class="subcopy">
-          This static site hosts the React showcase, the Angular showcase, and the Stencil, React, and Angular Storybooks from a single GitHub Pages deployment.
+          This static site hosts two React apps, two Angular apps, and the wrapper Storybooks. The component library stays logic-only, while separate CSS packages inject the actual brand identity.
         </p>
       </section>
 
       <section class="grid">
-        <a href="./react/">
+        <a href="./react-brand-2/">
           <p class="kicker">App</p>
-          <strong>React showcase</strong>
-          <span>Interactive wrapper demo with launch status, token lab, and registry ownership flow.</span>
+          <strong>React Brand 2 app</strong>
+          <span>Consumes the React wrapper and a dedicated Brand 2 CSS pack.</span>
         </a>
-        <a href="./angular/">
+        <a href="./react-custom/">
           <p class="kicker">App</p>
-          <strong>Angular showcase</strong>
-          <span>Angular standalone wrapper demo for the same Stencil runtime and owned brand packs.</span>
+          <strong>React custom app</strong>
+          <span>Consumes the same wrapper logic, but styling arrives from a different custom CSS library.</span>
+        </a>
+        <a href="./angular-brand-1/">
+          <p class="kicker">App</p>
+          <strong>Angular Brand 1 app</strong>
+          <span>Consumes the Angular wrapper and a dedicated Brand 1 CSS pack.</span>
+        </a>
+        <a href="./angular-custom/">
+          <p class="kicker">App</p>
+          <strong>Angular custom app</strong>
+          <span>Consumes the same Angular wrapper logic, styled by a separate custom CSS package.</span>
         </a>
         <a href="./storybook/stencil/">
           <p class="kicker">Storybook</p>
@@ -200,17 +240,8 @@ await writeFile(path.join(siteRoot, '404.html'), landingPage);
 
 console.log(`Built GitHub Pages site into ${siteRoot}`);
 
-function resolveAngularBrowserDir() {
-  const candidate = path.join(
-    repoRoot,
-    'apps',
-    'angular-showcase',
-    'dist',
-    'angular-pages',
-    'browser'
-  );
-
-  return candidate;
+function resolveAngularBrowserDir(appDir, outputDir) {
+  return path.join(repoRoot, 'apps', appDir, 'dist', outputDir, 'browser');
 }
 
 function run(command, args, options = {}) {

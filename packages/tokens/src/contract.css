@@ -1,20 +1,20 @@
 :root {
-  --ff-font-family-brand: Arial, sans-serif;
+  --ff-font-family-brand: inherit;
   --ff-button-radius: 0px;
-  --ff-button-padding-inline: 8px;
-  --ff-button-padding-block: 0px;
-  --ff-color-canvas: #FAFAFA;
-  --ff-color-surface: #FAFAFA;
-  --ff-color-text-primary: #434040;
-  --ff-color-text-secondary: #808080;
-  --ff-color-text-muted: #A9A9A9;
-  --ff-color-border-subtle: #D9D9D9;
-  --ff-button-bg-default: #695EFD;
-  --ff-button-fg-default: #F0EFFF;
-  --ff-button-bg-hover: #ADA7FF;
-  --ff-button-fg-hover: #F0EFFF;
-  --ff-button-bg-active: #F0EFFF;
-  --ff-button-fg-active: #5147DB;
-  --ff-button-bg-disabled: #BDBDBD;
-  --ff-button-fg-disabled: #A9A9A9;
+  --ff-button-padding-inline: 0.875rem;
+  --ff-button-padding-block: 0.5rem;
+  --ff-color-canvas: #ffffff;
+  --ff-color-surface: #ffffff;
+  --ff-color-text-primary: #111111;
+  --ff-color-text-secondary: #5f5f5f;
+  --ff-color-text-muted: #8b8b8b;
+  --ff-color-border-subtle: #d8d8d8;
+  --ff-button-bg-default: transparent;
+  --ff-button-fg-default: currentColor;
+  --ff-button-bg-hover: transparent;
+  --ff-button-fg-hover: currentColor;
+  --ff-button-bg-active: transparent;
+  --ff-button-fg-active: currentColor;
+  --ff-button-bg-disabled: transparent;
+  --ff-button-fg-disabled: #9a9a9a;
 }

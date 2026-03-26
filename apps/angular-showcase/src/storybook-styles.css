@@ -1,0 +1,17 @@
+@import '@fuggetlenfe/tokens/contract.css';
+@import '@fuggetlenfe/tokens/figma-preset.css';
+@import '@fuggetlenfe/brand-styles/demo.css';
+
+html {
+  background: #fafafa;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: Inter, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}

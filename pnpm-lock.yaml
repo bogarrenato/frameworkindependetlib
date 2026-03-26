@@ -8,6 +8,64 @@ importers:
 
   .: {}
 
+  apps/angular-custom-demo:
+    dependencies:
+      '@angular/common':
+        specifier: ^21.2.0
+        version: 21.2.5(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@angular/compiler':
+        specifier: ^21.2.0
+        version: 21.2.5
+      '@angular/core':
+        specifier: ^21.2.0
+        version: 21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2)
+      '@angular/forms':
+        specifier: ^21.2.0
+        version: 21.2.5(@angular/common@21.2.5(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2))(@angular/platform-browser@21.2.5(@angular/common@21.2.5(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2)))(rxjs@7.8.2)
+      '@angular/platform-browser':
+        specifier: ^21.2.0
+        version: 21.2.5(@angular/common@21.2.5(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2))
+      '@angular/router':
+        specifier: ^21.2.0
+        version: 21.2.5(@angular/common@21.2.5(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2))(@angular/platform-browser@21.2.5(@angular/common@21.2.5(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2)))(rxjs@7.8.2)
+      '@fuggetlenfe/angular-wrapper':
+        specifier: workspace:*
+        version: link:../../packages/angular-wrapper
+      '@fuggetlenfe/brand-styles':
+        specifier: workspace:*
+        version: link:../../packages/brand-styles
+      '@fuggetlenfe/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
+      rxjs:
+        specifier: ~7.8.0
+        version: 7.8.2
+      tslib:
+        specifier: ^2.3.0
+        version: 2.8.1
+    devDependencies:
+      '@angular/build':
+        specifier: ^21.2.3
+        version: 21.2.3(@angular/compiler-cli@21.2.5(@angular/compiler@21.2.5)(typescript@5.9.3))(@angular/compiler@21.2.5)(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2))(@angular/platform-browser@21.2.5(@angular/common@21.2.5(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.5(@angular/compiler@21.2.5)(rxjs@7.8.2)))(@types/node@24.12.0)(chokidar@5.0.0)(jiti@2.6.1)(less@4.4.2)(lightningcss@1.32.0)(postcss@8.5.8)(terser@5.46.1)(tslib@2.8.1)(typescript@5.9.3)(vitest@4.1.1(@types/node@24.12.0)(jsdom@28.1.0)(vite@8.0.2(@types/node@24.12.0)(esbuild@0.27.3)(jiti@2.6.1)(less@4.4.2)(sass@1.97.3)(terser@5.46.1)))
+      '@angular/cli':
+        specifier: ^21.2.3
+        version: 21.2.3(@types/node@24.12.0)(chokidar@5.0.0)
+      '@angular/compiler-cli':
+        specifier: ^21.2.0
+        version: 21.2.5(@angular/compiler@21.2.5)(typescript@5.9.3)
+      jsdom:
+        specifier: ^28.0.0
+        version: 28.1.0
+      prettier:
+        specifier: ^3.8.1
+        version: 3.8.1
+      typescript:
+        specifier: ~5.9.2
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.8
+        version: 4.1.1(@types/node@24.12.0)(jsdom@28.1.0)(vite@8.0.2(@types/node@24.12.0)(esbuild@0.27.3)(jiti@2.6.1)(less@4.4.2)(sass@1.97.3)(terser@5.46.1))
+
   apps/angular-showcase:
     dependencies:
       '@angular/common':
@@ -80,6 +138,61 @@ importers:
       vitest:
         specifier: ^4.0.8
         version: 4.1.1(@types/node@24.12.0)(jsdom@28.1.0)(vite@8.0.2(@types/node@24.12.0)(esbuild@0.27.3)(jiti@2.6.1)(less@4.4.2)(sass@1.97.3)(terser@5.46.1))
+
+  apps/react-custom-demo:
+    dependencies:
+      '@fuggetlenfe/brand-styles':
+        specifier: workspace:*
+        version: link:../../packages/brand-styles
+      '@fuggetlenfe/react-wrapper':
+        specifier: workspace:*
+        version: link:../../packages/react-wrapper
+      '@fuggetlenfe/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
+      react:
+        specifier: ^19.2.4
+        version: 19.2.4
+      react-dom:
+        specifier: ^19.2.4
+        version: 19.2.4(react@19.2.4)
+    devDependencies:
+      '@eslint/js':
+        specifier: ^9.39.4
+        version: 9.39.4
+      '@types/node':
+        specifier: ^24.12.0
+        version: 24.12.0
+      '@types/react':
+        specifier: ^19.2.14
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.14)
+      '@vitejs/plugin-react':
+        specifier: ^6.0.1
+        version: 6.0.1(vite@8.0.2(@types/node@24.12.0)(esbuild@0.27.3)(jiti@2.6.1)(less@4.4.2)(sass@1.97.3)(terser@5.46.1))
+      eslint:
+        specifier: ^9.39.4
+        version: 9.39.4(jiti@2.6.1)
+      eslint-plugin-react-hooks:
+        specifier: ^7.0.1
+        version: 7.0.1(eslint@9.39.4(jiti@2.6.1))
+      eslint-plugin-react-refresh:
+        specifier: ^0.5.2
+        version: 0.5.2(eslint@9.39.4(jiti@2.6.1))
+      globals:
+        specifier: ^17.4.0
+        version: 17.4.0
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      typescript-eslint:
+        specifier: ^8.57.0
+        version: 8.57.2(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
+      vite:
+        specifier: ^8.0.1
+        version: 8.0.2(@types/node@24.12.0)(esbuild@0.27.3)(jiti@2.6.1)(less@4.4.2)(sass@1.97.3)(terser@5.46.1)
 
   apps/react-showcase:
     dependencies:

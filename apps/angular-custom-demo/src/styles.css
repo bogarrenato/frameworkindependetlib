@@ -1,0 +1,16 @@
+@import '@fuggetlenfe/tokens/contract.css';
+@import '@fuggetlenfe/brand-styles/custom-brand.css';
+
+html {
+  background: #fff8f2;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: Inter, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}

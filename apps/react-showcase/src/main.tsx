@@ -1,8 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import '@fuggetlenfe/tokens/contract.css'
-import '@fuggetlenfe/tokens/figma-preset.css'
-import '@fuggetlenfe/brand-styles/demo.css'
+import '@fuggetlenfe/brand-styles/brand-2-light.css'
 import './index.css'
 import App from './App.tsx'
 

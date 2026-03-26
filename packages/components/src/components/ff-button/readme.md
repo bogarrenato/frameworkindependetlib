@@ -18,6 +18,13 @@
 | `type`         | `type`          |                                                                                                                                             | `"button" \| "reset" \| "submit"`            | `'button'`  |
 
 
+## Shadow Parts
+
+| Part       | Description |
+| ---------- | ----------- |
+| `"button"` |             |
+
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

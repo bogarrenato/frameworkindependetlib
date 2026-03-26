@@ -1,0 +1,124 @@
+:host {
+  display: block;
+}
+
+.consumer-shell {
+  min-height: 100vh;
+  padding: 2rem;
+  color: var(--ff-color-text-primary);
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--ff-button-bg-default) 20%, transparent) 0, transparent 30%),
+    linear-gradient(180deg, color-mix(in srgb, var(--ff-color-canvas) 92%, #2b1209 8%), var(--ff-color-canvas));
+}
+
+.hero-card,
+.info-card {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  border: 1px solid var(--ff-color-border-subtle);
+  background: color-mix(in srgb, var(--ff-color-surface) 92%, transparent);
+  box-shadow: 0 24px 90px color-mix(in srgb, var(--ff-button-bg-default) 14%, transparent);
+}
+
+.hero-card {
+  display: grid;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.hero-card h1,
+.eyebrow,
+.body-copy,
+.info-card pre,
+.info-card ul {
+  margin: 0;
+}
+
+.hero-card h1 {
+  font-family: var(--ff-font-family-brand);
+  font-size: clamp(2.3rem, 6vw, 4.4rem);
+  line-height: 0.98;
+  max-width: 12ch;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  color: var(--ff-color-text-muted);
+}
+
+.body-copy {
+  max-width: 62ch;
+  line-height: 1.7;
+  color: var(--ff-color-text-secondary);
+}
+
+.body-copy code,
+.info-card pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.button-row,
+.info-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.button-row {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.info-grid {
+  width: min(980px, 100%);
+  margin: 1rem auto 0;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.info-card {
+  padding: 1.2rem;
+}
+
+.info-card pre {
+  overflow: auto;
+  padding: 1rem;
+  border: 1px solid var(--ff-color-border-subtle);
+  background: color-mix(in srgb, var(--ff-color-canvas) 88%, transparent);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.info-card ul {
+  display: grid;
+  gap: 0.7rem;
+  padding-left: 1.1rem;
+  color: var(--ff-color-text-secondary);
+}
+
+.custom-shadow::part(button) {
+  box-shadow: 0 18px 36px color-mix(in srgb, var(--ff-button-bg-default) 22%, transparent);
+}
+
+.poster-host {
+  --ff-button-radius: 8px;
+}
+
+.poster-host::part(button) {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.inline-host::part(button) {
+  border: 1px solid color-mix(in srgb, var(--ff-button-fg-default) 22%, transparent);
+}
+
+@media (max-width: 640px) {
+  .consumer-shell {
+    padding: 1rem;
+  }
+
+  .hero-card,
+  .info-card {
+    padding: 1rem;
+  }
+}

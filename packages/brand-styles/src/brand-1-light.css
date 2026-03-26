@@ -1,0 +1,26 @@
+[data-theme='light'] {
+  --ff-color-canvas: #fafafa;
+  --ff-color-surface: #ffffff;
+  --ff-color-text-primary: #1d174f;
+  --ff-color-text-secondary: #4d458c;
+  --ff-color-text-muted: #756fa9;
+  --ff-color-border-subtle: #d9d3ff;
+}
+
+[data-brand='brand-1'] {
+  --ff-font-family-brand: Arial, sans-serif;
+  --ff-button-radius: 0px;
+  --ff-button-padding-inline: 0.85rem;
+  --ff-button-padding-block: 0.45rem;
+}
+
+[data-brand='brand-1'][data-theme='light'] {
+  --ff-button-bg-default: #695efd;
+  --ff-button-fg-default: #f0efff;
+  --ff-button-bg-hover: #5147db;
+  --ff-button-fg-hover: #f0efff;
+  --ff-button-bg-active: #100b53;
+  --ff-button-fg-active: #f0efff;
+  --ff-button-bg-disabled: #d8d3ff;
+  --ff-button-fg-disabled: #756fa9;
+}

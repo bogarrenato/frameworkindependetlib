@@ -15,6 +15,7 @@ import { defineCustomElement as defineFfButton } from '@fuggetlenfe/components/c
   selector: 'ff-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: '<ng-content></ng-content>',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: ['brand', 'disabled', 'fullWidth', 'label', 'previewState', 'theme', 'type'],
   standalone: true
 })

@@ -1,7 +1,7 @@
 :host {
   display: inline-flex;
-  --_button-bg: var(--ff-button-bg-default, #695EFD);
-  --_button-fg: var(--ff-button-fg-default, #F0EFFF);
+  --_button-bg: var(--ff-button-bg-default, transparent);
+  --_button-fg: var(--ff-button-fg-default, inherit);
 }
 
 :host(.ff-button-host--full-width) {
@@ -20,11 +20,11 @@
   background: var(--_button-bg);
   color: var(--_button-fg);
   cursor: pointer;
-  font-family: var(--ff-font-family-brand, Arial, sans-serif);
+  font-family: var(--ff-font-family-brand, inherit);
   font-size: 16px;
   font-weight: 400;
   line-height: 1.4;
-  padding: var(--ff-button-padding-block, 0px) var(--ff-button-padding-inline, 8px);
+  padding: var(--ff-button-padding-block, 0px) var(--ff-button-padding-inline, 0px);
   text-align: center;
   transition:
     background-color 160ms ease,
@@ -34,39 +34,39 @@
 }
 
 .ff-button:hover:not(:disabled) {
-  --_button-bg: var(--ff-button-bg-hover, var(--ff-button-bg-default, #ADA7FF));
-  --_button-fg: var(--ff-button-fg-hover, var(--ff-button-fg-default, #F0EFFF));
+  --_button-bg: var(--ff-button-bg-hover, var(--ff-button-bg-default, transparent));
+  --_button-fg: var(--ff-button-fg-hover, var(--ff-button-fg-default, inherit));
 }
 
 .ff-button:active:not(:disabled) {
-  --_button-bg: var(--ff-button-bg-active, var(--ff-button-bg-default, #F0EFFF));
-  --_button-fg: var(--ff-button-fg-active, var(--ff-button-fg-default, #5147DB));
+  --_button-bg: var(--ff-button-bg-active, var(--ff-button-bg-default, transparent));
+  --_button-fg: var(--ff-button-fg-active, var(--ff-button-fg-default, inherit));
   transform: translateY(1px);
 }
 
 :host([data-state='default']) .ff-button {
-  --_button-bg: var(--ff-button-bg-default, #695EFD);
-  --_button-fg: var(--ff-button-fg-default, #F0EFFF);
+  --_button-bg: var(--ff-button-bg-default, transparent);
+  --_button-fg: var(--ff-button-fg-default, inherit);
 }
 
 :host([data-state='hover']) .ff-button {
-  --_button-bg: var(--ff-button-bg-hover, #ADA7FF);
-  --_button-fg: var(--ff-button-fg-hover, #F0EFFF);
+  --_button-bg: var(--ff-button-bg-hover, var(--ff-button-bg-default, transparent));
+  --_button-fg: var(--ff-button-fg-hover, var(--ff-button-fg-default, inherit));
 }
 
 :host([data-state='active']) .ff-button {
-  --_button-bg: var(--ff-button-bg-active, #F0EFFF);
-  --_button-fg: var(--ff-button-fg-active, #5147DB);
+  --_button-bg: var(--ff-button-bg-active, var(--ff-button-bg-default, transparent));
+  --_button-fg: var(--ff-button-fg-active, var(--ff-button-fg-default, inherit));
 }
 
 .ff-button:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--ff-color-text-primary, #434040) 28%, transparent);
+  outline: 2px solid color-mix(in srgb, var(--ff-color-text-primary, currentColor) 28%, transparent);
   outline-offset: 2px;
 }
 
 .ff-button:disabled {
-  --_button-bg: var(--ff-button-bg-disabled, #BDBDBD);
-  --_button-fg: var(--ff-button-fg-disabled, #A9A9A9);
+  --_button-bg: var(--ff-button-bg-disabled, transparent);
+  --_button-fg: var(--ff-button-fg-disabled, inherit);
   cursor: not-allowed;
   opacity: 1;
 }

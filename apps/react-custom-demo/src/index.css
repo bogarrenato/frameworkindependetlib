@@ -1,0 +1,24 @@
+html {
+  background: #fff8f2;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: Sora, Inter, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}

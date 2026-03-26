@@ -49,7 +49,7 @@ export class FfButton {
           'ff-button-host--full-width': this.fullWidth
         }}
       >
-        <button class="ff-button" disabled={this.disabled} type={this.type}>
+        <button class="ff-button" disabled={this.disabled} part="button" type={this.type}>
           <slot>{this.label}</slot>
         </button>
       </Host>

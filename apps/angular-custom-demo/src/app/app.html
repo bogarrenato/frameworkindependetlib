@@ -1,0 +1,42 @@
+<main class="consumer-shell" data-brand="custom-brand" data-theme="light">
+  <section class="hero-card">
+    <p class="eyebrow">Angular app · custom brand CSS lib</p>
+    <h1>The same Angular wrapper gets a custom identity from a separate stylesheet.</h1>
+    <p class="body-copy">
+      The component and wrapper stay logic-focused. This application applies a completely separate
+      visual system by importing <code>@fuggetlenfe/brand-styles/custom-brand.css</code> next to
+      the neutral contract CSS.
+    </p>
+
+    <div class="button-row">
+      <ff-button brand="custom-brand" class="custom-shadow">Custom brand default</ff-button>
+      <ff-button brand="custom-brand" class="poster-host">Host class override</ff-button>
+      <ff-button
+        brand="custom-brand"
+        class="inline-host"
+        [style.--ff-button-radius]="'28px'"
+        [style.--ff-button-padding-inline]="'1.85rem'"
+      >
+        Inline CSS property
+      </ff-button>
+    </div>
+  </section>
+
+  <section class="info-grid">
+    <article class="info-card">
+      <p class="eyebrow">Consumer imports</p>
+      <pre>import &#123; FfButton &#125; from '@fuggetlenfe/angular-wrapper'
+@import '@fuggetlenfe/tokens/contract.css';
+@import '@fuggetlenfe/brand-styles/custom-brand.css';</pre>
+    </article>
+
+    <article class="info-card">
+      <p class="eyebrow">Why this matters</p>
+      <ul>
+        <li>The Angular wrapper stays reusable across multiple products.</li>
+        <li>The brand arrives from a different CSS package, not from the component code.</li>
+        <li>Host classes and custom CSS properties still allow local ownership and tuning.</li>
+      </ul>
+    </article>
+  </section>
+</main>

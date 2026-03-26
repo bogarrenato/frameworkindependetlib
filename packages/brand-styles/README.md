@@ -1,21 +1,13 @@
 # Brand Styles
 
-Kulon design es brand reteg package a demo consumer appokhoz.
+Ez a package kulon design librarykent viselkedik a wrapper es component package-ek mellett.
 
-Ez a package azt a modellt mutatja be, hogy a Stencil komponensek es a framework wrapper libraryk mellett a vizualis branding kulon publisholhato, importalhato reteg maradjon.
+Hasznalhato exportok:
 
-Peldak:
+- `@fuggetlenfe/brand-styles/brand-1-light.css`
+- `@fuggetlenfe/brand-styles/brand-2-light.css`
+- `@fuggetlenfe/brand-styles/custom-brand.css`
+- `@fuggetlenfe/brand-styles/demo.css`
 
-```css
-@import '@fuggetlenfe/tokens/contract.css';
-@import '@fuggetlenfe/tokens/figma-preset.css';
-@import '@fuggetlenfe/brand-styles/demo.css';
-```
-
-Kulon brand import:
-
-```css
-@import '@fuggetlenfe/tokens/contract.css';
-@import '@fuggetlenfe/tokens/figma-preset.css';
-@import '@fuggetlenfe/brand-styles/client-acme.css';
-```
+A `demo.css` a Storybookokhoz jo, mert tobb brandet is behoz.
+A konkret demo appok a sajat, fix brand CSS fajljukat importaljak.
