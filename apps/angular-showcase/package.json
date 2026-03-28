@@ -8,7 +8,7 @@
     "build-storybook": "ng run angular-showcase:build-storybook",
     "storybook": "ng run angular-showcase:storybook",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test --watch=false"
   },
   "private": true,
   "packageManager": "pnpm@10.20.0",

@@ -1,3 +1,12 @@
+/*
+  Public customization contract:
+  - host class: ff-button-host--full-width
+  - shadow part: button
+  - token inputs: --ff-button-* and --ff-color-* variables from the external design layer
+
+  This stylesheet intentionally keeps only structural and state-related rules.
+  Brand, theme, and semantic color decisions belong to imported token and brand packages.
+*/
 :host {
   display: inline-flex;
   --_button-bg: var(--ff-button-bg-default, transparent);

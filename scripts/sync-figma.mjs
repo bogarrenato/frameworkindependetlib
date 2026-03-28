@@ -29,7 +29,7 @@ const buttonSetNodes = ['15:339', '17:189', '17:190'];
 const paletteIds = Object.values(paletteNodeGroups).flat();
 
 const nodeIds = [...new Set([...paletteIds, ...buttonSetNodes])];
-const nodes = await fetchNodes(nodeIds);
+const fetchedNodes = await fetchNodes(nodeIds);
 
 const palettes = Object.fromEntries(
   Object.entries(paletteNodeGroups).map(([name, ids]) => [
@@ -37,13 +37,13 @@ const palettes = Object.fromEntries(
     Object.fromEntries(
       ids.map((id, index) => {
         const step = String(100 - index * 10);
-        return [step, colorFromNode(nodes[id])];
+        return [step, colorFromNode(fetchedNodes[id])];
       })
     )
   ])
 );
 
-const buttonTokens = extractButtonTokens(nodes['15:339'], nodes);
+const buttonTokens = extractButtonTokens(fetchedNodes['15:339'], fetchedNodes);
 
 const tokens = {
   meta: {
@@ -59,7 +59,7 @@ const tokens = {
   palettes,
   themes: {
     light: {
-      canvas: colorFromNode(nodes['17:189']),
+      canvas: colorFromNode(fetchedNodes['17:189']),
       surface: palettes.neutral['10'],
       textPrimary: palettes.neutral['100'],
       textSecondary: palettes.neutral['70'],
@@ -67,7 +67,7 @@ const tokens = {
       borderSubtle: '#D9D9D9'
     },
     dark: {
-      canvas: colorFromNode(nodes['17:190']),
+      canvas: colorFromNode(fetchedNodes['17:190']),
       surface: palettes.neutral['100'],
       textPrimary: palettes.neutral['10'],
       textSecondary: palettes.neutral['30'],
@@ -113,8 +113,8 @@ await writeFile(path.join(tokensDir, 'index.d.ts'), buildIndexTypes());
 
 console.log(`Synced Figma tokens to ${tokensDir}`);
 
-async function fetchNodes(ids) {
-  const params = new URLSearchParams({ ids: ids.join(',') });
+async function fetchNodes(nodeIds) {
+  const params = new URLSearchParams({ ids: nodeIds.join(',') });
   const response = await fetch(`https://api.figma.com/v1/files/${FIGMA_FILE_KEY}/nodes?${params}`, {
     headers: {
       'X-Figma-Token': FIGMA_TOKEN
@@ -126,29 +126,32 @@ async function fetchNodes(ids) {
   }
 
   const payload = await response.json();
-  return Object.fromEntries(Object.entries(payload.nodes).map(([id, entry]) => [id, entry.document]));
+  return Object.fromEntries(Object.entries(payload.nodes).map(([nodeId, nodeEntry]) => [nodeId, nodeEntry.document]));
 }
 
 function colorFromNode(node) {
-  const fill = node?.fills?.find((item) => item.type === 'SOLID' && item.visible !== false);
-  if (!fill) {
+  const solidFill = node?.fills?.find((fillDefinition) => fillDefinition.type === 'SOLID' && fillDefinition.visible !== false);
+  if (!solidFill) {
     return '#000000';
   }
 
-  const { r, g, b, a = 1 } = fill.color;
-  if (a !== 1) {
-    return `rgba(${to255(r)}, ${to255(g)}, ${to255(b)}, ${Number(a.toFixed(2))})`;
+  const { r: red, g: green, b: blue, a: alpha = 1 } = solidFill.color;
+  if (alpha !== 1) {
+    return `rgba(${to255(red)}, ${to255(green)}, ${to255(blue)}, ${Number(alpha.toFixed(2))})`;
   }
 
-  return `#${[r, g, b].map((channel) => to255(channel).toString(16).padStart(2, '0')).join('').toUpperCase()}`;
+  return `#${[red, green, blue]
+    .map((channelValue) => to255(channelValue).toString(16).padStart(2, '0'))
+    .join('')
+    .toUpperCase()}`;
 }
 
-function to255(channel) {
-  return Math.round(channel * 255);
+function to255(channelValue) {
+  return Math.round(channelValue * 255);
 }
 
 function extractButtonTokens(componentSetNode, allNodes) {
-  const brands = {
+  const brandNameMap = {
     'Brand=1': 'brand-1',
     'Brand=2': 'brand-2',
     'Brand=3': 'brand-3'
@@ -157,13 +160,13 @@ function extractButtonTokens(componentSetNode, allNodes) {
 
   const mapping = {};
 
-  for (const brandKey of Object.values(brands)) {
+  for (const brandKey of Object.values(brandNameMap)) {
     mapping[brandKey] = { light: {}, dark: {} };
   }
 
   const componentChildren = componentSetNode.children ?? [];
   for (const component of componentChildren) {
-    const brandName = Object.entries(brands).find(([pattern]) => component.name.includes(pattern))?.[1];
+    const brandName = Object.entries(brandNameMap).find(([pattern]) => component.name.includes(pattern))?.[1];
     const stateName = states.find((state) => component.name.includes(`State=${state}`));
     if (!brandName || !stateName) continue;
 
@@ -187,13 +190,13 @@ function extractButtonTokens(componentSetNode, allNodes) {
     const statesForOrder = ['default', 'hover', 'active', 'disabled'];
 
     children.forEach((child, index) => {
-      const brand = ordered[index];
-      const state = statesForOrder[index % statesForOrder.length];
-      const button = child.children?.[0];
-      const label = button?.children?.[0];
-      mapping[brand][theme][state] = {
-        background: colorFromNode(button),
-        foreground: colorFromNode(label)
+      const brandName = ordered[index];
+      const stateName = statesForOrder[index % statesForOrder.length];
+      const buttonNode = child.children?.[0];
+      const labelNode = buttonNode?.children?.[0];
+      mapping[brandName][theme][stateName] = {
+        background: colorFromNode(buttonNode),
+        foreground: colorFromNode(labelNode)
       };
     });
   }
@@ -207,6 +210,9 @@ function buildContractCss(tokens) {
   --ff-button-radius: 0px;
   --ff-button-padding-inline: 8px;
   --ff-button-padding-block: 0px;
+  --ff-dropdown-radius: 0px;
+  --ff-dropdown-padding-inline: 0.875rem;
+  --ff-dropdown-padding-block: 0.75rem;
   --ff-color-canvas: ${tokens.themes.light.canvas};
   --ff-color-surface: ${tokens.themes.light.surface};
   --ff-color-text-primary: ${tokens.themes.light.textPrimary};
@@ -221,6 +227,20 @@ function buildContractCss(tokens) {
   --ff-button-fg-active: ${tokens.components.button['brand-1'].light.active.foreground};
   --ff-button-bg-disabled: ${tokens.components.button['brand-1'].light.disabled.background};
   --ff-button-fg-disabled: ${tokens.components.button['brand-1'].light.disabled.foreground};
+  --ff-dropdown-label-color: ${tokens.themes.light.textPrimary};
+  --ff-dropdown-trigger-bg: ${tokens.themes.light.surface};
+  --ff-dropdown-trigger-fg: ${tokens.themes.light.textPrimary};
+  --ff-dropdown-placeholder-color: ${tokens.themes.light.textPrimary};
+  --ff-dropdown-border-color: ${tokens.themes.light.borderSubtle};
+  --ff-dropdown-panel-bg: ${tokens.themes.light.surface};
+  --ff-dropdown-panel-shadow: 0 18px 42px rgba(17, 17, 17, 0.16);
+  --ff-dropdown-option-fg: ${tokens.themes.light.textPrimary};
+  --ff-dropdown-option-description-color: ${tokens.themes.light.textSecondary};
+  --ff-dropdown-option-bg-hover: color-mix(in srgb, ${tokens.components.button['brand-1'].light.default.background} 12%, ${tokens.themes.light.surface});
+  --ff-dropdown-option-fg-hover: ${tokens.themes.light.textPrimary};
+  --ff-dropdown-option-bg-selected: ${tokens.components.button['brand-1'].light.default.background};
+  --ff-dropdown-option-fg-selected: ${tokens.components.button['brand-1'].light.default.foreground};
+  --ff-dropdown-focus-ring: ${tokens.components.button['brand-1'].light.default.background};
 }
 `;
 }
@@ -242,6 +262,9 @@ function buildFigmaPresetCss(tokens) {
   --ff-button-radius: ${config.radius};
   --ff-button-padding-inline: ${config.paddingInline};
   --ff-button-padding-block: ${config.paddingBlock};
+  --ff-dropdown-radius: ${config.radius};
+  --ff-dropdown-padding-inline: ${brand === 'brand-3' ? '1rem' : '0.85rem'};
+  --ff-dropdown-padding-block: ${brand === 'brand-3' ? '0.7rem' : '0.7rem'};
 }`.trim()
     )
     .join('\n\n');
@@ -273,6 +296,20 @@ function buildFigmaPresetCss(tokens) {
   --ff-button-fg-active: ${states.active.foreground};
   --ff-button-bg-disabled: ${states.disabled.background};
   --ff-button-fg-disabled: ${states.disabled.foreground};
+  --ff-dropdown-label-color: var(--ff-color-text-primary);
+  --ff-dropdown-trigger-bg: var(--ff-color-surface);
+  --ff-dropdown-trigger-fg: var(--ff-color-text-primary);
+  --ff-dropdown-placeholder-color: var(--ff-color-text-primary);
+  --ff-dropdown-border-color: var(--ff-color-border-subtle);
+  --ff-dropdown-panel-bg: var(--ff-color-surface);
+  --ff-dropdown-panel-shadow: 0 18px 42px color-mix(in srgb, ${states.default.background} 18%, transparent);
+  --ff-dropdown-option-fg: var(--ff-color-text-primary);
+  --ff-dropdown-option-description-color: var(--ff-color-text-secondary);
+  --ff-dropdown-option-bg-hover: color-mix(in srgb, ${states.default.background} 12%, var(--ff-color-surface));
+  --ff-dropdown-option-fg-hover: var(--ff-color-text-primary);
+  --ff-dropdown-option-bg-selected: ${states.default.background};
+  --ff-dropdown-option-fg-selected: ${states.default.foreground};
+  --ff-dropdown-focus-ring: ${states.default.background};
 }`.trim()
       )
     )

@@ -9,6 +9,7 @@ coverage
 apps/angular-showcase/.angular
 storybook-static
 .pages
+apps/angular-showcase/documentation.json
 figma-*.png
 tmp-*.png
 .DS_Store

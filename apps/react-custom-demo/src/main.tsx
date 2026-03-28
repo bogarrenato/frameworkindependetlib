@@ -6,7 +6,13 @@ import '@fuggetlenfe/brand-styles/custom-brand-dark.css'
 import './index.css'
 import App from './App.tsx'
 
-createRoot(document.getElementById('root')!).render(
+const rootElement = document.getElementById('root')
+
+if (!rootElement) {
+  throw new Error('The React custom demo root element is missing from the document.')
+}
+
+createRoot(rootElement).render(
   <StrictMode>
     <App />
   </StrictMode>,

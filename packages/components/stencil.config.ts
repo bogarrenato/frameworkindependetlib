@@ -2,6 +2,11 @@ import { Config } from '@stencil/core';
 import { angularOutputTarget } from '@stencil/angular-output-target';
 import { reactOutputTarget } from '@stencil/react-output-target';
 
+/**
+ * The Stencil package is the single source of truth for shared component behavior.
+ * Framework wrappers are generated from this layer so React and Angular stay aligned
+ * to the same runtime contract.
+ */
 export const config: Config = {
   namespace: 'fuggetlenfe',
   srcDir: 'src',

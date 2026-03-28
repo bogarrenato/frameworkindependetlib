@@ -14,6 +14,9 @@
   --ff-button-radius: 18px;
   --ff-button-padding-inline: 1.2rem;
   --ff-button-padding-block: 0.7rem;
+  --ff-dropdown-radius: 18px;
+  --ff-dropdown-padding-inline: 1.2rem;
+  --ff-dropdown-padding-block: 0.78rem;
 }
 
 [data-brand='custom-brand'][data-theme='light'] {
@@ -25,4 +28,18 @@
   --ff-button-fg-active: #f7f1ff;
   --ff-button-bg-disabled: #f2d9ca;
   --ff-button-fg-disabled: #a38272;
+  --ff-dropdown-label-color: var(--ff-color-text-primary);
+  --ff-dropdown-trigger-bg: var(--ff-color-surface);
+  --ff-dropdown-trigger-fg: var(--ff-color-text-primary);
+  --ff-dropdown-placeholder-color: var(--ff-color-text-primary);
+  --ff-dropdown-border-color: var(--ff-color-border-subtle);
+  --ff-dropdown-panel-bg: var(--ff-color-surface);
+  --ff-dropdown-panel-shadow: 0 18px 42px color-mix(in srgb, var(--ff-button-bg-default) 18%, transparent);
+  --ff-dropdown-option-fg: var(--ff-color-text-primary);
+  --ff-dropdown-option-description-color: var(--ff-color-text-secondary);
+  --ff-dropdown-option-bg-hover: color-mix(in srgb, var(--ff-button-bg-default) 10%, var(--ff-color-surface));
+  --ff-dropdown-option-fg-hover: var(--ff-color-text-primary);
+  --ff-dropdown-option-bg-selected: var(--ff-button-bg-default);
+  --ff-dropdown-option-fg-selected: var(--ff-button-fg-default);
+  --ff-dropdown-focus-ring: var(--ff-button-bg-default);
 }

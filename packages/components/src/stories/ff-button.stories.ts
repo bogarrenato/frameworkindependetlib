@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
-const brandOptions = ['brand-1', 'brand-2', 'brand-3', 'client-acme', 'registry-owned'] as const;
+const brandOptions = ['brand-1', 'brand-2', 'brand-3', 'custom-brand'] as const;
 const stateOptions = ['default', 'hover', 'active', 'disabled'] as const;
 const statePreviewStyles = `
   ff-button.demo-state--hover::part(button) {
@@ -15,7 +15,7 @@ const statePreviewStyles = `
   }
 `;
 
-type ButtonStoryArgs = {
+type ButtonStoryProperties = {
   label: string;
   disabled: boolean;
   fullWidth: boolean;
@@ -49,13 +49,13 @@ const meta = {
       }
     }
   },
-  render: (args: ButtonStoryArgs, context) =>
+  render: (storyProperties: ButtonStoryProperties, storyContext) =>
     createPlaygroundMarkup({
-      ...args,
-      brand: String(context.globals.brand ?? 'brand-1'),
-      theme: String(context.globals.theme ?? 'light')
+      ...storyProperties,
+      brand: String(storyContext.globals.brand ?? 'brand-1'),
+      theme: String(storyContext.globals.theme ?? 'light')
     })
-} satisfies Meta<ButtonStoryArgs>;
+} satisfies Meta<ButtonStoryProperties>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -79,12 +79,12 @@ export const StateMatrix: Story = {
       }
     }
   },
-  render: (_, context) => {
-    const theme = String(context.globals.theme ?? 'light');
+  render: (_, storyContext) => {
+    const activeTheme = String(storyContext.globals.theme ?? 'light');
 
     return `
       <div
-        data-theme="${escapeHtml(theme)}"
+        data-theme="${escapeHtml(activeTheme)}"
         style="min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif"
       >
         <style>${statePreviewStyles}</style>
@@ -122,59 +122,53 @@ export const StateMatrix: Story = {
   }
 };
 
-function createPlaygroundMarkup(args: ButtonStoryArgs & { brand: string; theme: string }) {
+function createPlaygroundMarkup(storyProperties: ButtonStoryProperties & { brand: string; theme: string }) {
   return `
     <div
-      data-brand="${escapeHtml(args.brand)}"
-      data-theme="${escapeHtml(args.theme)}"
-      style="display:grid;gap:1rem;max-width:${args.fullWidth ? '100%' : '420px'};min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif"
+      data-brand="${escapeHtml(storyProperties.brand)}"
+      data-theme="${escapeHtml(storyProperties.theme)}"
+      style="display:grid;gap:1rem;max-width:${storyProperties.fullWidth ? '100%' : '420px'};min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif"
     >
-      ${createButtonMarkup(args)}
+      ${createButtonMarkup(storyProperties)}
       <div style="display:grid;gap:0.5rem;padding:1rem;border:1px solid var(--ff-color-border-subtle);background:var(--ff-color-surface)">
         <p style="margin:0;text-transform:uppercase;letter-spacing:0.12em;font-size:0.72rem;color:var(--ff-color-text-muted)">
           Launch status
         </p>
         <strong data-launch-message>
-          ${escapeHtml(`Ready to launch ${brandLabel(args.brand)} in ${titleFromKey(args.theme)} mode.`)}
+          ${escapeHtml(`Ready to launch ${brandLabel(storyProperties.brand)} in ${titleFromKey(storyProperties.theme)} mode.`)}
         </strong>
         <span data-launch-count style="color:var(--ff-color-text-secondary)">
           Launches in this session: 0
         </span>
-        <code
-          data-launch-command
-          style="display:block;padding:0.85rem 1rem;overflow:auto;border:1px solid var(--ff-color-border-subtle);background:color-mix(in srgb,var(--ff-color-canvas) 82%,transparent)"
-        >
-          ${escapeHtml(`pnpm registry:add owned-brand-pack ./src/owned/brands/${args.brand}`)}
-        </code>
       </div>
     </div>
   `;
 }
 
-function createButtonMarkup(args: ButtonStoryArgs & { className?: string }) {
-  const attributes = [`type="${escapeHtml(args.type)}"`];
+function createButtonMarkup(storyProperties: ButtonStoryProperties & { className?: string }) {
+  const attributes = [`type="${escapeHtml(storyProperties.type)}"`];
 
-  if (args.className) {
-    attributes.push(`class="${escapeHtml(args.className)}"`);
+  if (storyProperties.className) {
+    attributes.push(`class="${escapeHtml(storyProperties.className)}"`);
   }
 
-  if (args.fullWidth) {
+  if (storyProperties.fullWidth) {
     attributes.push('full-width');
   }
 
-  if (args.disabled) {
+  if (storyProperties.disabled) {
     attributes.push('disabled');
   }
 
-  return `<ff-button ${attributes.join(' ')}>${escapeHtml(args.label)}</ff-button>`;
+  return `<ff-button ${attributes.join(' ')}>${escapeHtml(storyProperties.label)}</ff-button>`;
 }
 
-function stateClassFor(state: (typeof stateOptions)[number]) {
-  if (state === 'hover') {
+function stateClassFor(buttonState: (typeof stateOptions)[number]) {
+  if (buttonState === 'hover') {
     return 'demo-state--hover';
   }
 
-  if (state === 'active') {
+  if (buttonState === 'active') {
     return 'demo-state--active';
   }
 
@@ -185,9 +179,8 @@ function setupLaunchPlayground(root: HTMLElement, brand: string, theme: string) 
   const button = root.querySelector('ff-button');
   const message = root.querySelector<HTMLElement>('[data-launch-message]');
   const count = root.querySelector<HTMLElement>('[data-launch-count]');
-  const command = root.querySelector<HTMLElement>('[data-launch-command]');
 
-  if (!button || !message || !count || !command || button.dataset.launchBound === 'true') {
+  if (!button || !message || !count || button.dataset.launchBound === 'true') {
     return;
   }
 
@@ -197,26 +190,21 @@ function setupLaunchPlayground(root: HTMLElement, brand: string, theme: string) 
     launchCount += 1;
     message.textContent = `${brandLabel(brand)} launched in ${titleFromKey(theme)} mode at ${new Date().toLocaleTimeString()}.`;
     count.textContent = `Launches in this session: ${launchCount}`;
-    command.textContent = `pnpm registry:add owned-brand-pack ./src/owned/brands/${brand}`;
   });
 
   button.dataset.launchBound = 'true';
 }
 
-function brandLabel(brand: string) {
-  if (brand === 'client-acme') {
-    return 'Client Acme';
+function brandLabel(brandKey: string) {
+  if (brandKey === 'custom-brand') {
+    return 'Custom Brand';
   }
 
-  if (brand === 'registry-owned') {
-    return 'Registry Owned';
-  }
-
-  return brand.replace('brand-', 'Brand ');
+  return brandKey.replace('brand-', 'Brand ');
 }
 
-function titleFromKey(key: string) {
-  return key.replaceAll('-', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+function titleFromKey(value: string) {
+  return value.replaceAll('-', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
 function escapeHtml(value: string) {

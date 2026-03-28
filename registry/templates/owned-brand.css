@@ -5,14 +5,14 @@
   This file is meant to be copied into the consuming app and edited there.
 */
 
-[data-brand='registry-owned'] {
+[data-brand='owned-brand'] {
   --ff-font-family-brand: 'Sora', Inter, Arial, sans-serif;
   --ff-button-radius: 22px;
   --ff-button-padding-inline: 22px;
   --ff-button-padding-block: 10px;
 }
 
-[data-brand='registry-owned'][data-theme='light'] {
+[data-brand='owned-brand'][data-theme='light'] {
   --ff-button-bg-default: #ff5baa;
   --ff-button-fg-default: #fff4fb;
   --ff-button-bg-hover: #e3388a;
@@ -23,7 +23,7 @@
   --ff-button-fg-disabled: #808080;
 }
 
-[data-brand='registry-owned'][data-theme='dark'] {
+[data-brand='owned-brand'][data-theme='dark'] {
   --ff-button-bg-default: #ff8bc3;
   --ff-button-fg-default: #3c001f;
   --ff-button-bg-hover: #ff5baa;

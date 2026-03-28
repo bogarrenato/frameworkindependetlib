@@ -1,19 +1,51 @@
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
-import { FfButton } from '@fuggetlenfe/react-wrapper';
+import { FfButton, FfDropdown } from '@fuggetlenfe/react-wrapper';
 import './App.css';
 
-const customInstanceStyle = {
+type ThemeMode = 'light' | 'dark';
+
+type ThemeToggleOption = {
+  label: string;
+  value: ThemeMode;
+};
+
+const themeToggleOptions: readonly ThemeToggleOption[] = [
+  { label: 'Light', value: 'light' },
+  { label: 'Dark', value: 'dark' }
+];
+
+const customBrandInlineTokenStyle = {
   '--ff-button-radius': '20px',
   '--ff-button-padding-inline': '1.3rem',
   '--ff-button-padding-block': '0.68rem'
 } as CSSProperties;
 
+const deploymentLaneOptions = [
+  {
+    value: 'design-review',
+    label: 'Design review',
+    description: 'Visual QA with the brand design leads.'
+  },
+  {
+    value: 'beta-pilot',
+    label: 'Beta pilot',
+    description: 'Customer-facing preview for the first invited cohort.'
+  },
+  {
+    value: 'public-release',
+    label: 'Public release',
+    description: 'General rollout after operations sign-off.'
+  }
+] as const;
+
 function App() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [activeTheme, setActiveTheme] = useState<ThemeMode>('light');
+  const [selectedDeploymentLaneLabel, setSelectedDeploymentLaneLabel] = useState('Design review');
+  const [selectedDeploymentLaneValue, setSelectedDeploymentLaneValue] = useState('design-review');
 
   return (
-    <main className="consumer-shell" data-brand="custom-brand" data-theme={theme}>
+    <main className="consumer-shell" data-brand="custom-brand" data-theme={activeTheme}>
       <section className="hero-card">
         <p className="eyebrow">React app · custom brand CSS lib</p>
         <h1>The same React wrapper gets a completely custom identity from external CSS.</h1>
@@ -26,43 +58,68 @@ function App() {
         <div className="theme-bar" role="group" aria-label="Theme switcher">
           <p className="theme-label">Theme pack</p>
           <div className="theme-actions">
-            <button
-              type="button"
-              className="theme-button"
-              data-selected={theme === 'light'}
-              onClick={() => setTheme('light')}
-            >
-              Light
-            </button>
-            <button
-              type="button"
-              className="theme-button"
-              data-selected={theme === 'dark'}
-              onClick={() => setTheme('dark')}
-            >
-              Dark
-            </button>
+            {themeToggleOptions.map((themeToggleOption) => (
+              <button
+                key={themeToggleOption.value}
+                type="button"
+                className="theme-button"
+                data-selected={activeTheme === themeToggleOption.value}
+                onClick={() => setActiveTheme(themeToggleOption.value)}
+              >
+                {themeToggleOption.label}
+              </button>
+            ))}
           </div>
         </div>
 
         <div className="button-row">
           <FfButton className="custom-shadow">Custom brand default</FfButton>
           <FfButton className="poster-host">Host class override</FfButton>
-          <FfButton style={customInstanceStyle}>Inline token tweak</FfButton>
+          <FfButton style={customBrandInlineTokenStyle}>Inline token tweak</FfButton>
         </div>
+      </section>
+
+      <section className="control-grid">
+        <article className="info-card">
+          <p className="eyebrow">Dropdown primitive</p>
+          <div className="dropdown-demo">
+            <FfDropdown
+              fullWidth
+              label="Deployment lane"
+              options={[...deploymentLaneOptions]}
+              placeholder="Choose a deployment lane"
+              value={selectedDeploymentLaneValue}
+              onFfValueChange={(customEvent) => {
+                setSelectedDeploymentLaneLabel(customEvent.detail.label);
+                setSelectedDeploymentLaneValue(customEvent.detail.value);
+              }}
+            />
+
+            <div aria-live="polite" className="selection-card" role="status">
+              <p className="selection-eyebrow">Selection status</p>
+              <strong className="selection-value">
+                Current selection: {selectedDeploymentLaneLabel}
+              </strong>
+              <span className="selection-copy">
+                The custom CSS pack restyles the same dropdown logic without touching interaction code.
+              </span>
+            </div>
+          </div>
+        </article>
       </section>
 
       <section className="info-grid">
         <article className="info-card">
           <p className="eyebrow">Consumer imports</p>
           <div className="detail-block" aria-label="Consumer imports">
-            <div className="detail-line">import &#123; FfButton &#125; from '@fuggetlenfe/react-wrapper'</div>
-            <div className="detail-line">import '@fuggetlenfe/tokens/contract.css'</div>
-            <div className="detail-line">import '@fuggetlenfe/brand-styles/custom-brand-light.css'</div>
-            <div className="detail-line">import '@fuggetlenfe/brand-styles/custom-brand-dark.css'</div>
-            <div className="detail-line detail-line--gap">&lt;main data-brand="custom-brand" data-theme=&#123;theme&#125;&gt;</div>
-            <div className="detail-line">&nbsp;&nbsp;&lt;FfButton /&gt;</div>
-            <div className="detail-line">&lt;/main&gt;</div>
+            <div className="detail-line">Import the React wrapper package.</div>
+            <div className="detail-line">Import the shared token contract.</div>
+            <div className="detail-line">Import the custom-brand light stylesheet.</div>
+            <div className="detail-line">Import the custom-brand dark stylesheet.</div>
+            <div className="detail-line detail-line--gap">
+              Set <span>data-brand="custom-brand"</span> and the active theme on the outer shell.
+            </div>
+            <div className="detail-line">Render the same FfButton logic inside that shell.</div>
           </div>
         </article>
 
@@ -79,9 +136,15 @@ function App() {
           <p className="eyebrow">Why this matters</p>
           <div className="proof-list">
             <div className="proof-item">The wrapper stays reusable across every React product.</div>
-            <div className="proof-item">A separate CSS library swaps in a different identity without touching logic.</div>
-            <div className="proof-item">The same wrapper logic swaps between light and dark with CSS alone.</div>
-            <div className="proof-item">Per-instance classes and CSS properties still let the consumer tune details.</div>
+            <div className="proof-item">
+              A separate CSS library swaps in a different identity without touching logic.
+            </div>
+            <div className="proof-item">
+              The same wrapper logic swaps between light and dark with CSS alone.
+            </div>
+            <div className="proof-item">
+              Per-instance classes and CSS properties still let the consumer tune details.
+            </div>
           </div>
         </article>
       </section>

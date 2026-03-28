@@ -3,7 +3,7 @@ import { FfButton } from '@fuggetlenfe/angular-wrapper';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
-const brandOptions = ['brand-1', 'brand-2', 'brand-3', 'client-acme', 'registry-owned'] as const;
+const brandOptions = ['brand-1', 'brand-2', 'brand-3', 'custom-brand'] as const;
 const stateOptions = ['default', 'hover', 'active', 'disabled'] as const;
 const statePreviewStyles = `
   ff-button.demo-state--hover::part(button) {
@@ -18,7 +18,7 @@ const statePreviewStyles = `
   }
 `;
 
-type StoryArgs = {
+type ButtonStoryProperties = {
   label?: string;
   disabled?: boolean;
   fullWidth?: boolean;
@@ -57,26 +57,26 @@ const meta = {
       }
     }
   },
-  render: (args: StoryArgs, context) => {
-    const brand = String(context.globals['brand'] ?? 'brand-1');
-    const theme = String(context.globals['theme'] ?? 'light');
-    const props = {
-      label: args.label ?? 'Launch selected brand',
-      disabled: args.disabled ?? false,
-      fullWidth: args.fullWidth ?? false,
-      type: args.type ?? 'button',
-      brand,
-      theme,
+  render: (storyProperties: ButtonStoryProperties, storyContext) => {
+    const brandKey = String(storyContext.globals['brand'] ?? 'brand-1');
+    const themeKey = String(storyContext.globals['theme'] ?? 'light');
+    const storyState = {
+      label: storyProperties.label ?? 'Launch selected brand',
+      disabled: storyProperties.disabled ?? false,
+      fullWidth: storyProperties.fullWidth ?? false,
+      type: storyProperties.type ?? 'button',
+      brand: brandKey,
+      theme: themeKey,
       launchCount: 0,
-      launchMessage: `Ready to launch ${brandLabel(brand)} in ${titleFromKey(theme)} mode.`,
-      launch() {
-        props.launchCount += 1;
-        props.launchMessage = `${brandLabel(brand)} launched in ${titleFromKey(theme)} mode at ${new Date().toLocaleTimeString()}.`;
+      launchMessage: `Ready to launch ${brandLabel(brandKey)} in ${titleFromKey(themeKey)} mode.`,
+      handleLaunch() {
+        storyState.launchCount += 1;
+        storyState.launchMessage = `${brandLabel(brandKey)} launched in ${titleFromKey(themeKey)} mode at ${new Date().toLocaleTimeString()}.`;
       }
     };
 
     return {
-      props,
+      props: storyState,
       template: `
         <div
           [attr.data-brand]="brand"
@@ -87,7 +87,7 @@ const meta = {
             [disabled]="disabled"
             [fullWidth]="fullWidth"
             [type]="type"
-            (click)="launch()"
+            (click)="handleLaunch()"
           >
             {{ label }}
           </ff-button>
@@ -100,11 +100,6 @@ const meta = {
             </p>
             <strong>{{ launchMessage }}</strong>
             <span style="color:var(--ff-color-text-secondary)">Launches in this session: {{ launchCount }}</span>
-            <code
-              style="display:block;padding:0.85rem 1rem;overflow:auto;border:1px solid var(--ff-color-border-subtle);background:color-mix(in srgb,var(--ff-color-canvas) 82%,transparent)"
-            >
-              pnpm registry:add owned-brand-pack ./src/owned/brands/{{ brand }}
-            </code>
           </div>
         </div>
       `
@@ -126,16 +121,16 @@ export const StateMatrix: Story = {
       }
     }
   },
-  render: (_, context) => ({
+  render: (_, storyContext) => ({
     props: {
-      brandTheme: String(context.globals['theme'] ?? 'light'),
+      activeTheme: String(storyContext.globals['theme'] ?? 'light'),
       brandLabel,
       brands: brandOptions,
       states: stateOptions
     },
     template: `
       <div
-        [attr.data-theme]="brandTheme"
+        [attr.data-theme]="activeTheme"
         style="min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif"
       >
         <style>${statePreviewStyles}</style>
@@ -169,18 +164,14 @@ export const StateMatrix: Story = {
   })
 };
 
-function brandLabel(brand: string) {
-  if (brand === 'client-acme') {
-    return 'Client Acme';
+function brandLabel(brandKey: string) {
+  if (brandKey === 'custom-brand') {
+    return 'Custom Brand';
   }
 
-  if (brand === 'registry-owned') {
-    return 'Registry Owned';
-  }
-
-  return brand.replace('brand-', 'Brand ');
+  return brandKey.replace('brand-', 'Brand ');
 }
 
-function titleFromKey(key: string) {
-  return key.replaceAll('-', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+function titleFromKey(value: string) {
+  return value.replaceAll('-', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
 }

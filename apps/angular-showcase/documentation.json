@@ -8,8 +8,8 @@
     "directives": [],
     "components": [
         {
-            "name": "App",
-            "id": "component-App-ac9654341dc4c2171e003cf03bd12db77de7cd5cc3a3f8679453a16401e3566b5a20e207984e972863d6beb54527c706b5ee80c2c1b01db4450621d399e54046",
+            "name": "BrandOneShowcaseAppComponent",
+            "id": "component-BrandOneShowcaseAppComponent-36ac40b5b1056d869f7cf52eddf71a947d927aac208328933d1882ecc77a00db611f139d4496ec0f5b9ed728d541bbc14f11dc708b9748e8f7aa8bc0613e0172",
             "file": "src/app/app.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -28,15 +28,85 @@
             "outputsClass": [],
             "propertiesClass": [
                 {
-                    "name": "theme",
-                    "defaultValue": "signal<'light' | 'dark'>('light')",
+                    "name": "activeTheme",
+                    "defaultValue": "signal<ThemeMode>('light')",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "unknown",
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 11,
+                    "line": 18,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
+                    "name": "inlineTokenStyle",
+                    "defaultValue": "{\n    paddingInline: '0.95rem',\n    paddingBlock: '0.48rem',\n    radius: '4px'\n  } as const",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 23,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
+                    "name": "releaseTargetOptions",
+                    "defaultValue": "[\n    {\n      value: 'pilot-release',\n      label: 'Pilot release',\n      description: 'Small audience rollout with monitoring enabled.'\n    },\n    {\n      value: 'production-rollout',\n      label: 'Production rollout',\n      description: 'Full audience release after final verification.'\n    },\n    {\n      value: 'maintenance-window',\n      label: 'Maintenance window',\n      description: 'Restricted release reserved for after-hours work.'\n    }\n  ] as const",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 28,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
+                    "name": "selectedReleaseTargetLabel",
+                    "defaultValue": "signal('Pilot release')",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 45,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
+                    "name": "selectedReleaseTargetValue",
+                    "defaultValue": "signal('pilot-release')",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 46,
+                    "modifierKind": [
+                        148
+                    ]
+                },
+                {
+                    "name": "themeOptions",
+                    "defaultValue": "[\n    { label: 'Light', value: 'light' },\n    { label: 'Dark', value: 'dark' }\n  ]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 19,
                     "modifierKind": [
                         148
                     ]
@@ -44,11 +114,11 @@
             ],
             "methodsClass": [
                 {
-                    "name": "setTheme",
+                    "name": "handleReleaseTargetChange",
                     "args": [
                         {
-                            "name": "theme",
-                            "type": "\"light\" | \"dark\"",
+                            "name": "customEvent",
+                            "type": "CustomEvent<literal type>",
                             "optional": false,
                             "dotDotDotToken": false,
                             "deprecated": false,
@@ -58,13 +128,45 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 13,
+                    "line": 52,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
                         {
-                            "name": "theme",
-                            "type": "\"light\" | \"dark\"",
+                            "name": "customEvent",
+                            "type": "CustomEvent<literal type>",
+                            "optional": false,
+                            "dotDotDotToken": false,
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "setTheme",
+                    "args": [
+                        {
+                            "name": "selectedTheme",
+                            "type": "ThemeMode",
+                            "optional": false,
+                            "dotDotDotToken": false,
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 48,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "selectedTheme",
+                            "type": "ThemeMode",
                             "optional": false,
                             "dotDotDotToken": false,
                             "deprecated": false,
@@ -84,18 +186,21 @@
             "imports": [
                 {
                     "name": "FfButton"
+                },
+                {
+                    "name": "FfDropdown"
                 }
             ],
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, signal } from '@angular/core';\nimport { FfButton } from '@fuggetlenfe/angular-wrapper';\n\n@Component({\n  selector: 'app-root',\n  imports: [FfButton],\n  templateUrl: './app.html',\n  styleUrl: './app.css'\n})\nexport class App {\n  readonly theme = signal<'light' | 'dark'>('light');\n\n  setTheme(theme: 'light' | 'dark') {\n    this.theme.set(theme);\n  }\n}\n",
+            "sourceCode": "import { Component, signal } from '@angular/core';\nimport { FfButton, FfDropdown } from '@fuggetlenfe/angular-wrapper';\n\ntype ThemeMode = 'light' | 'dark';\n\ntype ThemeOption = {\n  label: string;\n  value: ThemeMode;\n};\n\n@Component({\n  selector: 'app-root',\n  imports: [FfButton, FfDropdown],\n  templateUrl: './app.html',\n  styleUrl: './app.css'\n})\nexport class BrandOneShowcaseAppComponent {\n  readonly activeTheme = signal<ThemeMode>('light');\n  readonly themeOptions: readonly ThemeOption[] = [\n    { label: 'Light', value: 'light' },\n    { label: 'Dark', value: 'dark' }\n  ];\n  readonly inlineTokenStyle = {\n    paddingInline: '0.95rem',\n    paddingBlock: '0.48rem',\n    radius: '4px'\n  } as const;\n  readonly releaseTargetOptions = [\n    {\n      value: 'pilot-release',\n      label: 'Pilot release',\n      description: 'Small audience rollout with monitoring enabled.'\n    },\n    {\n      value: 'production-rollout',\n      label: 'Production rollout',\n      description: 'Full audience release after final verification.'\n    },\n    {\n      value: 'maintenance-window',\n      label: 'Maintenance window',\n      description: 'Restricted release reserved for after-hours work.'\n    }\n  ] as const;\n  readonly selectedReleaseTargetLabel = signal('Pilot release');\n  readonly selectedReleaseTargetValue = signal('pilot-release');\n\n  setTheme(selectedTheme: ThemeMode) {\n    this.activeTheme.set(selectedTheme);\n  }\n\n  handleReleaseTargetChange(customEvent: CustomEvent<{ label: string; value: string }>) {\n    this.selectedReleaseTargetLabel.set(customEvent.detail.label);\n    this.selectedReleaseTargetValue.set(customEvent.detail.value);\n  }\n}\n",
             "styleUrl": "./app.css",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "",
             "extends": [],
-            "templateData": "<main class=\"consumer-shell\" data-brand=\"brand-1\" [attr.data-theme]=\"theme()\">\n  <section class=\"hero-card\">\n    <p class=\"eyebrow\">Angular app · external CSS brand pack</p>\n    <h1>Angular consumes only wrapper logic, then Brand 1 arrives from CSS.</h1>\n    <p class=\"body-copy\">\n      This application imports the Angular wrapper plus the Brand 1 light and dark packs. The\n      component library itself stays visually neutral until the external stylesheet is present.\n    </p>\n\n    <div class=\"theme-bar\" role=\"group\" aria-label=\"Theme switcher\">\n      <p class=\"theme-label\">Theme pack</p>\n      <div class=\"theme-actions\">\n        <button type=\"button\" class=\"theme-button\" [attr.data-selected]=\"theme() === 'light'\" (click)=\"setTheme('light')\">\n          Light\n        </button>\n        <button type=\"button\" class=\"theme-button\" [attr.data-selected]=\"theme() === 'dark'\" (click)=\"setTheme('dark')\">\n          Dark\n        </button>\n      </div>\n    </div>\n\n    <div class=\"button-row\">\n      <ff-button class=\"brand-host\">Brand 1 default</ff-button>\n      <ff-button class=\"pill-host\">Class-based override</ff-button>\n      <ff-button\n        [style.--ff-button-padding-inline]=\"'0.95rem'\"\n        [style.--ff-button-padding-block]=\"'0.48rem'\"\n        [style.--ff-button-radius]=\"'4px'\"\n      >\n        Inline token tweak\n      </ff-button>\n    </div>\n  </section>\n\n  <section class=\"info-grid\">\n    <article class=\"info-card\">\n      <p class=\"eyebrow\">Consumer imports</p>\n      <div class=\"detail-block\" aria-label=\"Consumer imports\">\n        <div class=\"detail-line\">import &#123; FfButton &#125; from '@fuggetlenfe/angular-wrapper'</div>\n        <div class=\"detail-line\">@import '@fuggetlenfe/tokens/contract.css';</div>\n        <div class=\"detail-line\">@import '@fuggetlenfe/brand-styles/brand-1-light.css';</div>\n        <div class=\"detail-line\">@import '@fuggetlenfe/brand-styles/brand-1-dark.css';</div>\n        <div class=\"detail-line detail-line--gap\">&lt;main data-brand=\"brand-1\" [attr.data-theme]=\"theme()\"&gt;</div>\n        <div class=\"detail-line\">&nbsp;&nbsp;&lt;ff-button&gt;&lt;/ff-button&gt;</div>\n        <div class=\"detail-line\">&lt;/main&gt;</div>\n      </div>\n    </article>\n\n    <article class=\"info-card\">\n      <p class=\"eyebrow\">Theme behavior</p>\n      <div class=\"detail-block\" aria-label=\"Theme behavior\">\n        <div class=\"detail-line\">The shell flips between light and dark.</div>\n        <div class=\"detail-line\">The button keeps the same logic API in both modes.</div>\n        <div class=\"detail-line\">Brand 1 colors come entirely from the imported CSS pack.</div>\n      </div>\n    </article>\n\n    <article class=\"info-card\">\n      <p class=\"eyebrow\">What proves the separation</p>\n      <div class=\"proof-list\">\n        <div class=\"proof-item\">The Angular wrapper provides framework integration only.</div>\n        <div class=\"proof-item\">The imported CSS library gives the component its brand and surface tokens.</div>\n        <div class=\"proof-item\">The same wrapper logic swaps between light and dark with CSS alone.</div>\n        <div class=\"proof-item\">Host classes and per-instance CSS properties still tailor the component locally.</div>\n      </div>\n    </article>\n  </section>\n</main>\n"
+            "templateData": "<main class=\"consumer-shell\" data-brand=\"brand-1\" [attr.data-theme]=\"activeTheme()\">\n  <section class=\"hero-card\">\n    <p class=\"eyebrow\">Angular app · external CSS brand pack</p>\n    <h1>Angular consumes only wrapper logic, then Brand 1 arrives from CSS.</h1>\n    <p class=\"body-copy\">\n      This application imports the Angular wrapper plus the Brand 1 light and dark packs. The\n      component library itself stays visually neutral until the external stylesheet is present.\n    </p>\n\n    <div class=\"theme-bar\" role=\"group\" aria-label=\"Theme switcher\">\n      <p class=\"theme-label\">Theme pack</p>\n      <div class=\"theme-actions\">\n        @for (themeOption of themeOptions; track themeOption.value) {\n          <button\n            type=\"button\"\n            class=\"theme-button\"\n            [attr.data-selected]=\"activeTheme() === themeOption.value\"\n            (click)=\"setTheme(themeOption.value)\"\n          >\n            {{ themeOption.label }}\n          </button>\n        }\n      </div>\n    </div>\n\n    <div class=\"button-row\">\n      <ff-button class=\"brand-host\">Brand 1 default</ff-button>\n      <ff-button class=\"pill-host\">Class-based override</ff-button>\n      <ff-button\n        [style.--ff-button-padding-inline]=\"inlineTokenStyle.paddingInline\"\n        [style.--ff-button-padding-block]=\"inlineTokenStyle.paddingBlock\"\n        [style.--ff-button-radius]=\"inlineTokenStyle.radius\"\n      >\n        Inline token tweak\n      </ff-button>\n    </div>\n  </section>\n\n  <section class=\"control-grid\">\n    <article class=\"info-card\">\n      <p class=\"eyebrow\">Dropdown primitive</p>\n      <div class=\"dropdown-demo\">\n        <ff-dropdown\n          [fullWidth]=\"true\"\n          label=\"Release target\"\n          [options]=\"releaseTargetOptions\"\n          placeholder=\"Choose a release target\"\n          [value]=\"selectedReleaseTargetValue()\"\n          (ffValueChange)=\"handleReleaseTargetChange($event)\"\n        ></ff-dropdown>\n\n        <div class=\"selection-card\" role=\"status\" aria-live=\"polite\">\n          <p class=\"selection-eyebrow\">Selection status</p>\n          <strong class=\"selection-value\">\n            Current selection: {{ selectedReleaseTargetLabel() }}\n          </strong>\n          <span class=\"selection-copy\">\n            Keyboard support stays in the shared primitive: Arrow keys, Enter, Escape, and Tab.\n          </span>\n        </div>\n      </div>\n    </article>\n  </section>\n\n  <section class=\"info-grid\">\n    <article class=\"info-card\">\n      <p class=\"eyebrow\">Consumer imports</p>\n      <div class=\"detail-block\" aria-label=\"Consumer imports\">\n        <div class=\"detail-line\">Import the Angular wrapper package.</div>\n        <div class=\"detail-line\">Import the shared token contract.</div>\n        <div class=\"detail-line\">Import the Brand 1 light stylesheet.</div>\n        <div class=\"detail-line\">Import the Brand 1 dark stylesheet.</div>\n        <div class=\"detail-line detail-line--gap\">\n          Set data-brand=\"brand-1\" and the active theme on the outer shell.\n        </div>\n        <div class=\"detail-line\">Render the same ff-button logic inside that shell.</div>\n      </div>\n    </article>\n\n    <article class=\"info-card\">\n      <p class=\"eyebrow\">Theme behavior</p>\n      <div class=\"detail-block\" aria-label=\"Theme behavior\">\n        <div class=\"detail-line\">The shell flips between light and dark.</div>\n        <div class=\"detail-line\">The button keeps the same logic API in both modes.</div>\n        <div class=\"detail-line\">Brand 1 colors come entirely from the imported CSS pack.</div>\n      </div>\n    </article>\n\n    <article class=\"info-card\">\n      <p class=\"eyebrow\">What proves the separation</p>\n      <div class=\"proof-list\">\n        <div class=\"proof-item\">The Angular wrapper provides framework integration only.</div>\n        <div class=\"proof-item\">\n          The imported CSS library gives the primitives their brand and surface tokens.\n        </div>\n        <div class=\"proof-item\">\n          The same wrapper logic swaps between light and dark with CSS alone.\n        </div>\n        <div class=\"proof-item\">\n          Host classes and per-instance CSS properties still tailor the component locally.\n        </div>\n      </div>\n    </article>\n  </section>\n</main>\n"
         }
     ],
     "modules": [],
@@ -112,6 +217,16 @@
                 "defaultValue": "{\n  providers: [\n    provideBrowserGlobalErrorListeners()\n  ]\n}"
             },
             {
+                "name": "BrandMatrix",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/ff-dropdown-angular.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  parameters: {\n    controls: { disable: true },\n    docs: {\n      description: {\n        story: 'The same Angular wrapper inherits its design exclusively from the active shell brand and theme.'\n      }\n    }\n  },\n  render: (_, storyContext) => ({\n    props: {\n      activeTheme: String(storyContext.globals['theme'] ?? 'light'),\n      brandLabel,\n      brands: brandOptions,\n      label: 'Release target',\n      options: dropdownOptions,\n      placeholder: 'Choose a release target',\n      value: 'production-rollout'\n    },\n    template: `\n      <div\n        [attr.data-theme]=\"activeTheme\"\n        style=\"min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif\"\n      >\n        <div style=\"display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;max-width:1200px\">\n          <section\n            *ngFor=\"let brand of brands\"\n            [attr.data-brand]=\"brand\"\n            style=\"display:grid;gap:0.75rem;border:1px solid var(--ff-color-border-subtle);background:var(--ff-color-surface);padding:1rem\"\n          >\n            <h3 style=\"margin:0;font-size:1rem\">{{ brandLabel(brand) }}</h3>\n            <ff-dropdown\n              [fullWidth]=\"true\"\n              [label]=\"label\"\n              [options]=\"options\"\n              [placeholder]=\"placeholder\"\n              [value]=\"value\"\n            ></ff-dropdown>\n            <div style=\"color:var(--ff-color-text-secondary);font-size:0.9rem\">Theme: {{ activeTheme }}</div>\n          </section>\n        </div>\n      </div>\n    `\n  })\n}"
+            },
+            {
                 "name": "brandOptions",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -119,7 +234,17 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "unknown",
-                "defaultValue": "['brand-1', 'brand-2', 'brand-3', 'client-acme', 'registry-owned'] as const"
+                "defaultValue": "['brand-1', 'brand-2', 'brand-3', 'custom-brand'] as const"
+            },
+            {
+                "name": "brandOptions",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/ff-dropdown-angular.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "unknown",
+                "defaultValue": "['brand-1', 'brand-2', 'brand-3', 'custom-brand'] as const"
             },
             {
                 "name": "config",
@@ -132,6 +257,16 @@
                 "defaultValue": "{\n  stories: ['../src/**/*.stories.@(ts|mdx)'],\n  addons: ['@storybook/addon-docs', '@storybook/addon-a11y'],\n  framework: {\n    name: '@storybook/angular',\n    options: {}\n  },\n  docs: {\n    autodocs: 'tag'\n  }\n}"
             },
             {
+                "name": "dropdownOptions",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/ff-dropdown-angular.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "[]",
+                "defaultValue": "[\n  {\n    value: 'pilot-release',\n    label: 'Pilot release',\n    description: 'Small audience rollout with monitoring enabled.'\n  },\n  {\n    value: 'production-rollout',\n    label: 'Production rollout',\n    description: 'Full audience release after final verification.'\n  },\n  {\n    value: 'maintenance-window',\n    label: 'Maintenance window',\n    description: 'Restricted release reserved for after-hours work.'\n  }\n]"
+            },
+            {
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -139,13 +274,33 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "unknown",
-                "defaultValue": "{\n  title: 'Angular Wrapper/FfButton',\n  component: FfButton,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [CommonModule, FfButton]\n    })\n  ],\n  args: {\n    label: 'Launch selected brand',\n    disabled: false,\n    fullWidth: false,\n    type: 'button'\n  },\n  argTypes: {\n    label: { control: 'text' },\n    disabled: { control: 'boolean' },\n    fullWidth: { control: 'boolean' },\n    type: {\n      control: 'inline-radio',\n      options: ['button', 'submit', 'reset']\n    }\n  },\n  parameters: {\n    docs: {\n      description: {\n        component:\n          'Angular-generated standalone wrapper around the shared Stencil button. Brand and theme now live entirely on the outer shell and the imported CSS pack.'\n      }\n    }\n  },\n  render: (args: StoryArgs, context) => {\n    const brand = String(context.globals['brand'] ?? 'brand-1');\n    const theme = String(context.globals['theme'] ?? 'light');\n    const props = {\n      label: args.label ?? 'Launch selected brand',\n      disabled: args.disabled ?? false,\n      fullWidth: args.fullWidth ?? false,\n      type: args.type ?? 'button',\n      brand,\n      theme,\n      launchCount: 0,\n      launchMessage: `Ready to launch ${brandLabel(brand)} in ${titleFromKey(theme)} mode.`,\n      launch() {\n        props.launchCount += 1;\n        props.launchMessage = `${brandLabel(brand)} launched in ${titleFromKey(theme)} mode at ${new Date().toLocaleTimeString()}.`;\n      }\n    };\n\n    return {\n      props,\n      template: `\n        <div\n          [attr.data-brand]=\"brand\"\n          [attr.data-theme]=\"theme\"\n          style=\"display:grid;gap:1rem;max-width:420px;min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif\"\n        >\n          <ff-button\n            [disabled]=\"disabled\"\n            [fullWidth]=\"fullWidth\"\n            [type]=\"type\"\n            (click)=\"launch()\"\n          >\n            {{ label }}\n          </ff-button>\n\n          <div\n            style=\"display:grid;gap:0.5rem;padding:1rem;border:1px solid var(--ff-color-border-subtle);background:var(--ff-color-surface)\"\n          >\n            <p style=\"margin:0;text-transform:uppercase;letter-spacing:0.12em;font-size:0.72rem;color:var(--ff-color-text-muted)\">\n              Launch status\n            </p>\n            <strong>{{ launchMessage }}</strong>\n            <span style=\"color:var(--ff-color-text-secondary)\">Launches in this session: {{ launchCount }}</span>\n            <code\n              style=\"display:block;padding:0.85rem 1rem;overflow:auto;border:1px solid var(--ff-color-border-subtle);background:color-mix(in srgb,var(--ff-color-canvas) 82%,transparent)\"\n            >\n              pnpm registry:add owned-brand-pack ./src/owned/brands/{{ brand }}\n            </code>\n          </div>\n        </div>\n      `\n    };\n  }\n} satisfies Meta<FfButton>"
+                "defaultValue": "{\n  title: 'Angular Wrapper/FfButton',\n  component: FfButton,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [CommonModule, FfButton]\n    })\n  ],\n  args: {\n    label: 'Launch selected brand',\n    disabled: false,\n    fullWidth: false,\n    type: 'button'\n  },\n  argTypes: {\n    label: { control: 'text' },\n    disabled: { control: 'boolean' },\n    fullWidth: { control: 'boolean' },\n    type: {\n      control: 'inline-radio',\n      options: ['button', 'submit', 'reset']\n    }\n  },\n  parameters: {\n    docs: {\n      description: {\n        component:\n          'Angular-generated standalone wrapper around the shared Stencil button. Brand and theme now live entirely on the outer shell and the imported CSS pack.'\n      }\n    }\n  },\n  render: (storyProperties: ButtonStoryProperties, storyContext) => {\n    const brandKey = String(storyContext.globals['brand'] ?? 'brand-1');\n    const themeKey = String(storyContext.globals['theme'] ?? 'light');\n    const storyState = {\n      label: storyProperties.label ?? 'Launch selected brand',\n      disabled: storyProperties.disabled ?? false,\n      fullWidth: storyProperties.fullWidth ?? false,\n      type: storyProperties.type ?? 'button',\n      brand: brandKey,\n      theme: themeKey,\n      launchCount: 0,\n      launchMessage: `Ready to launch ${brandLabel(brandKey)} in ${titleFromKey(themeKey)} mode.`,\n      handleLaunch() {\n        storyState.launchCount += 1;\n        storyState.launchMessage = `${brandLabel(brandKey)} launched in ${titleFromKey(themeKey)} mode at ${new Date().toLocaleTimeString()}.`;\n      }\n    };\n\n    return {\n      props: storyState,\n      template: `\n        <div\n          [attr.data-brand]=\"brand\"\n          [attr.data-theme]=\"theme\"\n          style=\"display:grid;gap:1rem;max-width:420px;min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif\"\n        >\n          <ff-button\n            [disabled]=\"disabled\"\n            [fullWidth]=\"fullWidth\"\n            [type]=\"type\"\n            (click)=\"handleLaunch()\"\n          >\n            {{ label }}\n          </ff-button>\n\n          <div\n            style=\"display:grid;gap:0.5rem;padding:1rem;border:1px solid var(--ff-color-border-subtle);background:var(--ff-color-surface)\"\n          >\n            <p style=\"margin:0;text-transform:uppercase;letter-spacing:0.12em;font-size:0.72rem;color:var(--ff-color-text-muted)\">\n              Launch status\n            </p>\n            <strong>{{ launchMessage }}</strong>\n            <span style=\"color:var(--ff-color-text-secondary)\">Launches in this session: {{ launchCount }}</span>\n          </div>\n        </div>\n      `\n    };\n  }\n} satisfies Meta<FfButton>"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/ff-dropdown-angular.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "unknown",
+                "defaultValue": "{\n  title: 'Angular Wrapper/FfDropdown',\n  component: FfDropdown,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [CommonModule, FfDropdown]\n    })\n  ],\n  args: {\n    disabled: false,\n    fullWidth: true,\n    label: 'Release target',\n    placeholder: 'Choose a release target',\n    value: 'pilot-release'\n  },\n  argTypes: {\n    label: { control: 'text' },\n    placeholder: { control: 'text' },\n    disabled: { control: 'boolean' },\n    fullWidth: { control: 'boolean' },\n    value: {\n      control: 'select',\n      options: dropdownOptions.map((option) => option.value)\n    }\n  },\n  parameters: {\n    docs: {\n      description: {\n        component:\n          'Angular standalone wrapper around the shared dropdown primitive. Selection logic remains inside Stencil while Angular only binds props and events.'\n      }\n    }\n  },\n  render: (storyProperties: DropdownStoryProperties, storyContext) => {\n    const brandKey = String(storyContext.globals['brand'] ?? 'brand-1');\n    const themeKey = String(storyContext.globals['theme'] ?? 'light');\n    const selectedValue = storyProperties.value ?? 'pilot-release';\n    const selectedLabel = labelFromValue(selectedValue);\n\n    const storyState = {\n      brand: brandKey,\n      disabled: storyProperties.disabled ?? false,\n      fullWidth: storyProperties.fullWidth ?? true,\n      label: storyProperties.label ?? 'Release target',\n      options: dropdownOptions,\n      placeholder: storyProperties.placeholder ?? 'Choose a release target',\n      selectedLabel,\n      selectedValue,\n      theme: themeKey,\n      handleValueChange(customEvent: CustomEvent<{ label: string; value: string }>) {\n        storyState.selectedLabel = customEvent.detail.label;\n        storyState.selectedValue = customEvent.detail.value;\n      }\n    };\n\n    return {\n      props: storyState,\n      template: `\n        <div\n          [attr.data-brand]=\"brand\"\n          [attr.data-theme]=\"theme\"\n          style=\"display:grid;gap:1rem;max-width:28rem;min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif\"\n        >\n          <ff-dropdown\n            [disabled]=\"disabled\"\n            [fullWidth]=\"fullWidth\"\n            [label]=\"label\"\n            [options]=\"options\"\n            [placeholder]=\"placeholder\"\n            [value]=\"selectedValue\"\n            (ffValueChange)=\"handleValueChange($event)\"\n          ></ff-dropdown>\n\n          <div\n            role=\"status\"\n            aria-live=\"polite\"\n            style=\"display:grid;gap:0.5rem;padding:1rem;border:1px solid var(--ff-color-border-subtle);background:var(--ff-color-surface)\"\n          >\n            <p style=\"margin:0;text-transform:uppercase;letter-spacing:0.12em;font-size:0.72rem;color:var(--ff-color-text-muted)\">\n              Selection status\n            </p>\n            <strong>Current selection: {{ selectedLabel }}</strong>\n          </div>\n        </div>\n      `\n    };\n  }\n} satisfies Meta<FfDropdown>"
             },
             {
                 "name": "Playground",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/stories/ff-button-angular.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{}"
+            },
+            {
+                "name": "Playground",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/stories/ff-dropdown-angular.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
@@ -159,7 +314,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Preview",
-                "defaultValue": "{\n  globalTypes: {\n    theme: {\n      name: 'Theme',\n      defaultValue: 'light',\n      toolbar: {\n        icon: 'mirror',\n        items: [\n          { value: 'light', title: 'Light' },\n          { value: 'dark', title: 'Dark' }\n        ]\n      }\n    },\n    brand: {\n      name: 'Brand',\n      defaultValue: 'brand-1',\n      toolbar: {\n        icon: 'paintbrush',\n        items: [\n          { value: 'brand-1', title: 'Brand 1' },\n          { value: 'brand-2', title: 'Brand 2' },\n          { value: 'brand-3', title: 'Brand 3' },\n          { value: 'client-acme', title: 'Client Acme' },\n          { value: 'registry-owned', title: 'Registry Owned' }\n        ]\n      }\n    }\n  },\n  parameters: {\n    layout: 'padded',\n    controls: {\n      expanded: true\n    }\n  }\n}"
+                "defaultValue": "{\n  globalTypes: {\n    theme: {\n      name: 'Theme',\n      defaultValue: 'light',\n      toolbar: {\n        icon: 'mirror',\n        items: [\n          { value: 'light', title: 'Light' },\n          { value: 'dark', title: 'Dark' }\n        ]\n      }\n    },\n    brand: {\n      name: 'Brand',\n      defaultValue: 'brand-1',\n      toolbar: {\n        icon: 'paintbrush',\n        items: [\n          { value: 'brand-1', title: 'Brand 1' },\n          { value: 'brand-2', title: 'Brand 2' },\n          { value: 'brand-3', title: 'Brand 3' },\n          { value: 'custom-brand', title: 'Custom Brand' }\n        ]\n      }\n    }\n  },\n  parameters: {\n    layout: 'padded',\n    controls: {\n      expanded: true\n    }\n  }\n}"
             },
             {
                 "name": "routes",
@@ -179,7 +334,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  parameters: {\n    controls: { disable: true },\n    docs: {\n      description: {\n        story: 'State previews are applied from Storybook-only classes and external CSS tokens, not from component-level theme props.'\n      }\n    }\n  },\n  render: (_, context) => ({\n    props: {\n      brandTheme: String(context.globals['theme'] ?? 'light'),\n      brandLabel,\n      brands: brandOptions,\n      states: stateOptions\n    },\n    template: `\n      <div\n        [attr.data-theme]=\"brandTheme\"\n        style=\"min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif\"\n      >\n        <style>${statePreviewStyles}</style>\n        <div style=\"display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;max-width:1200px\">\n          <section\n            *ngFor=\"let brand of brands\"\n            [attr.data-brand]=\"brand\"\n            style=\"border:1px solid var(--ff-color-border-subtle);background:var(--ff-color-surface);padding:1rem\"\n          >\n            <h3 style=\"margin:0 0 1rem;font-size:1rem\">{{ brandLabel(brand) }}</h3>\n            <div\n              *ngFor=\"let state of states\"\n              style=\"display:grid;grid-template-columns:5rem minmax(0,1fr);align-items:center;gap:0.75rem;margin-bottom:0.75rem\"\n            >\n              <span style=\"font-size:0.8rem;color:var(--ff-color-text-secondary)\">\n                {{ state[0].toUpperCase() + state.slice(1) }}\n              </span>\n              <ff-button\n                [disabled]=\"state === 'disabled'\"\n                [fullWidth]=\"true\"\n                [class.demo-state--hover]=\"state === 'hover'\"\n                [class.demo-state--active]=\"state === 'active'\"\n              >\n                {{ brandLabel(brand) }}\n              </ff-button>\n            </div>\n          </section>\n        </div>\n      </div>\n    `\n  })\n}"
+                "defaultValue": "{\n  parameters: {\n    controls: { disable: true },\n    docs: {\n      description: {\n        story: 'State previews are applied from Storybook-only classes and external CSS tokens, not from component-level theme props.'\n      }\n    }\n  },\n  render: (_, storyContext) => ({\n    props: {\n      activeTheme: String(storyContext.globals['theme'] ?? 'light'),\n      brandLabel,\n      brands: brandOptions,\n      states: stateOptions\n    },\n    template: `\n      <div\n        [attr.data-theme]=\"activeTheme\"\n        style=\"min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif\"\n      >\n        <style>${statePreviewStyles}</style>\n        <div style=\"display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;max-width:1200px\">\n          <section\n            *ngFor=\"let brand of brands\"\n            [attr.data-brand]=\"brand\"\n            style=\"border:1px solid var(--ff-color-border-subtle);background:var(--ff-color-surface);padding:1rem\"\n          >\n            <h3 style=\"margin:0 0 1rem;font-size:1rem\">{{ brandLabel(brand) }}</h3>\n            <div\n              *ngFor=\"let state of states\"\n              style=\"display:grid;grid-template-columns:5rem minmax(0,1fr);align-items:center;gap:0.75rem;margin-bottom:0.75rem\"\n            >\n              <span style=\"font-size:0.8rem;color:var(--ff-color-text-secondary)\">\n                {{ state[0].toUpperCase() + state.slice(1) }}\n              </span>\n              <ff-button\n                [disabled]=\"state === 'disabled'\"\n                [fullWidth]=\"true\"\n                [class.demo-state--hover]=\"state === 'hover'\"\n                [class.demo-state--active]=\"state === 'active'\"\n              >\n                {{ brandLabel(brand) }}\n              </ff-button>\n            </div>\n          </section>\n        </div>\n      </div>\n    `\n  })\n}"
             },
             {
                 "name": "stateOptions",
@@ -213,7 +368,7 @@
                 "description": "",
                 "args": [
                     {
-                        "name": "brand",
+                        "name": "brandKey",
                         "type": "string",
                         "deprecated": false,
                         "deprecationMessage": ""
@@ -221,7 +376,63 @@
                 ],
                 "jsdoctags": [
                     {
-                        "name": "brand",
+                        "name": "brandKey",
+                        "type": "string",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "brandLabel",
+                "file": "src/stories/ff-dropdown-angular.stories.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "args": [
+                    {
+                        "name": "brandKey",
+                        "type": "string",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "jsdoctags": [
+                    {
+                        "name": "brandKey",
+                        "type": "string",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "labelFromValue",
+                "file": "src/stories/ff-dropdown-angular.stories.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "args": [
+                    {
+                        "name": "selectedValue",
+                        "type": "string",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "jsdoctags": [
+                    {
+                        "name": "selectedValue",
                         "type": "string",
                         "deprecated": false,
                         "deprecationMessage": "",
@@ -241,7 +452,7 @@
                 "description": "",
                 "args": [
                     {
-                        "name": "key",
+                        "name": "value",
                         "type": "string",
                         "deprecated": false,
                         "deprecationMessage": ""
@@ -249,7 +460,7 @@
                 ],
                 "jsdoctags": [
                     {
-                        "name": "key",
+                        "name": "value",
                         "type": "string",
                         "deprecated": false,
                         "deprecationMessage": "",
@@ -262,6 +473,28 @@
         ],
         "typealiases": [
             {
+                "name": "ButtonStoryProperties",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "literal type",
+                "file": "src/stories/ff-button-angular.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 188
+            },
+            {
+                "name": "DropdownStoryProperties",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "literal type",
+                "file": "src/stories/ff-dropdown-angular.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 188
+            },
+            {
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
@@ -273,11 +506,33 @@
                 "kind": 184
             },
             {
-                "name": "StoryArgs",
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<unknown>",
+                "file": "src/stories/ff-dropdown-angular.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 184
+            },
+            {
+                "name": "ThemeMode",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "\"light\" | \"dark\"",
+                "file": "src/app/app.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 193
+            },
+            {
+                "name": "ThemeOption",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
                 "rawtype": "literal type",
-                "file": "src/stories/ff-button-angular.stories.ts",
+                "file": "src/app/app.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -298,6 +553,58 @@
                     "defaultValue": "{\n  providers: [\n    provideBrowserGlobalErrorListeners()\n  ]\n}"
                 }
             ],
+            "src/stories/ff-dropdown-angular.stories.ts": [
+                {
+                    "name": "BrandMatrix",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/ff-dropdown-angular.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  parameters: {\n    controls: { disable: true },\n    docs: {\n      description: {\n        story: 'The same Angular wrapper inherits its design exclusively from the active shell brand and theme.'\n      }\n    }\n  },\n  render: (_, storyContext) => ({\n    props: {\n      activeTheme: String(storyContext.globals['theme'] ?? 'light'),\n      brandLabel,\n      brands: brandOptions,\n      label: 'Release target',\n      options: dropdownOptions,\n      placeholder: 'Choose a release target',\n      value: 'production-rollout'\n    },\n    template: `\n      <div\n        [attr.data-theme]=\"activeTheme\"\n        style=\"min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif\"\n      >\n        <div style=\"display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;max-width:1200px\">\n          <section\n            *ngFor=\"let brand of brands\"\n            [attr.data-brand]=\"brand\"\n            style=\"display:grid;gap:0.75rem;border:1px solid var(--ff-color-border-subtle);background:var(--ff-color-surface);padding:1rem\"\n          >\n            <h3 style=\"margin:0;font-size:1rem\">{{ brandLabel(brand) }}</h3>\n            <ff-dropdown\n              [fullWidth]=\"true\"\n              [label]=\"label\"\n              [options]=\"options\"\n              [placeholder]=\"placeholder\"\n              [value]=\"value\"\n            ></ff-dropdown>\n            <div style=\"color:var(--ff-color-text-secondary);font-size:0.9rem\">Theme: {{ activeTheme }}</div>\n          </section>\n        </div>\n      </div>\n    `\n  })\n}"
+                },
+                {
+                    "name": "brandOptions",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/ff-dropdown-angular.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "defaultValue": "['brand-1', 'brand-2', 'brand-3', 'custom-brand'] as const"
+                },
+                {
+                    "name": "dropdownOptions",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/ff-dropdown-angular.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "[]",
+                    "defaultValue": "[\n  {\n    value: 'pilot-release',\n    label: 'Pilot release',\n    description: 'Small audience rollout with monitoring enabled.'\n  },\n  {\n    value: 'production-rollout',\n    label: 'Production rollout',\n    description: 'Full audience release after final verification.'\n  },\n  {\n    value: 'maintenance-window',\n    label: 'Maintenance window',\n    description: 'Restricted release reserved for after-hours work.'\n  }\n]"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/ff-dropdown-angular.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "unknown",
+                    "defaultValue": "{\n  title: 'Angular Wrapper/FfDropdown',\n  component: FfDropdown,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [CommonModule, FfDropdown]\n    })\n  ],\n  args: {\n    disabled: false,\n    fullWidth: true,\n    label: 'Release target',\n    placeholder: 'Choose a release target',\n    value: 'pilot-release'\n  },\n  argTypes: {\n    label: { control: 'text' },\n    placeholder: { control: 'text' },\n    disabled: { control: 'boolean' },\n    fullWidth: { control: 'boolean' },\n    value: {\n      control: 'select',\n      options: dropdownOptions.map((option) => option.value)\n    }\n  },\n  parameters: {\n    docs: {\n      description: {\n        component:\n          'Angular standalone wrapper around the shared dropdown primitive. Selection logic remains inside Stencil while Angular only binds props and events.'\n      }\n    }\n  },\n  render: (storyProperties: DropdownStoryProperties, storyContext) => {\n    const brandKey = String(storyContext.globals['brand'] ?? 'brand-1');\n    const themeKey = String(storyContext.globals['theme'] ?? 'light');\n    const selectedValue = storyProperties.value ?? 'pilot-release';\n    const selectedLabel = labelFromValue(selectedValue);\n\n    const storyState = {\n      brand: brandKey,\n      disabled: storyProperties.disabled ?? false,\n      fullWidth: storyProperties.fullWidth ?? true,\n      label: storyProperties.label ?? 'Release target',\n      options: dropdownOptions,\n      placeholder: storyProperties.placeholder ?? 'Choose a release target',\n      selectedLabel,\n      selectedValue,\n      theme: themeKey,\n      handleValueChange(customEvent: CustomEvent<{ label: string; value: string }>) {\n        storyState.selectedLabel = customEvent.detail.label;\n        storyState.selectedValue = customEvent.detail.value;\n      }\n    };\n\n    return {\n      props: storyState,\n      template: `\n        <div\n          [attr.data-brand]=\"brand\"\n          [attr.data-theme]=\"theme\"\n          style=\"display:grid;gap:1rem;max-width:28rem;min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif\"\n        >\n          <ff-dropdown\n            [disabled]=\"disabled\"\n            [fullWidth]=\"fullWidth\"\n            [label]=\"label\"\n            [options]=\"options\"\n            [placeholder]=\"placeholder\"\n            [value]=\"selectedValue\"\n            (ffValueChange)=\"handleValueChange($event)\"\n          ></ff-dropdown>\n\n          <div\n            role=\"status\"\n            aria-live=\"polite\"\n            style=\"display:grid;gap:0.5rem;padding:1rem;border:1px solid var(--ff-color-border-subtle);background:var(--ff-color-surface)\"\n          >\n            <p style=\"margin:0;text-transform:uppercase;letter-spacing:0.12em;font-size:0.72rem;color:var(--ff-color-text-muted)\">\n              Selection status\n            </p>\n            <strong>Current selection: {{ selectedLabel }}</strong>\n          </div>\n        </div>\n      `\n    };\n  }\n} satisfies Meta<FfDropdown>"
+                },
+                {
+                    "name": "Playground",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/stories/ff-dropdown-angular.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{}"
+                }
+            ],
             "src/stories/ff-button-angular.stories.ts": [
                 {
                     "name": "brandOptions",
@@ -307,7 +614,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "unknown",
-                    "defaultValue": "['brand-1', 'brand-2', 'brand-3', 'client-acme', 'registry-owned'] as const"
+                    "defaultValue": "['brand-1', 'brand-2', 'brand-3', 'custom-brand'] as const"
                 },
                 {
                     "name": "meta",
@@ -317,7 +624,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "unknown",
-                    "defaultValue": "{\n  title: 'Angular Wrapper/FfButton',\n  component: FfButton,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [CommonModule, FfButton]\n    })\n  ],\n  args: {\n    label: 'Launch selected brand',\n    disabled: false,\n    fullWidth: false,\n    type: 'button'\n  },\n  argTypes: {\n    label: { control: 'text' },\n    disabled: { control: 'boolean' },\n    fullWidth: { control: 'boolean' },\n    type: {\n      control: 'inline-radio',\n      options: ['button', 'submit', 'reset']\n    }\n  },\n  parameters: {\n    docs: {\n      description: {\n        component:\n          'Angular-generated standalone wrapper around the shared Stencil button. Brand and theme now live entirely on the outer shell and the imported CSS pack.'\n      }\n    }\n  },\n  render: (args: StoryArgs, context) => {\n    const brand = String(context.globals['brand'] ?? 'brand-1');\n    const theme = String(context.globals['theme'] ?? 'light');\n    const props = {\n      label: args.label ?? 'Launch selected brand',\n      disabled: args.disabled ?? false,\n      fullWidth: args.fullWidth ?? false,\n      type: args.type ?? 'button',\n      brand,\n      theme,\n      launchCount: 0,\n      launchMessage: `Ready to launch ${brandLabel(brand)} in ${titleFromKey(theme)} mode.`,\n      launch() {\n        props.launchCount += 1;\n        props.launchMessage = `${brandLabel(brand)} launched in ${titleFromKey(theme)} mode at ${new Date().toLocaleTimeString()}.`;\n      }\n    };\n\n    return {\n      props,\n      template: `\n        <div\n          [attr.data-brand]=\"brand\"\n          [attr.data-theme]=\"theme\"\n          style=\"display:grid;gap:1rem;max-width:420px;min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif\"\n        >\n          <ff-button\n            [disabled]=\"disabled\"\n            [fullWidth]=\"fullWidth\"\n            [type]=\"type\"\n            (click)=\"launch()\"\n          >\n            {{ label }}\n          </ff-button>\n\n          <div\n            style=\"display:grid;gap:0.5rem;padding:1rem;border:1px solid var(--ff-color-border-subtle);background:var(--ff-color-surface)\"\n          >\n            <p style=\"margin:0;text-transform:uppercase;letter-spacing:0.12em;font-size:0.72rem;color:var(--ff-color-text-muted)\">\n              Launch status\n            </p>\n            <strong>{{ launchMessage }}</strong>\n            <span style=\"color:var(--ff-color-text-secondary)\">Launches in this session: {{ launchCount }}</span>\n            <code\n              style=\"display:block;padding:0.85rem 1rem;overflow:auto;border:1px solid var(--ff-color-border-subtle);background:color-mix(in srgb,var(--ff-color-canvas) 82%,transparent)\"\n            >\n              pnpm registry:add owned-brand-pack ./src/owned/brands/{{ brand }}\n            </code>\n          </div>\n        </div>\n      `\n    };\n  }\n} satisfies Meta<FfButton>"
+                    "defaultValue": "{\n  title: 'Angular Wrapper/FfButton',\n  component: FfButton,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [CommonModule, FfButton]\n    })\n  ],\n  args: {\n    label: 'Launch selected brand',\n    disabled: false,\n    fullWidth: false,\n    type: 'button'\n  },\n  argTypes: {\n    label: { control: 'text' },\n    disabled: { control: 'boolean' },\n    fullWidth: { control: 'boolean' },\n    type: {\n      control: 'inline-radio',\n      options: ['button', 'submit', 'reset']\n    }\n  },\n  parameters: {\n    docs: {\n      description: {\n        component:\n          'Angular-generated standalone wrapper around the shared Stencil button. Brand and theme now live entirely on the outer shell and the imported CSS pack.'\n      }\n    }\n  },\n  render: (storyProperties: ButtonStoryProperties, storyContext) => {\n    const brandKey = String(storyContext.globals['brand'] ?? 'brand-1');\n    const themeKey = String(storyContext.globals['theme'] ?? 'light');\n    const storyState = {\n      label: storyProperties.label ?? 'Launch selected brand',\n      disabled: storyProperties.disabled ?? false,\n      fullWidth: storyProperties.fullWidth ?? false,\n      type: storyProperties.type ?? 'button',\n      brand: brandKey,\n      theme: themeKey,\n      launchCount: 0,\n      launchMessage: `Ready to launch ${brandLabel(brandKey)} in ${titleFromKey(themeKey)} mode.`,\n      handleLaunch() {\n        storyState.launchCount += 1;\n        storyState.launchMessage = `${brandLabel(brandKey)} launched in ${titleFromKey(themeKey)} mode at ${new Date().toLocaleTimeString()}.`;\n      }\n    };\n\n    return {\n      props: storyState,\n      template: `\n        <div\n          [attr.data-brand]=\"brand\"\n          [attr.data-theme]=\"theme\"\n          style=\"display:grid;gap:1rem;max-width:420px;min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif\"\n        >\n          <ff-button\n            [disabled]=\"disabled\"\n            [fullWidth]=\"fullWidth\"\n            [type]=\"type\"\n            (click)=\"handleLaunch()\"\n          >\n            {{ label }}\n          </ff-button>\n\n          <div\n            style=\"display:grid;gap:0.5rem;padding:1rem;border:1px solid var(--ff-color-border-subtle);background:var(--ff-color-surface)\"\n          >\n            <p style=\"margin:0;text-transform:uppercase;letter-spacing:0.12em;font-size:0.72rem;color:var(--ff-color-text-muted)\">\n              Launch status\n            </p>\n            <strong>{{ launchMessage }}</strong>\n            <span style=\"color:var(--ff-color-text-secondary)\">Launches in this session: {{ launchCount }}</span>\n          </div>\n        </div>\n      `\n    };\n  }\n} satisfies Meta<FfButton>"
                 },
                 {
                     "name": "Playground",
@@ -337,7 +644,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  parameters: {\n    controls: { disable: true },\n    docs: {\n      description: {\n        story: 'State previews are applied from Storybook-only classes and external CSS tokens, not from component-level theme props.'\n      }\n    }\n  },\n  render: (_, context) => ({\n    props: {\n      brandTheme: String(context.globals['theme'] ?? 'light'),\n      brandLabel,\n      brands: brandOptions,\n      states: stateOptions\n    },\n    template: `\n      <div\n        [attr.data-theme]=\"brandTheme\"\n        style=\"min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif\"\n      >\n        <style>${statePreviewStyles}</style>\n        <div style=\"display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;max-width:1200px\">\n          <section\n            *ngFor=\"let brand of brands\"\n            [attr.data-brand]=\"brand\"\n            style=\"border:1px solid var(--ff-color-border-subtle);background:var(--ff-color-surface);padding:1rem\"\n          >\n            <h3 style=\"margin:0 0 1rem;font-size:1rem\">{{ brandLabel(brand) }}</h3>\n            <div\n              *ngFor=\"let state of states\"\n              style=\"display:grid;grid-template-columns:5rem minmax(0,1fr);align-items:center;gap:0.75rem;margin-bottom:0.75rem\"\n            >\n              <span style=\"font-size:0.8rem;color:var(--ff-color-text-secondary)\">\n                {{ state[0].toUpperCase() + state.slice(1) }}\n              </span>\n              <ff-button\n                [disabled]=\"state === 'disabled'\"\n                [fullWidth]=\"true\"\n                [class.demo-state--hover]=\"state === 'hover'\"\n                [class.demo-state--active]=\"state === 'active'\"\n              >\n                {{ brandLabel(brand) }}\n              </ff-button>\n            </div>\n          </section>\n        </div>\n      </div>\n    `\n  })\n}"
+                    "defaultValue": "{\n  parameters: {\n    controls: { disable: true },\n    docs: {\n      description: {\n        story: 'State previews are applied from Storybook-only classes and external CSS tokens, not from component-level theme props.'\n      }\n    }\n  },\n  render: (_, storyContext) => ({\n    props: {\n      activeTheme: String(storyContext.globals['theme'] ?? 'light'),\n      brandLabel,\n      brands: brandOptions,\n      states: stateOptions\n    },\n    template: `\n      <div\n        [attr.data-theme]=\"activeTheme\"\n        style=\"min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif\"\n      >\n        <style>${statePreviewStyles}</style>\n        <div style=\"display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;max-width:1200px\">\n          <section\n            *ngFor=\"let brand of brands\"\n            [attr.data-brand]=\"brand\"\n            style=\"border:1px solid var(--ff-color-border-subtle);background:var(--ff-color-surface);padding:1rem\"\n          >\n            <h3 style=\"margin:0 0 1rem;font-size:1rem\">{{ brandLabel(brand) }}</h3>\n            <div\n              *ngFor=\"let state of states\"\n              style=\"display:grid;grid-template-columns:5rem minmax(0,1fr);align-items:center;gap:0.75rem;margin-bottom:0.75rem\"\n            >\n              <span style=\"font-size:0.8rem;color:var(--ff-color-text-secondary)\">\n                {{ state[0].toUpperCase() + state.slice(1) }}\n              </span>\n              <ff-button\n                [disabled]=\"state === 'disabled'\"\n                [fullWidth]=\"true\"\n                [class.demo-state--hover]=\"state === 'hover'\"\n                [class.demo-state--active]=\"state === 'active'\"\n              >\n                {{ brandLabel(brand) }}\n              </ff-button>\n            </div>\n          </section>\n        </div>\n      </div>\n    `\n  })\n}"
                 },
                 {
                     "name": "stateOptions",
@@ -381,7 +688,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Preview",
-                    "defaultValue": "{\n  globalTypes: {\n    theme: {\n      name: 'Theme',\n      defaultValue: 'light',\n      toolbar: {\n        icon: 'mirror',\n        items: [\n          { value: 'light', title: 'Light' },\n          { value: 'dark', title: 'Dark' }\n        ]\n      }\n    },\n    brand: {\n      name: 'Brand',\n      defaultValue: 'brand-1',\n      toolbar: {\n        icon: 'paintbrush',\n        items: [\n          { value: 'brand-1', title: 'Brand 1' },\n          { value: 'brand-2', title: 'Brand 2' },\n          { value: 'brand-3', title: 'Brand 3' },\n          { value: 'client-acme', title: 'Client Acme' },\n          { value: 'registry-owned', title: 'Registry Owned' }\n        ]\n      }\n    }\n  },\n  parameters: {\n    layout: 'padded',\n    controls: {\n      expanded: true\n    }\n  }\n}"
+                    "defaultValue": "{\n  globalTypes: {\n    theme: {\n      name: 'Theme',\n      defaultValue: 'light',\n      toolbar: {\n        icon: 'mirror',\n        items: [\n          { value: 'light', title: 'Light' },\n          { value: 'dark', title: 'Dark' }\n        ]\n      }\n    },\n    brand: {\n      name: 'Brand',\n      defaultValue: 'brand-1',\n      toolbar: {\n        icon: 'paintbrush',\n        items: [\n          { value: 'brand-1', title: 'Brand 1' },\n          { value: 'brand-2', title: 'Brand 2' },\n          { value: 'brand-3', title: 'Brand 3' },\n          { value: 'custom-brand', title: 'Custom Brand' }\n        ]\n      }\n    }\n  },\n  parameters: {\n    layout: 'padded',\n    controls: {\n      expanded: true\n    }\n  }\n}"
                 }
             ],
             "src/app/app.routes.ts": [
@@ -409,7 +716,7 @@
                     "description": "",
                     "args": [
                         {
-                            "name": "brand",
+                            "name": "brandKey",
                             "type": "string",
                             "deprecated": false,
                             "deprecationMessage": ""
@@ -417,7 +724,7 @@
                     ],
                     "jsdoctags": [
                         {
-                            "name": "brand",
+                            "name": "brandKey",
                             "type": "string",
                             "deprecated": false,
                             "deprecationMessage": "",
@@ -437,7 +744,7 @@
                     "description": "",
                     "args": [
                         {
-                            "name": "key",
+                            "name": "value",
                             "type": "string",
                             "deprecated": false,
                             "deprecationMessage": ""
@@ -445,7 +752,65 @@
                     ],
                     "jsdoctags": [
                         {
-                            "name": "key",
+                            "name": "value",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "src/stories/ff-dropdown-angular.stories.ts": [
+                {
+                    "name": "brandLabel",
+                    "file": "src/stories/ff-dropdown-angular.stories.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "brandKey",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "brandKey",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "labelFromValue",
+                    "file": "src/stories/ff-dropdown-angular.stories.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "selectedValue",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "selectedValue",
                             "type": "string",
                             "deprecated": false,
                             "deprecationMessage": "",
@@ -461,6 +826,17 @@
         "groupedTypeAliases": {
             "src/stories/ff-button-angular.stories.ts": [
                 {
+                    "name": "ButtonStoryProperties",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "literal type",
+                    "file": "src/stories/ff-button-angular.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 188
+                },
+                {
                     "name": "Story",
                     "ctype": "miscellaneous",
                     "subtype": "typealias",
@@ -470,13 +846,50 @@
                     "deprecationMessage": "",
                     "description": "",
                     "kind": 184
-                },
+                }
+            ],
+            "src/stories/ff-dropdown-angular.stories.ts": [
                 {
-                    "name": "StoryArgs",
+                    "name": "DropdownStoryProperties",
                     "ctype": "miscellaneous",
                     "subtype": "typealias",
                     "rawtype": "literal type",
-                    "file": "src/stories/ff-button-angular.stories.ts",
+                    "file": "src/stories/ff-dropdown-angular.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 188
+                },
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<unknown>",
+                    "file": "src/stories/ff-dropdown-angular.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 184
+                }
+            ],
+            "src/app/app.ts": [
+                {
+                    "name": "ThemeMode",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "\"light\" | \"dark\"",
+                    "file": "src/app/app.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 193
+                },
+                {
+                    "name": "ThemeOption",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "literal type",
+                    "file": "src/app/app.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
@@ -538,9 +951,29 @@
                 "filePath": "src/app/app.ts",
                 "type": "component",
                 "linktype": "component",
-                "name": "App",
+                "name": "BrandOneShowcaseAppComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/3",
+                "coverageCount": "0/9",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/app.ts",
+                "type": "type alias",
+                "linktype": "miscellaneous",
+                "linksubtype": "typealias",
+                "name": "ThemeMode",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/app.ts",
+                "type": "type alias",
+                "linktype": "miscellaneous",
+                "linksubtype": "typealias",
+                "name": "ThemeOption",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
@@ -628,7 +1061,7 @@
                 "type": "type alias",
                 "linktype": "miscellaneous",
                 "linksubtype": "typealias",
-                "name": "Story",
+                "name": "ButtonStoryProperties",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -638,7 +1071,97 @@
                 "type": "type alias",
                 "linktype": "miscellaneous",
                 "linksubtype": "typealias",
-                "name": "StoryArgs",
+                "name": "Story",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/ff-dropdown-angular.stories.ts",
+                "type": "function",
+                "linktype": "miscellaneous",
+                "linksubtype": "function",
+                "name": "brandLabel",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/ff-dropdown-angular.stories.ts",
+                "type": "function",
+                "linktype": "miscellaneous",
+                "linksubtype": "function",
+                "name": "labelFromValue",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/ff-dropdown-angular.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "BrandMatrix",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/ff-dropdown-angular.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "brandOptions",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/ff-dropdown-angular.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "dropdownOptions",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/ff-dropdown-angular.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/ff-dropdown-angular.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Playground",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/ff-dropdown-angular.stories.ts",
+                "type": "type alias",
+                "linktype": "miscellaneous",
+                "linksubtype": "typealias",
+                "name": "DropdownStoryProperties",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/stories/ff-dropdown-angular.stories.ts",
+                "type": "type alias",
+                "linktype": "miscellaneous",
+                "linksubtype": "typealias",
+                "name": "Story",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"

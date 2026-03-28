@@ -1,13 +1,22 @@
 # Angular Brand 1 App
 
-Ez az Angular app a `@fuggetlenfe/angular-wrapper` libraryt fogyasztja, es a Brand 1 stylingot kulso CSS importbol kapja:
+Ez a consuming app az Angular wrapper libraryt hasznalja, a design reteg pedig kulso CSS importokbol jon.
+
+## Import modell
 
 ```css
 @import '@fuggetlenfe/tokens/contract.css';
+@import '@fuggetlenfe/tokens/figma-preset.css';
 @import '@fuggetlenfe/brand-styles/brand-1-light.css';
+@import '@fuggetlenfe/brand-styles/brand-1-dark.css';
 ```
 
-Inditas:
+## Shell ownership
+
+- `data-brand="brand-1"`
+- `data-theme="light" | "dark"`
+
+## Inditas
 
 ```bash
 pnpm dev:angular:brand-1

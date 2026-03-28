@@ -1,4 +1,4 @@
-<main class="consumer-shell" data-brand="brand-1" [attr.data-theme]="theme()">
+<main class="consumer-shell" data-brand="brand-1" [attr.data-theme]="activeTheme()">
   <section class="hero-card">
     <p class="eyebrow">Angular app · external CSS brand pack</p>
     <h1>Angular consumes only wrapper logic, then Brand 1 arrives from CSS.</h1>
@@ -10,12 +10,16 @@
     <div class="theme-bar" role="group" aria-label="Theme switcher">
       <p class="theme-label">Theme pack</p>
       <div class="theme-actions">
-        <button type="button" class="theme-button" [attr.data-selected]="theme() === 'light'" (click)="setTheme('light')">
-          Light
-        </button>
-        <button type="button" class="theme-button" [attr.data-selected]="theme() === 'dark'" (click)="setTheme('dark')">
-          Dark
-        </button>
+        @for (themeOption of themeOptions; track themeOption.value) {
+          <button
+            type="button"
+            class="theme-button"
+            [attr.data-selected]="activeTheme() === themeOption.value"
+            (click)="setTheme(themeOption.value)"
+          >
+            {{ themeOption.label }}
+          </button>
+        }
       </div>
     </div>
 
@@ -23,26 +27,53 @@
       <ff-button class="brand-host">Brand 1 default</ff-button>
       <ff-button class="pill-host">Class-based override</ff-button>
       <ff-button
-        [style.--ff-button-padding-inline]="'0.95rem'"
-        [style.--ff-button-padding-block]="'0.48rem'"
-        [style.--ff-button-radius]="'4px'"
+        [style.--ff-button-padding-inline]="inlineTokenStyle.paddingInline"
+        [style.--ff-button-padding-block]="inlineTokenStyle.paddingBlock"
+        [style.--ff-button-radius]="inlineTokenStyle.radius"
       >
         Inline token tweak
       </ff-button>
     </div>
   </section>
 
+  <section class="control-grid">
+    <article class="info-card">
+      <p class="eyebrow">Dropdown primitive</p>
+      <div class="dropdown-demo">
+        <ff-dropdown
+          [fullWidth]="true"
+          label="Release target"
+          [options]="releaseTargetOptions"
+          placeholder="Choose a release target"
+          [value]="selectedReleaseTargetValue()"
+          (ffValueChange)="handleReleaseTargetChange($event)"
+        ></ff-dropdown>
+
+        <div class="selection-card" role="status" aria-live="polite">
+          <p class="selection-eyebrow">Selection status</p>
+          <strong class="selection-value">
+            Current selection: {{ selectedReleaseTargetLabel() }}
+          </strong>
+          <span class="selection-copy">
+            Keyboard support stays in the shared primitive: Arrow keys, Enter, Escape, and Tab.
+          </span>
+        </div>
+      </div>
+    </article>
+  </section>
+
   <section class="info-grid">
     <article class="info-card">
       <p class="eyebrow">Consumer imports</p>
       <div class="detail-block" aria-label="Consumer imports">
-        <div class="detail-line">import &#123; FfButton &#125; from '@fuggetlenfe/angular-wrapper'</div>
-        <div class="detail-line">@import '@fuggetlenfe/tokens/contract.css';</div>
-        <div class="detail-line">@import '@fuggetlenfe/brand-styles/brand-1-light.css';</div>
-        <div class="detail-line">@import '@fuggetlenfe/brand-styles/brand-1-dark.css';</div>
-        <div class="detail-line detail-line--gap">&lt;main data-brand="brand-1" [attr.data-theme]="theme()"&gt;</div>
-        <div class="detail-line">&nbsp;&nbsp;&lt;ff-button&gt;&lt;/ff-button&gt;</div>
-        <div class="detail-line">&lt;/main&gt;</div>
+        <div class="detail-line">Import the Angular wrapper package.</div>
+        <div class="detail-line">Import the shared token contract.</div>
+        <div class="detail-line">Import the Brand 1 light stylesheet.</div>
+        <div class="detail-line">Import the Brand 1 dark stylesheet.</div>
+        <div class="detail-line detail-line--gap">
+          Set data-brand="brand-1" and the active theme on the outer shell.
+        </div>
+        <div class="detail-line">Render the same ff-button logic inside that shell.</div>
       </div>
     </article>
 
@@ -59,9 +90,15 @@
       <p class="eyebrow">What proves the separation</p>
       <div class="proof-list">
         <div class="proof-item">The Angular wrapper provides framework integration only.</div>
-        <div class="proof-item">The imported CSS library gives the component its brand and surface tokens.</div>
-        <div class="proof-item">The same wrapper logic swaps between light and dark with CSS alone.</div>
-        <div class="proof-item">Host classes and per-instance CSS properties still tailor the component locally.</div>
+        <div class="proof-item">
+          The imported CSS library gives the primitives their brand and surface tokens.
+        </div>
+        <div class="proof-item">
+          The same wrapper logic swaps between light and dark with CSS alone.
+        </div>
+        <div class="proof-item">
+          Host classes and per-instance CSS properties still tailor the component locally.
+        </div>
       </div>
     </article>
   </section>

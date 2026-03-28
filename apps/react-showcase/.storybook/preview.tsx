@@ -27,8 +27,7 @@ const preview: Preview = {
           { value: 'brand-1', title: 'Brand 1' },
           { value: 'brand-2', title: 'Brand 2' },
           { value: 'brand-3', title: 'Brand 3' },
-          { value: 'client-acme', title: 'Client Acme' },
-          { value: 'registry-owned', title: 'Registry Owned' }
+          { value: 'custom-brand', title: 'Custom Brand' }
         ]
       }
     }

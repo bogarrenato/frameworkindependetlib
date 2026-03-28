@@ -1,67 +1,33 @@
 # Tokens
 
-Figma-bol szinkronizalt design token csomag.
+Ez a csomag a design contractot tartalmazza.
 
-## Mire valo
+## Felelossege
 
-Ez a csomag tartalmazza:
+- stabil public CSS token contract
+- Figma-bol szinkronizalt preset reteg
+- token JSON export
 
-- a nyers, JSON token exportot
-- a publikus CSS token contractot
-- a Figma preset stylesheetet
-- a kompatibilitasi aggregalo stylesheetet
-
-Ez adja azt az alapot, amire a Stencil komponensek, a React app es az Angular app epitenek.
-
-## Hogyan mukodik
-
-A design ket retegre van bontva:
+## Retegek
 
 1. `contract.css`
 2. `figma-preset.css`
+3. kulso brand override, peldaul a `brand-styles` csomagbol
 
-Erre johet ra egy harmadik, consumer oldali override reteg.
+## Fontos elv
 
-Ez a reteg az ownership registry itemekhez is illeszkedik, peldaul az `owned-brand-pack`
-pont erre a contractra ul ra.
+A komponensek a contractot fogyasztjak, nem a konkret brand szineket.
+Ez teszi lehetove, hogy ugyanaz a komponenslogika tobb arculattal fusson.
 
-Exportok:
+## Parancsok
+
+```bash
+FIGMA_TOKEN=your_token pnpm figma:sync
+```
+
+## Exportok
 
 - `@fuggetlenfe/tokens/contract.css`
 - `@fuggetlenfe/tokens/figma-preset.css`
 - `@fuggetlenfe/tokens/theme.css`
 - `@fuggetlenfe/tokens/tokens.json`
-
-## Figma sync
-
-Workspace rootbol:
-
-```bash
-FIGMA_TOKEN=your_token_here pnpm figma:sync
-```
-
-A sync script:
-
-```text
-scripts/sync-figma.mjs
-```
-
-Ez a script a megadott Figma file-bol olvassa ki a palette-eket, foundation theme tokeneket es a button allapotokat, majd ujrageneralja a `src/` tartalmat.
-
-## Hasznalat
-
-Pelda:
-
-```ts
-import '@fuggetlenfe/tokens/contract.css'
-import '@fuggetlenfe/tokens/figma-preset.css'
-import '@fuggetlenfe/brand-styles/client-acme.css'
-```
-
-## Fontos fajlok
-
-- `src/tokens.json`: nyers token objektum
-- `src/contract.css`: stabil publikus token contract
-- `src/figma-preset.css`: Figma alapertelmezett branding es theme preset
-- `src/theme.css`: aggregalo import
-- `src/index.js`: package export entry

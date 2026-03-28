@@ -244,21 +244,21 @@ function resolveAngularBrowserDir(appDir, outputDir) {
   return path.join(repoRoot, 'apps', appDir, 'dist', outputDir, 'browser');
 }
 
-function run(command, args, options = {}) {
+function run(command, commandArguments, options = {}) {
   return new Promise((resolve, reject) => {
-    const child = spawn(command, args, {
+    const childProcess = spawn(command, commandArguments, {
       stdio: 'inherit',
       shell: process.platform === 'win32',
       ...options
     });
 
-    child.on('exit', (code) => {
-      if (code === 0) {
+    childProcess.on('exit', (exitCode) => {
+      if (exitCode === 0) {
         resolve();
         return;
       }
 
-      reject(new Error(`${command} ${args.join(' ')} failed with code ${code ?? 'unknown'}`));
+      reject(new Error(`${command} ${commandArguments.join(' ')} failed with code ${exitCode ?? 'unknown'}`));
     });
   });
 }

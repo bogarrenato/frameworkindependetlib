@@ -1,6 +1,6 @@
 # Owned Brand Pack
 
-This registry item copies a starter CSS override for the `registry-owned` brand key.
+This registry item copies a starter CSS override for the `owned-brand` brand key.
 
 Suggested import order:
 

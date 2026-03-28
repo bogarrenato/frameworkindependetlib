@@ -1,8 +1,17 @@
+/*
+  Stable public token contract.
+
+  Components may consume these variables, but should not redefine brand or theme values.
+  Official brand packs and consumer-owned override packs sit on top of this contract.
+*/
 :root {
   --ff-font-family-brand: inherit;
   --ff-button-radius: 0px;
   --ff-button-padding-inline: 0.875rem;
   --ff-button-padding-block: 0.5rem;
+  --ff-dropdown-radius: 0px;
+  --ff-dropdown-padding-inline: 0.875rem;
+  --ff-dropdown-padding-block: 0.75rem;
   --ff-color-canvas: #ffffff;
   --ff-color-surface: #ffffff;
   --ff-color-text-primary: #111111;
@@ -17,4 +26,18 @@
   --ff-button-fg-active: currentColor;
   --ff-button-bg-disabled: transparent;
   --ff-button-fg-disabled: #9a9a9a;
+  --ff-dropdown-label-color: #111111;
+  --ff-dropdown-trigger-bg: #ffffff;
+  --ff-dropdown-trigger-fg: #111111;
+  --ff-dropdown-placeholder-color: #111111;
+  --ff-dropdown-border-color: #d8d8d8;
+  --ff-dropdown-panel-bg: #ffffff;
+  --ff-dropdown-panel-shadow: 0 18px 42px rgba(17, 17, 17, 0.16);
+  --ff-dropdown-option-fg: #111111;
+  --ff-dropdown-option-description-color: #5f5f5f;
+  --ff-dropdown-option-bg-hover: #f0f0f0;
+  --ff-dropdown-option-fg-hover: #111111;
+  --ff-dropdown-option-bg-selected: #e4e4e4;
+  --ff-dropdown-option-fg-selected: #111111;
+  --ff-dropdown-focus-ring: #111111;
 }

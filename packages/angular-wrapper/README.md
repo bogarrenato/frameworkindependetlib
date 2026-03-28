@@ -1,27 +1,29 @@
 # Angular Wrapper
 
-Ez a package a `@fuggetlenfe/components` Stencil web component library Angular standalone wrappere.
+Ez a csomag csak az Angular integracios reteget adja a Stencil komponensekhez.
 
-Ez a wrapper csak az Angular-specifikus integracios reteget tartalmazza.
-Az Angular app a leforditott wrapper libraryt fogyasztja, mikozben a design rendszer importja tovabbra is app-szinten tortenik.
+## Felelossege
 
-Fogyasztas:
+- Angular standalone exportok
+- Angular template kompatibilitas
+- property es event bridge
+
+## Ami nem ide valo
+
+- styling
+- theme valtas
+- brand valasztas
+- app-level business logika
+
+## Fogyasztas
 
 ```ts
 import { FfButton } from '@fuggetlenfe/angular-wrapper';
 ```
 
-Globalis design reteg:
-
 ```css
 @import '@fuggetlenfe/tokens/contract.css';
 @import '@fuggetlenfe/tokens/figma-preset.css';
-@import '@fuggetlenfe/brand-styles/demo.css';
-```
-
-Build:
-
-```bash
-pnpm --filter @fuggetlenfe/components build
-pnpm --filter @fuggetlenfe/angular-wrapper build
+@import '@fuggetlenfe/brand-styles/brand-1-light.css';
+@import '@fuggetlenfe/brand-styles/brand-1-dark.css';
 ```

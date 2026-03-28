@@ -1,105 +1,54 @@
 # Stencil Components
 
-Framework-fuggetlen komponenskonyvtar StencilJS-szel.
+Ez a csomag a platform viselkedesi magja.
 
-## Mire valo
+## Felelossege
 
-Ez a csomag tartalmazza a framework-fuggetlen web komponenseket.
-A build kozben innen generalodnak a React es Angular wrapper libraryk forrasai is, de a consuming appok mar nem ezt a generated outputot importaljak kozvetlenul, hanem a sajat wrapper package-eiket.
-A komponensek nem egy fix designra vannak egetve: a publikus token contractot hasznaljak, igy a vegso brand es tema kivulrol cserelheto.
+- frameworkfuggetlen web component logika
+- stabil DOM, slot es `::part` contract
+- wrapper generalas Reacthez es Angularhoz
 
-## Hogyan mukodik
+## Ami nem ide valo
 
-Fobb elemek:
+- brand valasztas
+- dark/light tema valtas
+- consumer app business logika
+- framework-specifikus workaroundok
 
-- Stencil komponensek a `src/components/` alatt
-- React wrapper generalas a `packages/react-wrapper/` csomagba
-- Angular wrapper generalas a `packages/angular-wrapper/` csomagba
-- Storybook a library ellenorzesere es dokumentalasara
-- lokalis registry ownership flow a forras vagy brand pack atadasahoz
+## Public API
 
-Az aktualis pelda komponens az `ff-button`.
-Ez a `brand` es `theme` propokbol `data-brand` es `data-theme` attributumokat allit a hoston, a stilus pedig a CSS tokenekbol szamolodik.
+- propok
+- slotok
+- `::part` exportok
+- dokumentalt CSS token inputok
 
-## Inditas
+## Jelenlegi referencia komponens
 
-Ez a csomag nem kulon app, hanem library. Fejlesztes kozben ket tipikus mod van:
+- `ff-button`
 
-Stencil watch build:
+Ez a komponens csak a gomb viselkedeset es allapotait biztosítja.
+A vizualis megjelenes mindig kulso token contractbol es brand packbol jon.
 
-Workspace rootbol:
+## Fejlesztesi szabalyok
 
-```bash
-pnpm dev:stencil
-```
+1. Uj komponens csak semantic logikat tartalmazhat.
+2. Brand/theme ne keruljon propkent a komponensbe.
+3. App-specifikus markup ne keruljon a librarybe.
+4. A public contractot JSDoc es tesztek vedjek.
 
-Ebbol a mappabol:
-
-```bash
-pnpm dev
-```
-
-Ez a Stencil build watch modban ujraforditja a libraryt es a wrapper outputokat.
-
-## Storybook
-
-Workspace rootbol:
-
-```bash
-pnpm storybook:dev:stencil
-```
-
-Ebbol a mappabol:
-
-```bash
-pnpm storybook
-```
-
-URL:
-
-```text
-http://127.0.0.1:6006
-```
-
-Static build:
-
-```bash
-pnpm build-storybook
-```
-
-## Build
-
-Workspace rootbol:
+## Parancsok
 
 ```bash
 pnpm --filter @fuggetlenfe/components build
-```
-
-Ebbol a mappabol:
-
-```bash
-pnpm build
-```
-
-## Test
-
-```bash
-pnpm test
+pnpm --filter @fuggetlenfe/components test
+pnpm --filter @fuggetlenfe/components storybook
+pnpm --filter @fuggetlenfe/components build-storybook
 ```
 
 ## Fontos fajlok
 
-- `stencil.config.ts`: output targetok es wrapper generalas
-- `src/components/ff-button/`: aktualis button komponens
-- `src/stories/`: Stencil Storybook sztorik
-- `.storybook/`: Storybook konfiguracio
-
-## Megjegyzes
-
-Ha a komponenseket modositasz, utana a React es Angular wrapper package-ek kapjak meg a frissitest, es a showcase appok mar ezeket a wrapper libraryket fogyasztjak.
-
-Consumer-owned forkhoz hasznalhato:
-
-```bash
-pnpm registry:add ff-button-source ./src/owned/components/ff-button
-```
+- `stencil.config.ts`
+- `src/components/ff-button/ff-button.tsx`
+- `src/components/ff-button/ff-button.css`
+- `src/components/ff-button/ff-button.spec.tsx`
+- `src/stories/ff-button.stories.ts`

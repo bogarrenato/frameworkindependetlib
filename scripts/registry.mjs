@@ -6,7 +6,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '..');
 const registryRoot = path.join(repoRoot, 'registry');
 
-const [, , command, ...args] = process.argv;
+const [, , command, ...commandArguments] = process.argv;
 
 if (!command || command === '--help' || command === '-h') {
   printUsage();
@@ -19,7 +19,7 @@ if (command === 'list') {
 }
 
 if (command === 'add') {
-  await addItem(args);
+  await addItem(commandArguments);
   process.exit(0);
 }
 
@@ -36,8 +36,8 @@ async function listItems() {
   }
 }
 
-async function addItem(rest) {
-  const [itemName, targetDir] = rest;
+async function addItem(installArguments) {
+  const [itemName, targetDir] = installArguments;
 
   if (!itemName || !targetDir) {
     console.error('Usage: pnpm registry:add <item-name> <target-dir>');

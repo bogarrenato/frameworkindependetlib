@@ -1,13 +1,22 @@
 # Angular Custom App
 
-Ez az Angular app ugyanazt a `@fuggetlenfe/angular-wrapper` libraryt fogyasztja, mint a Brand 1 demo, de a styling teljesen kulon CSS librarybol jon:
+Ez a consuming app ugyanazt az Angular wrapper logicat hasznalja, mint a Brand 1 app, de kulso custom brand packet importal.
+
+## Import modell
 
 ```css
 @import '@fuggetlenfe/tokens/contract.css';
-@import '@fuggetlenfe/brand-styles/custom-brand.css';
+@import '@fuggetlenfe/tokens/figma-preset.css';
+@import '@fuggetlenfe/brand-styles/custom-brand-light.css';
+@import '@fuggetlenfe/brand-styles/custom-brand-dark.css';
 ```
 
-Inditas:
+## Shell ownership
+
+- `data-brand="custom-brand"`
+- `data-theme="light" | "dark"`
+
+## Inditas
 
 ```bash
 pnpm dev:angular:custom

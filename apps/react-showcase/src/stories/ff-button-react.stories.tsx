@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
 import { FfButton } from '@fuggetlenfe/react-wrapper';
 
-const brandOptions = ['brand-1', 'brand-2', 'brand-3', 'client-acme', 'registry-owned'] as const;
+const brandOptions = ['brand-1', 'brand-2', 'brand-3', 'custom-brand'] as const;
 const stateOptions = ['default', 'hover', 'active', 'disabled'] as const;
 const statePreviewStyles = `
   ff-button.demo-state--hover::part(button) {
@@ -17,7 +17,7 @@ const statePreviewStyles = `
   }
 `;
 
-type StoryArgs = {
+type ButtonStoryProperties = {
   label: string;
   disabled: boolean;
   fullWidth: boolean;
@@ -51,11 +51,11 @@ const meta = {
       }
     }
   },
-  render: (args: StoryArgs, context) => (
+  render: (storyProperties: ButtonStoryProperties, storyContext) => (
     <PlaygroundDemo
-      {...args}
-      brand={String(context.globals.brand ?? 'brand-1')}
-      theme={String(context.globals.theme ?? 'light')}
+      {...storyProperties}
+      brand={String(storyContext.globals.brand ?? 'brand-1')}
+      theme={String(storyContext.globals.theme ?? 'light')}
     />
   )
 } satisfies Meta<typeof FfButton>;
@@ -74,9 +74,9 @@ export const StateMatrix: Story = {
       }
     }
   },
-  render: (_, context) => (
+  render: (_, storyContext) => (
     <div
-      data-theme={String(context.globals.theme ?? 'light')}
+      data-theme={String(storyContext.globals.theme ?? 'light')}
       style={{
         minHeight: '100vh',
         padding: '2rem',
@@ -135,23 +135,25 @@ export const StateMatrix: Story = {
   )
 };
 
-function PlaygroundDemo(args: StoryArgs & { brand: string; theme: string }) {
+function PlaygroundDemo(storyProperties: ButtonStoryProperties & { brand: string; theme: string }) {
   const [launchCount, setLaunchCount] = React.useState(0);
   const [launchMessage, setLaunchMessage] = React.useState('');
 
   React.useEffect(() => {
     setLaunchCount(0);
-    setLaunchMessage(`Ready to launch ${brandLabel(args.brand)} in ${titleFromKey(args.theme)} mode.`);
-  }, [args.brand, args.theme]);
+    setLaunchMessage(
+      `Ready to launch ${brandLabel(storyProperties.brand)} in ${titleFromKey(storyProperties.theme)} mode.`
+    );
+  }, [storyProperties.brand, storyProperties.theme]);
 
   return (
     <div
-      data-brand={args.brand}
-      data-theme={args.theme}
+      data-brand={storyProperties.brand}
+      data-theme={storyProperties.theme}
       style={{
         display: 'grid',
         gap: '1rem',
-        maxWidth: args.fullWidth ? '100%' : '420px',
+        maxWidth: storyProperties.fullWidth ? '100%' : '420px',
         minHeight: '100vh',
         padding: '2rem',
         background: 'var(--ff-color-canvas)',
@@ -160,17 +162,17 @@ function PlaygroundDemo(args: StoryArgs & { brand: string; theme: string }) {
       }}
     >
       <FfButton
-        disabled={args.disabled}
-        fullWidth={args.fullWidth}
-        type={args.type}
+        disabled={storyProperties.disabled}
+        fullWidth={storyProperties.fullWidth}
+        type={storyProperties.type}
         onClick={() => {
-          setLaunchCount((current) => current + 1);
+          setLaunchCount((currentLaunchCount) => currentLaunchCount + 1);
           setLaunchMessage(
-            `${brandLabel(args.brand)} launched in ${titleFromKey(args.theme)} mode at ${new Date().toLocaleTimeString()}.`
+            `${brandLabel(storyProperties.brand)} launched in ${titleFromKey(storyProperties.theme)} mode at ${new Date().toLocaleTimeString()}.`
           );
         }}
       >
-        {args.label}
+        {storyProperties.label}
       </FfButton>
 
       <div
@@ -197,46 +199,31 @@ function PlaygroundDemo(args: StoryArgs & { brand: string; theme: string }) {
         <span style={{ color: 'var(--ff-color-text-secondary)' }}>
           Launches in this session: {launchCount}
         </span>
-        <code
-          style={{
-            display: 'block',
-            padding: '0.85rem 1rem',
-            overflowX: 'auto',
-            border: '1px solid var(--ff-color-border-subtle)',
-            background: 'color-mix(in srgb, var(--ff-color-canvas) 82%, transparent)'
-          }}
-        >
-          {`pnpm registry:add owned-brand-pack ./src/owned/brands/${args.brand}`}
-        </code>
       </div>
     </div>
   );
 }
 
-function stateClassFor(state: (typeof stateOptions)[number]) {
-  if (state === 'hover') {
+function stateClassFor(buttonState: (typeof stateOptions)[number]) {
+  if (buttonState === 'hover') {
     return 'demo-state--hover';
   }
 
-  if (state === 'active') {
+  if (buttonState === 'active') {
     return 'demo-state--active';
   }
 
   return undefined;
 }
 
-function brandLabel(brand: string) {
-  if (brand === 'client-acme') {
-    return 'Client Acme';
+function brandLabel(brandKey: string) {
+  if (brandKey === 'custom-brand') {
+    return 'Custom Brand';
   }
 
-  if (brand === 'registry-owned') {
-    return 'Registry Owned';
-  }
-
-  return brand.replace('brand-', 'Brand ');
+  return brandKey.replace('brand-', 'Brand ');
 }
 
-function titleFromKey(key: string) {
-  return key.replaceAll('-', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+function titleFromKey(value: string) {
+  return value.replaceAll('-', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
 }

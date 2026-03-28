@@ -1,29 +1,49 @@
-# Fuggetlenfe Design System POC
+# Fuggetlenfe Frontend Platform
 
-Ez a monorepo azt a mintat mutatja be, hogy:
+Ez a monorepo egy enterprise iranyba viheto frontend platform mintat mutat be:
 
-- a `@fuggetlenfe/components` csak a Stencil web component logikat adja
-- a `@fuggetlenfe/react-wrapper` es `@fuggetlenfe/angular-wrapper` csak a framework-specifikus integraciot adja
-- a visualis design kulso CSS-bol erkezik, akar kulon librarybol
+- `Stencil` a frameworkfuggetlen komponenslogika forrasa
+- `React` es `Angular` csak wrapper retegen keresztul kapcsolodik
+- a design kulon `tokens` es `brand-styles` csomagokbol jon
+- a consuming app shell adja a `data-brand` es `data-theme` kontextust
 
-## Fo retegzes
+## Mi maradt meg tudatosan
 
-- `packages/components`: framework-fuggetlen web component library
-- `packages/react-wrapper`: React wrapper lib
-- `packages/angular-wrapper`: Angular wrapper lib
-- `packages/tokens`: neutral token contract
-- `packages/brand-styles`: kulon importalhato brand CSS library
+- `packages/components`: logic-only web components
+- `packages/react-wrapper`: React bridge layer
+- `packages/angular-wrapper`: Angular bridge layer
+- `packages/tokens`: stabil public token contract + Figma preset
+- `packages/brand-styles`: hivatalos brand CSS packek
+- `apps/react-showcase`: React consumer app, Brand 2
+- `apps/react-custom-demo`: React consumer app, custom brand
+- `apps/angular-showcase`: Angular consumer app, Brand 1
+- `apps/angular-custom-demo`: Angular consumer app, custom brand
+- Storybookok a library es wrapper ellenorzesere
+- `registry/`: kontrollalt copy-ownership escape hatch
 
-## Demo appok
+## Mit tekintunk public contractnak
 
-- `apps/react-showcase`: React Brand 2 app
-- `apps/react-custom-demo`: React custom brand app
-- `apps/angular-showcase`: Angular Brand 1 app
-- `apps/angular-custom-demo`: Angular custom brand app
+- Stencil propok, slotok, es `::part` exportok
+- a `packages/tokens/src/contract.css` valtozoi
+- a wrapper package-ek publikus exportjai
+- a consuming app shell `data-brand` es `data-theme` kontextusa
 
-Mindegyik app ugyanazt a wrapper logikat fogyasztja, es kulso CSS importoktol kapja meg a vizualis identitast.
+## Mit nem szabad platform-szinten tenni
 
-## Lokalis inditas
+- brand vagy theme logikat a wrapper librarykbe tenni
+- consumer-specifikus layout vagy business logikat a Stencil komponensekbe tenni
+- belso DOM szerkezetre vagy nem dokumentalt classnev-re epitkezni
+- a public token contractot breaking governance nelkul valtoztatni
+
+## Gyors inditas
+
+```bash
+pnpm install
+pnpm build
+pnpm test
+```
+
+## Lokalis fejlesztes
 
 ```bash
 pnpm dev:react:brand-2
@@ -35,32 +55,20 @@ pnpm storybook:dev:react
 pnpm storybook:dev:angular
 ```
 
-Lokalis URL-ek:
+## Fo dokumentumok
 
-- React Brand 2: `http://localhost:5173`
-- React custom: `http://localhost:5174`
-- Angular Brand 1: `http://localhost:4200`
-- Angular custom: `http://localhost:4201`
-- Stencil Storybook: `http://127.0.0.1:6006`
-- React Storybook: `http://127.0.0.1:6007`
-- Angular Storybook: `http://127.0.0.1:6008`
+- [Maintenance guide](./docs/MAINTENANCE.md)
+- [RFC-000 platform architecture](./docs/RFC-000-platform-architecture.md)
+- [Components package guide](./packages/components/README.md)
+- [Tokens package guide](./packages/tokens/README.md)
+- [Brand styles guide](./packages/brand-styles/README.md)
 
-## Build
+## Opcionális utilok
 
-```bash
-pnpm build
-pnpm storybook:build
-pnpm pages:build
-```
+Ezek nem a core architektura reszei, hanem tamogato utilok:
 
-## GitHub Pages
-
-A `pnpm pages:build` egy kozos `.pages/` kimenetet general, benne:
-
-- `react-brand-2/`
-- `react-custom/`
-- `angular-brand-1/`
-- `angular-custom/`
-- `storybook/stencil/`
-- `storybook/react/`
-- `storybook/angular/`
+- `pnpm figma:sync`
+- `pnpm registry:list`
+- `pnpm registry:add`
+- `pnpm storybook:build`
+- `pnpm pages:build`
