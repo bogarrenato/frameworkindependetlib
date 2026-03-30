@@ -88,6 +88,12 @@ await cp(path.join(repoRoot, 'storybook-static', 'react'), path.join(siteRoot, '
 await cp(path.join(repoRoot, 'storybook-static', 'angular'), path.join(siteRoot, 'storybook', 'angular'), {
   recursive: true
 });
+await cp(path.join(repoRoot, 'packages', 'react-wrapper', 'docs'), path.join(siteRoot, 'docs', 'react-wrapper'), {
+  recursive: true
+});
+await cp(path.join(repoRoot, 'packages', 'angular-wrapper', 'docs'), path.join(siteRoot, 'docs', 'angular-wrapper'), {
+  recursive: true
+});
 
 await writeFile(path.join(siteRoot, '.nojekyll'), '');
 
@@ -218,6 +224,16 @@ const landingPage = `<!doctype html>
           <p class="kicker">Storybook</p>
           <strong>Stencil components</strong>
           <span>Raw web component documentation for the framework-independent library.</span>
+        </a>
+        <a href="./docs/react-wrapper/">
+          <p class="kicker">Docs</p>
+          <strong>React wrapper docs</strong>
+          <span>UI kit style guidance, usage patterns, and component API documentation for React consumers.</span>
+        </a>
+        <a href="./docs/angular-wrapper/">
+          <p class="kicker">Docs</p>
+          <strong>Angular wrapper docs</strong>
+          <span>Angular-facing wrapper guidance, component documentation, and integration patterns.</span>
         </a>
         <a href="./storybook/react/">
           <p class="kicker">Storybook</p>

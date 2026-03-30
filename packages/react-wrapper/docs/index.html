@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>React Wrapper Documentation</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --canvas: #f5f7fb;
+        --surface: rgba(255, 255, 255, 0.9);
+        --surface-strong: #ffffff;
+        --surface-soft: #eef4f0;
+        --border: #d6dde4;
+        --text: #10243d;
+        --text-soft: #4f6073;
+        --accent: #0f9f6e;
+        --accent-strong: #0a6c4b;
+        --accent-soft: rgba(15, 159, 110, 0.12);
+        --shadow: 0 22px 60px rgba(16, 36, 61, 0.08);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --radius-sm: 12px;
+        --font-body: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+        --font-heading: "Space Grotesk", "Segoe UI", Arial, sans-serif;
+        --font-code: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        background:
+          radial-gradient(circle at top left, rgba(15, 159, 110, 0.17), transparent 30%),
+          radial-gradient(circle at bottom right, rgba(16, 36, 61, 0.08), transparent 36%),
+          var(--canvas);
+        color: var(--text);
+        font-family: var(--font-body);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .layout {
+        width: min(1360px, calc(100vw - 2rem));
+        margin: 0 auto;
+        padding: 1.25rem 0 3rem;
+        display: grid;
+        grid-template-columns: 300px minmax(0, 1fr);
+        gap: 1.25rem;
+      }
+
+      .sidebar,
+      .panel,
+      .hero,
+      .component-card,
+      .callout,
+      .link-card {
+        border: 1px solid var(--border);
+        background: var(--surface);
+        backdrop-filter: blur(12px);
+        box-shadow: var(--shadow);
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 1rem;
+        align-self: start;
+        border-radius: var(--radius-lg);
+        padding: 1.4rem;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        padding: 0.4rem 0.7rem;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .brand-dot {
+        width: 0.7rem;
+        height: 0.7rem;
+        border-radius: 999px;
+        background: var(--accent);
+      }
+
+      .sidebar h1 {
+        margin: 1rem 0 0.5rem;
+        font-family: var(--font-heading);
+        font-size: 2.3rem;
+        line-height: 0.92;
+      }
+
+      .sidebar p {
+        margin: 0;
+        color: var(--text-soft);
+        line-height: 1.65;
+      }
+
+      .sidebar nav {
+        display: grid;
+        gap: 0.45rem;
+        margin-top: 1.4rem;
+      }
+
+      .sidebar nav a {
+        padding: 0.8rem 0.95rem;
+        border-radius: var(--radius-sm);
+        background: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .sidebar nav a:hover {
+        background: var(--accent-soft);
+      }
+
+      .content {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .hero {
+        border-radius: var(--radius-lg);
+        padding: 1.55rem;
+      }
+
+      .eyebrow {
+        margin: 0 0 0.65rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent-strong);
+      }
+
+      .hero h2 {
+        margin: 0;
+        font-family: var(--font-heading);
+        font-size: clamp(2.2rem, 5vw, 4rem);
+        line-height: 0.95;
+        max-width: 10ch;
+      }
+
+      .hero-copy {
+        margin-top: 1rem;
+        max-width: 70ch;
+        color: var(--text-soft);
+        line-height: 1.8;
+      }
+
+      .link-grid,
+      .stats-grid,
+      .component-grid {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .link-grid,
+      .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+
+      .link-card,
+      .panel,
+      .component-card,
+      .callout {
+        border-radius: var(--radius-md);
+        padding: 1.1rem 1.15rem;
+      }
+
+      .link-card {
+        text-decoration: none;
+      }
+
+      .link-card strong,
+      .stat-value {
+        display: block;
+        font-family: var(--font-heading);
+        font-size: 1.15rem;
+      }
+
+      .link-card span,
+      .stat-copy,
+      .panel p,
+      .component-card p,
+      .callout p {
+        color: var(--text-soft);
+        line-height: 1.7;
+      }
+
+      .panel h3,
+      .component-card h3,
+      .callout h3 {
+        margin: 0 0 0.6rem;
+        font-family: var(--font-heading);
+        font-size: 1.45rem;
+      }
+
+      .section-heading {
+        margin: 0 0 0.75rem;
+        font-family: var(--font-heading);
+        font-size: 1.9rem;
+      }
+
+      .section-copy {
+        margin: 0 0 1rem;
+        max-width: 76ch;
+        color: var(--text-soft);
+        line-height: 1.8;
+      }
+
+      .component-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      }
+
+      .component-card {
+        display: grid;
+        gap: 0.95rem;
+      }
+
+      .component-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+      }
+
+      .meta-pill {
+        padding: 0.35rem 0.65rem;
+        border-radius: 999px;
+        background: var(--surface-soft);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--accent-strong);
+      }
+
+      .code-block,
+      table {
+        width: 100%;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: #101720;
+        overflow: hidden;
+      }
+
+      .code-block {
+        padding: 0.95rem 1rem;
+        color: #f0f4fa;
+        font-family: var(--font-code);
+        font-size: 0.88rem;
+        line-height: 1.7;
+        white-space: pre-wrap;
+      }
+
+      table {
+        border-collapse: collapse;
+        background: var(--surface-strong);
+      }
+
+      th,
+      td {
+        padding: 0.85rem 0.9rem;
+        border-bottom: 1px solid var(--border);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        font-size: 0.78rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-soft);
+      }
+
+      td {
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      code {
+        font-family: var(--font-code);
+      }
+
+      .callout {
+        background: linear-gradient(135deg, rgba(15, 159, 110, 0.12), rgba(255, 255, 255, 0.92));
+      }
+
+      .list {
+        display: grid;
+        gap: 0.55rem;
+      }
+
+      .list-item {
+        padding-left: 1rem;
+        position: relative;
+        color: var(--text-soft);
+        line-height: 1.7;
+      }
+
+      .list-item::before {
+        content: "";
+        width: 0.42rem;
+        height: 0.42rem;
+        border-radius: 999px;
+        background: var(--accent);
+        position: absolute;
+        left: 0;
+        top: 0.72rem;
+      }
+
+      @media (max-width: 1024px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: static;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="brand"><span class="brand-dot"></span>React Wrapper</div>
+        <h1>Framework bridge for shared web components.</h1>
+        <p>
+          The React wrapper deliberately stays thin. It exposes React-friendly component APIs while
+          keeping design, brand selection, and business logic outside the package.
+        </p>
+        <nav aria-label="React wrapper documentation navigation">
+          <a href="#overview">Overview</a>
+          <a href="#getting-started">Getting started</a>
+          <a href="#architecture">Architecture</a>
+          <a href="#components">Components</a>
+          <a href="#theming">Theming</a>
+          <a href="#accessibility">Accessibility</a>
+          <a href="#release-model">Release model</a>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <section class="hero" id="overview">
+          <p class="eyebrow">UI kit reference</p>
+          <h2>Use the same primitive logic in React without inheriting design decisions.</h2>
+          <p class="hero-copy">
+            <code>@fuggetlenfe/react-wrapper</code> turns shared Stencil primitives into React-ready
+            exports. The package does not own light and dark mode, brand activation, layout policy,
+            or product-specific behavior. Consumers import wrapper components, then separately bring
+            in the token contract and the official brand pack they want to render.
+          </p>
+        </section>
+
+        <section class="link-grid" aria-label="Wrapper links">
+          <a class="link-card" href="../../storybook/react/">
+            <p class="eyebrow">Reference</p>
+            <strong>React Storybook</strong>
+            <span>Live wrapper stories, playgrounds, and state matrices for every documented primitive.</span>
+          </a>
+          <a class="link-card" href="../../react-brand-2/">
+            <p class="eyebrow">Reference app</p>
+            <strong>Brand 2 demo</strong>
+            <span>Shows how the wrapper stays logic-only while external CSS controls the design system.</span>
+          </a>
+          <a class="link-card" href="../../react-custom/">
+            <p class="eyebrow">Reference app</p>
+            <strong>Custom brand demo</strong>
+            <span>Shows the same wrapper logic styled by a different consumer-owned brand pack.</span>
+          </a>
+        </section>
+
+        <section class="stats-grid" aria-label="Wrapper facts">
+          <article class="panel">
+            <p class="eyebrow">Role</p>
+            <span class="stat-value">React integration only</span>
+            <p class="stat-copy">The package is intentionally narrow so platform behavior stays in Stencil.</p>
+          </article>
+          <article class="panel">
+            <p class="eyebrow">Current primitives</p>
+            <span class="stat-value">FfButton and FfDropdown</span>
+            <p class="stat-copy">Both primitives already flow through the shared core and the React adapter.</p>
+          </article>
+          <article class="panel">
+            <p class="eyebrow">Design model</p>
+            <span class="stat-value">External CSS only</span>
+            <p class="stat-copy">Brand and theme are activated from the app shell with imported CSS packs.</p>
+          </article>
+        </section>
+
+        <section id="getting-started">
+          <h2 class="section-heading">Getting started</h2>
+          <p class="section-copy">
+            A React consumer imports the wrapper package for component behavior and separately imports
+            the token contract plus the official light and dark brand stylesheets it wants to use.
+          </p>
+          <div class="code-block">pnpm add @fuggetlenfe/react-wrapper @fuggetlenfe/tokens @fuggetlenfe/brand-styles</div>
+          <div class="code-block">import '@fuggetlenfe/tokens/contract.css';
+import '@fuggetlenfe/brand-styles/brand-2-light.css';
+import '@fuggetlenfe/brand-styles/brand-2-dark.css';
+
+import { FfButton, FfDropdown } from '@fuggetlenfe/react-wrapper';</div>
+        </section>
+
+        <section id="architecture">
+          <h2 class="section-heading">Architecture boundaries</h2>
+          <p class="section-copy">
+            The React package is a bridge layer, not a second design system implementation. The
+            component behavior stays in the shared web component core and the design remains in
+            external token and brand packages.
+          </p>
+          <div class="callout">
+            <h3>What belongs here</h3>
+            <div class="list">
+              <div class="list-item">React-friendly exports and JSX bridge behavior.</div>
+              <div class="list-item">Type-safe event and property mapping for the shared primitives.</div>
+              <div class="list-item">Stable consumption surface for React product teams.</div>
+            </div>
+          </div>
+          <div class="callout">
+            <h3>What does not belong here</h3>
+            <div class="list">
+              <div class="list-item">Brand switching logic or theme ownership.</div>
+              <div class="list-item">Business-specific layouts or product state.</div>
+              <div class="list-item">Hardcoded visual design tokens.</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="components">
+          <h2 class="section-heading">Component reference</h2>
+          <p class="section-copy">
+            The current wrapper documents the same public API that the shared Stencil primitives
+            expose. Styling examples below assume the token contract and a brand pack are already loaded.
+          </p>
+
+          <div class="component-grid">
+            <article class="component-card">
+              <div>
+                <div class="component-meta">
+                  <span class="meta-pill">Primitive</span>
+                  <span class="meta-pill">Stable PoC</span>
+                </div>
+                <h3>FfButton</h3>
+                <p>
+                  Logic-only button primitive for primary actions, secondary actions, and shell-level
+                  theme demonstrations. Visual identity is fully controlled by external tokens.
+                </p>
+              </div>
+
+              <div class="code-block">export function SaveAction() {
+  return (
+    &lt;main data-brand="brand-2" data-theme="light"&gt;
+      &lt;FfButton type="submit"&gt;Save changes&lt;/FfButton&gt;
+    &lt;/main&gt;
+  );
+}</div>
+
+              <table aria-label="FfButton API">
+                <thead>
+                  <tr><th>Prop</th><th>Type</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>label</code></td><td><code>string</code></td><td>Fallback label when no slotted content is provided.</td></tr>
+                  <tr><td><code>disabled</code></td><td><code>boolean</code></td><td>Disables pointer and keyboard interaction.</td></tr>
+                  <tr><td><code>fullWidth</code></td><td><code>boolean</code></td><td>Expands the host without coupling layout to a specific brand.</td></tr>
+                  <tr><td><code>type</code></td><td><code>'button' | 'submit' | 'reset'</code></td><td>Mirrors the native button type attribute.</td></tr>
+                </tbody>
+              </table>
+            </article>
+
+            <article class="component-card">
+              <div>
+                <div class="component-meta">
+                  <span class="meta-pill">Primitive</span>
+                  <span class="meta-pill">WCAG AA target</span>
+                </div>
+                <h3>FfDropdown</h3>
+                <p>
+                  Accessible dropdown primitive with keyboard support, active option management,
+                  selection events, and shared listbox semantics owned by the Stencil runtime.
+                </p>
+              </div>
+
+              <div class="code-block">const releaseTargetOptions = [
+  { value: 'pilot', label: 'Pilot release', description: 'Small audience rollout.' },
+  { value: 'full', label: 'Production rollout', description: 'Full audience launch.' }
+];
+
+&lt;FfDropdown
+  label="Release target"
+  placeholder="Choose a release target"
+  options={releaseTargetOptions}
+  onFfValueChange={(customEvent) =&gt; {
+    console.log(customEvent.detail.value);
+  }}
+/&gt;</div>
+
+              <table aria-label="FfDropdown API">
+                <thead>
+                  <tr><th>Prop or event</th><th>Type</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>label</code></td><td><code>string</code></td><td>Visible label and accessible name for the trigger.</td></tr>
+                  <tr><td><code>options</code></td><td><code>FfDropdownOption[]</code></td><td>Full option list rendered in the listbox panel.</td></tr>
+                  <tr><td><code>value</code></td><td><code>string | undefined</code></td><td>Currently selected value, optionally controlled by the consumer app.</td></tr>
+                  <tr><td><code>ffValueChange</code></td><td><code>CustomEvent</code></td><td>Fires when a new option is selected.</td></tr>
+                  <tr><td><code>ffOpenChange</code></td><td><code>CustomEvent</code></td><td>Fires when the panel opens or closes.</td></tr>
+                </tbody>
+              </table>
+            </article>
+          </div>
+        </section>
+
+        <section id="theming">
+          <h2 class="section-heading">Theming and brand activation</h2>
+          <p class="section-copy">
+            The wrapper never decides how the component should look. The React app shell imports the
+            token contract and a brand pack, then activates the visual context with <code>data-brand</code>
+            and <code>data-theme</code>.
+          </p>
+          <div class="code-block">&lt;main data-brand="brand-2" data-theme={activeTheme}&gt;
+  &lt;FfButton&gt;Launch selected brand&lt;/FfButton&gt;
+  &lt;FfDropdown ... /&gt;
+&lt;/main&gt;</div>
+          <div class="callout">
+            <h3>Supported override paths</h3>
+            <div class="list">
+              <div class="list-item">App shell <code>data-brand</code> and <code>data-theme</code> context.</div>
+              <div class="list-item">Documented CSS custom properties from the shared token contract.</div>
+              <div class="list-item">Host classes passed directly from the consuming React app.</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="accessibility">
+          <h2 class="section-heading">Accessibility expectations</h2>
+          <p class="section-copy">
+            Accessibility behavior belongs to the shared primitive layer, but the React wrapper is
+            responsible for preserving that contract in a React-friendly consumption model.
+          </p>
+          <table aria-label="Accessibility checklist">
+            <thead>
+              <tr><th>Area</th><th>Current expectation</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Keyboard support</td><td>Buttons keep native button semantics. Dropdown supports Arrow keys, Enter, Escape, and Tab.</td></tr>
+              <tr><td>ARIA model</td><td>Dropdown uses a listbox pattern with the label, expanded state, and selected state surfaced by the primitive.</td></tr>
+              <tr><td>Theme quality</td><td>Official brand packs are expected to meet WCAG AA contrast targets before release.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="release-model">
+          <h2 class="section-heading">Release and maintenance model</h2>
+          <p class="section-copy">
+            The wrapper is intended to ship as part of a centrally versioned platform. Product teams
+            should consume it as a package. Shadcn-style copy ownership may exist only as an escape
+            hatch for exceptional product requirements, not as the default path.
+          </p>
+          <div class="callout">
+            <h3>Recommended enterprise policy</h3>
+            <div class="list">
+              <div class="list-item">Default: consume the official wrapper package and official brand styles.</div>
+              <div class="list-item">Exception: copy ownership only with explicit ownership and upgrade responsibility.</div>
+              <div class="list-item">Never fork the official corporate brand pack as the primary delivery model.</div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
