@@ -44,7 +44,7 @@ type DropdownHostElement = HTMLElement;
   shadow: true
 })
 export class FfDropdown {
-  @Element() hostElement!: DropdownHostElement;
+  @Element() declare hostElement: DropdownHostElement;
 
   /** Visible field label and accessible name for the dropdown trigger. */
   @Prop() label = 'Select an option';
@@ -65,10 +65,12 @@ export class FfDropdown {
   @Prop() fullWidth = false;
 
   /** Emitted when the selected value changes. */
-  @Event({ eventName: 'ffValueChange' }) ffValueChange!: EventEmitter<FfDropdownValueChangeDetail>;
+  @Event({ eventName: 'ffValueChange' })
+  declare ffValueChange: EventEmitter<FfDropdownValueChangeDetail>;
 
   /** Emitted when the dropdown panel opens or closes. */
-  @Event({ eventName: 'ffOpenChange' }) ffOpenChange!: EventEmitter<FfDropdownOpenChangeDetail>;
+  @Event({ eventName: 'ffOpenChange' })
+  declare ffOpenChange: EventEmitter<FfDropdownOpenChangeDetail>;
 
   @State() activeOptionIndex = -1;
   @State() isOpen = false;

@@ -12,36 +12,36 @@ type ThemeOption = {
   selector: 'app-root',
   imports: [FfButton, FfDropdown],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class BrandOneShowcaseAppComponent {
   readonly activeTheme = signal<ThemeMode>('light');
   readonly themeOptions: readonly ThemeOption[] = [
     { label: 'Light', value: 'light' },
-    { label: 'Dark', value: 'dark' }
+    { label: 'Dark', value: 'dark' },
   ];
   readonly inlineTokenStyle = {
     paddingInline: '0.95rem',
     paddingBlock: '0.48rem',
-    radius: '4px'
-  } as const;
+    radius: '4px',
+  };
   readonly releaseTargetOptions = [
     {
       value: 'pilot-release',
       label: 'Pilot release',
-      description: 'Small audience rollout with monitoring enabled.'
+      description: 'Small audience rollout with monitoring enabled.',
     },
     {
       value: 'production-rollout',
       label: 'Production rollout',
-      description: 'Full audience release after final verification.'
+      description: 'Full audience release after final verification.',
     },
     {
       value: 'maintenance-window',
       label: 'Maintenance window',
-      description: 'Restricted release reserved for after-hours work.'
-    }
-  ] as const;
+      description: 'Restricted release reserved for after-hours work.',
+    },
+  ];
   readonly selectedReleaseTargetLabel = signal('Pilot release');
   readonly selectedReleaseTargetValue = signal('pilot-release');
 

@@ -9,7 +9,7 @@
     "components": [
         {
             "name": "BrandOneShowcaseAppComponent",
-            "id": "component-BrandOneShowcaseAppComponent-36ac40b5b1056d869f7cf52eddf71a947d927aac208328933d1882ecc77a00db611f139d4496ec0f5b9ed728d541bbc14f11dc708b9748e8f7aa8bc0613e0172",
+            "id": "component-BrandOneShowcaseAppComponent-f0cd8a292f99927a634bbf4b0543cbc8137c05966b9dd1d36774552f79b015fba2b40ddb34f06eab01281883cad94ba1a303b6ba09fcf7a2fa9ea67fe29d5e88",
             "file": "src/app/app.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -57,10 +57,10 @@
                 },
                 {
                     "name": "releaseTargetOptions",
-                    "defaultValue": "[\n    {\n      value: 'pilot-release',\n      label: 'Pilot release',\n      description: 'Small audience rollout with monitoring enabled.'\n    },\n    {\n      value: 'production-rollout',\n      label: 'Production rollout',\n      description: 'Full audience release after final verification.'\n    },\n    {\n      value: 'maintenance-window',\n      label: 'Maintenance window',\n      description: 'Restricted release reserved for after-hours work.'\n    }\n  ] as const",
+                    "defaultValue": "[\n    {\n      value: 'pilot-release',\n      label: 'Pilot release',\n      description: 'Small audience rollout with monitoring enabled.'\n    },\n    {\n      value: 'production-rollout',\n      label: 'Production rollout',\n      description: 'Full audience release after final verification.'\n    },\n    {\n      value: 'maintenance-window',\n      label: 'Maintenance window',\n      description: 'Restricted release reserved for after-hours work.'\n    }\n  ]",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "unknown",
+                    "type": "[]",
                     "indexKey": "",
                     "optional": false,
                     "description": "",
@@ -194,7 +194,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, signal } from '@angular/core';\nimport { FfButton, FfDropdown } from '@fuggetlenfe/angular-wrapper';\n\ntype ThemeMode = 'light' | 'dark';\n\ntype ThemeOption = {\n  label: string;\n  value: ThemeMode;\n};\n\n@Component({\n  selector: 'app-root',\n  imports: [FfButton, FfDropdown],\n  templateUrl: './app.html',\n  styleUrl: './app.css'\n})\nexport class BrandOneShowcaseAppComponent {\n  readonly activeTheme = signal<ThemeMode>('light');\n  readonly themeOptions: readonly ThemeOption[] = [\n    { label: 'Light', value: 'light' },\n    { label: 'Dark', value: 'dark' }\n  ];\n  readonly inlineTokenStyle = {\n    paddingInline: '0.95rem',\n    paddingBlock: '0.48rem',\n    radius: '4px'\n  } as const;\n  readonly releaseTargetOptions = [\n    {\n      value: 'pilot-release',\n      label: 'Pilot release',\n      description: 'Small audience rollout with monitoring enabled.'\n    },\n    {\n      value: 'production-rollout',\n      label: 'Production rollout',\n      description: 'Full audience release after final verification.'\n    },\n    {\n      value: 'maintenance-window',\n      label: 'Maintenance window',\n      description: 'Restricted release reserved for after-hours work.'\n    }\n  ] as const;\n  readonly selectedReleaseTargetLabel = signal('Pilot release');\n  readonly selectedReleaseTargetValue = signal('pilot-release');\n\n  setTheme(selectedTheme: ThemeMode) {\n    this.activeTheme.set(selectedTheme);\n  }\n\n  handleReleaseTargetChange(customEvent: CustomEvent<{ label: string; value: string }>) {\n    this.selectedReleaseTargetLabel.set(customEvent.detail.label);\n    this.selectedReleaseTargetValue.set(customEvent.detail.value);\n  }\n}\n",
+            "sourceCode": "import { Component, signal } from '@angular/core';\nimport { FfButton, FfDropdown } from '@fuggetlenfe/angular-wrapper';\n\ntype ThemeMode = 'light' | 'dark';\n\ntype ThemeOption = {\n  label: string;\n  value: ThemeMode;\n};\n\n@Component({\n  selector: 'app-root',\n  imports: [FfButton, FfDropdown],\n  templateUrl: './app.html',\n  styleUrl: './app.css'\n})\nexport class BrandOneShowcaseAppComponent {\n  readonly activeTheme = signal<ThemeMode>('light');\n  readonly themeOptions: readonly ThemeOption[] = [\n    { label: 'Light', value: 'light' },\n    { label: 'Dark', value: 'dark' }\n  ];\n  readonly inlineTokenStyle = {\n    paddingInline: '0.95rem',\n    paddingBlock: '0.48rem',\n    radius: '4px'\n  } as const;\n  readonly releaseTargetOptions = [\n    {\n      value: 'pilot-release',\n      label: 'Pilot release',\n      description: 'Small audience rollout with monitoring enabled.'\n    },\n    {\n      value: 'production-rollout',\n      label: 'Production rollout',\n      description: 'Full audience release after final verification.'\n    },\n    {\n      value: 'maintenance-window',\n      label: 'Maintenance window',\n      description: 'Restricted release reserved for after-hours work.'\n    }\n  ] ;\n  readonly selectedReleaseTargetLabel = signal('Pilot release');\n  readonly selectedReleaseTargetValue = signal('pilot-release');\n\n  setTheme(selectedTheme: ThemeMode) {\n    this.activeTheme.set(selectedTheme);\n  }\n\n  handleReleaseTargetChange(customEvent: CustomEvent<{ label: string; value: string }>) {\n    this.selectedReleaseTargetLabel.set(customEvent.detail.label);\n    this.selectedReleaseTargetValue.set(customEvent.detail.value);\n  }\n}\n",
             "styleUrl": "./app.css",
             "assetsDirs": [],
             "styleUrlsData": "",
