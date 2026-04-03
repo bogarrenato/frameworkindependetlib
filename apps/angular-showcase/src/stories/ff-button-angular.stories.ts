@@ -3,7 +3,7 @@ import { FfButton } from '@fuggetlenfe/angular-wrapper';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
-const brandOptions = ['brand-1', 'brand-2', 'brand-3', 'custom-brand'] as const;
+const brandOptions = ['brand-1', 'brand-2', 'brand-3'] as const;
 const stateOptions = ['default', 'hover', 'active', 'disabled'] as const;
 const statePreviewStyles = `
   ff-button.demo-state--hover::part(button) {
@@ -165,10 +165,6 @@ export const StateMatrix: Story = {
 };
 
 function brandLabel(brandKey: string) {
-  if (brandKey === 'custom-brand') {
-    return 'Custom Brand';
-  }
-
   return brandKey.replace('brand-', 'Brand ');
 }
 

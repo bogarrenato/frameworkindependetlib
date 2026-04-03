@@ -394,8 +394,8 @@
           </article>
           <article class="panel">
             <p class="eyebrow">Current primitives</p>
-            <span class="stat-value">FfButton and FfDropdown</span>
-            <p class="stat-copy">Both primitives already flow through the shared core and the React adapter.</p>
+            <span class="stat-value">FfButton</span>
+            <p class="stat-copy">The current Figma-aligned PoC ships only the button primitive through the React adapter.</p>
           </article>
           <article class="panel">
             <p class="eyebrow">Design model</p>
@@ -415,7 +415,7 @@
 import '@fuggetlenfe/brand-styles/brand-2-light.css';
 import '@fuggetlenfe/brand-styles/brand-2-dark.css';
 
-import { FfButton, FfDropdown } from '@fuggetlenfe/react-wrapper';</div>
+import { FfButton } from '@fuggetlenfe/react-wrapper';</div>
         </section>
 
         <section id="architecture">
@@ -447,7 +447,8 @@ import { FfButton, FfDropdown } from '@fuggetlenfe/react-wrapper';</div>
           <h2 class="section-heading">Component reference</h2>
           <p class="section-copy">
             The current wrapper documents the same public API that the shared Stencil primitives
-            expose. Styling examples below assume the token contract and a brand pack are already loaded.
+            expose. The PoC is intentionally limited to the button because that is the primitive
+            currently represented in Figma and covered by the sync contract.
           </p>
 
           <div class="component-grid">
@@ -484,47 +485,6 @@ import { FfButton, FfDropdown } from '@fuggetlenfe/react-wrapper';</div>
                 </tbody>
               </table>
             </article>
-
-            <article class="component-card">
-              <div>
-                <div class="component-meta">
-                  <span class="meta-pill">Primitive</span>
-                  <span class="meta-pill">WCAG AA target</span>
-                </div>
-                <h3>FfDropdown</h3>
-                <p>
-                  Accessible dropdown primitive with keyboard support, active option management,
-                  selection events, and shared listbox semantics owned by the Stencil runtime.
-                </p>
-              </div>
-
-              <div class="code-block">const releaseTargetOptions = [
-  { value: 'pilot', label: 'Pilot release', description: 'Small audience rollout.' },
-  { value: 'full', label: 'Production rollout', description: 'Full audience launch.' }
-];
-
-&lt;FfDropdown
-  label="Release target"
-  placeholder="Choose a release target"
-  options={releaseTargetOptions}
-  onFfValueChange={(customEvent) =&gt; {
-    console.log(customEvent.detail.value);
-  }}
-/&gt;</div>
-
-              <table aria-label="FfDropdown API">
-                <thead>
-                  <tr><th>Prop or event</th><th>Type</th><th>Description</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td><code>label</code></td><td><code>string</code></td><td>Visible label and accessible name for the trigger.</td></tr>
-                  <tr><td><code>options</code></td><td><code>FfDropdownOption[]</code></td><td>Full option list rendered in the listbox panel.</td></tr>
-                  <tr><td><code>value</code></td><td><code>string | undefined</code></td><td>Currently selected value, optionally controlled by the consumer app.</td></tr>
-                  <tr><td><code>ffValueChange</code></td><td><code>CustomEvent</code></td><td>Fires when a new option is selected.</td></tr>
-                  <tr><td><code>ffOpenChange</code></td><td><code>CustomEvent</code></td><td>Fires when the panel opens or closes.</td></tr>
-                </tbody>
-              </table>
-            </article>
           </div>
         </section>
 
@@ -537,7 +497,6 @@ import { FfButton, FfDropdown } from '@fuggetlenfe/react-wrapper';</div>
           </p>
           <div class="code-block">&lt;main data-brand="brand-2" data-theme={activeTheme}&gt;
   &lt;FfButton&gt;Launch selected brand&lt;/FfButton&gt;
-  &lt;FfDropdown ... /&gt;
 &lt;/main&gt;</div>
           <div class="callout">
             <h3>Supported override paths</h3>

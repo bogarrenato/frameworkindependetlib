@@ -27,7 +27,7 @@ describe('BrandOneShowcaseAppComponent', () => {
     expect(renderedElement.textContent).toContain('Brand 1 default');
     expect(renderedElement.textContent).toContain('Class-based override');
     expect(renderedElement.textContent).toContain('Inline token tweak');
-    expect(renderedElement.querySelector('ff-dropdown')).toBeTruthy();
+    expect(renderedElement.textContent).toContain('only the primitive represented in Figma: the button');
   });
 
   it('switches the shell theme attribute when the user changes theme', async () => {
@@ -56,25 +56,4 @@ describe('BrandOneShowcaseAppComponent', () => {
     expect(mainElement?.getAttribute('data-theme')).toBe('light');
   });
 
-  it('updates the dropdown status when a different release target is selected', async () => {
-    const componentFixture = TestBed.createComponent(BrandOneShowcaseAppComponent);
-
-    componentFixture.detectChanges();
-    await componentFixture.whenStable();
-
-    const renderedElement = componentFixture.nativeElement as HTMLElement;
-    const dropdownElement = renderedElement.querySelector('ff-dropdown');
-    dropdownElement?.dispatchEvent(
-      new CustomEvent('ffValueChange', {
-        bubbles: true,
-        detail: {
-          label: 'Maintenance window',
-          value: 'maintenance-window'
-        }
-      })
-    );
-    componentFixture.detectChanges();
-
-    expect(renderedElement.textContent).toContain('Current selection: Maintenance window');
-  });
 });

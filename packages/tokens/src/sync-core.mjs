@@ -238,9 +238,6 @@ export function buildContractCss(tokens) {
   --ff-button-radius: ${defaultBrand?.radius ?? '0px'};
   --ff-button-padding-inline: ${defaultBrand?.paddingInline ?? '0.875rem'};
   --ff-button-padding-block: ${defaultBrand?.paddingBlock ?? '0.5rem'};
-  --ff-dropdown-radius: ${defaultBrand?.radius ?? '0px'};
-  --ff-dropdown-padding-inline: 0.875rem;
-  --ff-dropdown-padding-block: 0.75rem;
   --ff-color-canvas: ${defaultTheme?.canvas ?? '#ffffff'};
   --ff-color-surface: ${defaultTheme?.surface ?? '#ffffff'};
   --ff-color-text-primary: ${defaultTheme?.textPrimary ?? '#111111'};
@@ -255,20 +252,6 @@ export function buildContractCss(tokens) {
   --ff-button-fg-active: ${defaultButton.active?.foreground ?? 'currentColor'};
   --ff-button-bg-disabled: ${defaultButton.disabled?.background ?? 'transparent'};
   --ff-button-fg-disabled: ${defaultButton.disabled?.foreground ?? '#9a9a9a'};
-  --ff-dropdown-label-color: ${defaultTheme?.textPrimary ?? '#111111'};
-  --ff-dropdown-trigger-bg: ${defaultTheme?.surface ?? '#ffffff'};
-  --ff-dropdown-trigger-fg: ${defaultTheme?.textPrimary ?? '#111111'};
-  --ff-dropdown-placeholder-color: ${defaultTheme?.textPrimary ?? '#111111'};
-  --ff-dropdown-border-color: ${defaultTheme?.borderSubtle ?? '#d8d8d8'};
-  --ff-dropdown-panel-bg: ${defaultTheme?.surface ?? '#ffffff'};
-  --ff-dropdown-panel-shadow: 0 18px 42px rgba(17, 17, 17, 0.16);
-  --ff-dropdown-option-fg: ${defaultTheme?.textPrimary ?? '#111111'};
-  --ff-dropdown-option-description-color: ${defaultTheme?.textSecondary ?? '#5f5f5f'};
-  --ff-dropdown-option-bg-hover: color-mix(in srgb, ${defaultButton.default?.background ?? '#111111'} 12%, ${defaultTheme?.surface ?? '#ffffff'});
-  --ff-dropdown-option-fg-hover: ${defaultTheme?.textPrimary ?? '#111111'};
-  --ff-dropdown-option-bg-selected: ${defaultButton.default?.background ?? '#e4e4e4'};
-  --ff-dropdown-option-fg-selected: ${defaultButton.default?.foreground ?? '#111111'};
-  --ff-dropdown-focus-ring: ${defaultButton.default?.background ?? '#111111'};
 }
 `;
 }
@@ -291,7 +274,6 @@ export function buildFigmaPresetCss(tokens) {
   --ff-button-radius: ${config.radius};
   --ff-button-padding-inline: ${config.paddingInline};
   --ff-button-padding-block: ${config.paddingBlock};
-  --ff-dropdown-radius: ${config.radius};
 }`.trim()
     )
     .join('\n\n');
@@ -323,20 +305,6 @@ export function buildFigmaPresetCss(tokens) {
   --ff-button-fg-active: ${states.active.foreground};
   --ff-button-bg-disabled: ${states.disabled.background};
   --ff-button-fg-disabled: ${states.disabled.foreground};
-  --ff-dropdown-label-color: var(--ff-color-text-primary);
-  --ff-dropdown-trigger-bg: var(--ff-color-surface);
-  --ff-dropdown-trigger-fg: var(--ff-color-text-primary);
-  --ff-dropdown-placeholder-color: var(--ff-color-text-primary);
-  --ff-dropdown-border-color: var(--ff-color-border-subtle);
-  --ff-dropdown-panel-bg: var(--ff-color-surface);
-  --ff-dropdown-panel-shadow: 0 18px 42px color-mix(in srgb, ${states.default.background} 18%, transparent);
-  --ff-dropdown-option-fg: var(--ff-color-text-primary);
-  --ff-dropdown-option-description-color: var(--ff-color-text-secondary);
-  --ff-dropdown-option-bg-hover: color-mix(in srgb, ${states.default.background} 12%, var(--ff-color-surface));
-  --ff-dropdown-option-fg-hover: var(--ff-color-text-primary);
-  --ff-dropdown-option-bg-selected: ${states.default.background};
-  --ff-dropdown-option-fg-selected: ${states.default.foreground};
-  --ff-dropdown-focus-ring: ${states.default.background};
 }`.trim()
       )
     )
@@ -407,7 +375,6 @@ export function buildOfficialBrandStyles(tokens) {
   --ff-button-radius: ${brandConfig.radius};
   --ff-button-padding-inline: ${brandConfig.paddingInline};
   --ff-button-padding-block: ${brandConfig.paddingBlock};
-  --ff-dropdown-radius: ${brandConfig.radius};
 }
 
 [data-brand='${brandName}'][data-theme='${themeName}'] {
@@ -419,20 +386,6 @@ export function buildOfficialBrandStyles(tokens) {
   --ff-button-fg-active: ${buttonValues.active.foreground};
   --ff-button-bg-disabled: ${buttonValues.disabled.background};
   --ff-button-fg-disabled: ${buttonValues.disabled.foreground};
-  --ff-dropdown-label-color: var(--ff-color-text-primary);
-  --ff-dropdown-trigger-bg: var(--ff-color-surface);
-  --ff-dropdown-trigger-fg: var(--ff-color-text-primary);
-  --ff-dropdown-placeholder-color: var(--ff-color-text-primary);
-  --ff-dropdown-border-color: var(--ff-color-border-subtle);
-  --ff-dropdown-panel-bg: var(--ff-color-surface);
-  --ff-dropdown-panel-shadow: 0 18px 42px color-mix(in srgb, var(--ff-button-bg-default) 18%, transparent);
-  --ff-dropdown-option-fg: var(--ff-color-text-primary);
-  --ff-dropdown-option-description-color: var(--ff-color-text-secondary);
-  --ff-dropdown-option-bg-hover: color-mix(in srgb, var(--ff-button-bg-default) 12%, var(--ff-color-surface));
-  --ff-dropdown-option-fg-hover: var(--ff-color-text-primary);
-  --ff-dropdown-option-bg-selected: var(--ff-button-bg-default);
-  --ff-dropdown-option-fg-selected: var(--ff-button-fg-default);
-  --ff-dropdown-focus-ring: var(--ff-button-bg-default);
 }
 `;
     }

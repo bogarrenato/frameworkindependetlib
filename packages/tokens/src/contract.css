@@ -9,9 +9,6 @@
   --ff-button-radius: 0px;
   --ff-button-padding-inline: 8px;
   --ff-button-padding-block: 0px;
-  --ff-dropdown-radius: 0px;
-  --ff-dropdown-padding-inline: 0.875rem;
-  --ff-dropdown-padding-block: 0.75rem;
   --ff-color-canvas: #FAFAFA;
   --ff-color-surface: #FAFAFA;
   --ff-color-text-primary: #434040;
@@ -26,18 +23,4 @@
   --ff-button-fg-active: #5147DB;
   --ff-button-bg-disabled: #BDBDBD;
   --ff-button-fg-disabled: #A9A9A9;
-  --ff-dropdown-label-color: #434040;
-  --ff-dropdown-trigger-bg: #FAFAFA;
-  --ff-dropdown-trigger-fg: #434040;
-  --ff-dropdown-placeholder-color: #434040;
-  --ff-dropdown-border-color: #D9D9D9;
-  --ff-dropdown-panel-bg: #FAFAFA;
-  --ff-dropdown-panel-shadow: 0 18px 42px rgba(17, 17, 17, 0.16);
-  --ff-dropdown-option-fg: #434040;
-  --ff-dropdown-option-description-color: #808080;
-  --ff-dropdown-option-bg-hover: color-mix(in srgb, #695EFD 12%, #FAFAFA);
-  --ff-dropdown-option-fg-hover: #434040;
-  --ff-dropdown-option-bg-selected: #695EFD;
-  --ff-dropdown-option-fg-selected: #F0EFFF;
-  --ff-dropdown-focus-ring: #695EFD;
 }

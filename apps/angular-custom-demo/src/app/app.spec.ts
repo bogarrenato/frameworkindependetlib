@@ -27,7 +27,7 @@ describe('AngularCustomDemoAppComponent', () => {
     expect(renderedElement.textContent).toContain('Custom brand default');
     expect(renderedElement.textContent).toContain('Host class override');
     expect(renderedElement.textContent).toContain('Inline token tweak');
-    expect(renderedElement.querySelector('ff-dropdown')).toBeTruthy();
+    expect(renderedElement.textContent).toContain('same shared button primitive');
   });
 
   it('updates the shell theme attribute when the user toggles the theme', async () => {
@@ -56,25 +56,4 @@ describe('AngularCustomDemoAppComponent', () => {
     expect(mainElement?.getAttribute('data-theme')).toBe('light');
   });
 
-  it('updates the dropdown status when a different deployment lane is selected', async () => {
-    const componentFixture = TestBed.createComponent(AngularCustomDemoAppComponent);
-
-    componentFixture.detectChanges();
-    await componentFixture.whenStable();
-
-    const renderedElement = componentFixture.nativeElement as HTMLElement;
-    const dropdownElement = renderedElement.querySelector('ff-dropdown');
-    dropdownElement?.dispatchEvent(
-      new CustomEvent('ffValueChange', {
-        bubbles: true,
-        detail: {
-          label: 'Public release',
-          value: 'public-release'
-        }
-      })
-    );
-    componentFixture.detectChanges();
-
-    expect(renderedElement.textContent).toContain('Current selection: Public release');
-  });
 });

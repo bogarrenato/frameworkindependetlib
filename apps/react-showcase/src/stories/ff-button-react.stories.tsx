@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
 import { FfButton } from '@fuggetlenfe/react-wrapper';
 
-const brandOptions = ['brand-1', 'brand-2', 'brand-3', 'custom-brand'] as const;
+const brandOptions = ['brand-1', 'brand-2', 'brand-3'] as const;
 const stateOptions = ['default', 'hover', 'active', 'disabled'] as const;
 const statePreviewStyles = `
   ff-button.demo-state--hover::part(button) {
@@ -217,10 +217,6 @@ function stateClassFor(buttonState: (typeof stateOptions)[number]) {
 }
 
 function brandLabel(brandKey: string) {
-  if (brandKey === 'custom-brand') {
-    return 'Custom Brand';
-  }
-
   return brandKey.replace('brand-', 'Brand ');
 }
 

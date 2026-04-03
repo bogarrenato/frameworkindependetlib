@@ -7,10 +7,8 @@
 
 /* eslint-disable */
 
-import { type FfDropdownCustomEvent, type FfDropdownOpenChangeDetail, type FfDropdownValueChangeDetail } from "@fuggetlenfe/components";
 import { FfButton as FfButtonElement, defineCustomElement as defineFfButton } from "@fuggetlenfe/components/dist/components/ff-button.js";
-import { FfDropdown as FfDropdownElement, defineCustomElement as defineFfDropdown } from "@fuggetlenfe/components/dist/components/ff-dropdown.js";
-import type { EventName, StencilReactComponent } from '@stencil/react-output-target/runtime';
+import type { StencilReactComponent } from '@stencil/react-output-target/runtime';
 import { createComponent } from '@stencil/react-output-target/runtime';
 import React from 'react';
 
@@ -23,21 +21,4 @@ export const FfButton: StencilReactComponent<FfButtonElement, FfButtonEvents> = 
     react: React,
     events: {} as FfButtonEvents,
     defineCustomElement: defineFfButton
-});
-
-type FfDropdownEvents = {
-    onFfValueChange: EventName<FfDropdownCustomEvent<FfDropdownValueChangeDetail>>,
-    onFfOpenChange: EventName<FfDropdownCustomEvent<FfDropdownOpenChangeDetail>>
-};
-
-export const FfDropdown: StencilReactComponent<FfDropdownElement, FfDropdownEvents> = /*@__PURE__*/ createComponent<FfDropdownElement, FfDropdownEvents>({
-    tagName: 'ff-dropdown',
-    elementClass: FfDropdownElement,
-    // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
-    react: React,
-    events: {
-        onFfValueChange: 'ffValueChange',
-        onFfOpenChange: 'ffOpenChange'
-    } as FfDropdownEvents,
-    defineCustomElement: defineFfDropdown
 });

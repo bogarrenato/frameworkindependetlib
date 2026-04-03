@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
-import { FfButton, FfDropdown } from '@fuggetlenfe/react-wrapper';
+import { FfButton } from '@fuggetlenfe/react-wrapper';
 import './App.css';
 
 type ThemeMode = 'light' | 'dark';
@@ -21,28 +21,8 @@ const customBrandInlineTokenStyle = {
   '--ff-button-padding-block': '0.68rem'
 } as CSSProperties;
 
-const deploymentLaneOptions = [
-  {
-    value: 'design-review',
-    label: 'Design review',
-    description: 'Visual QA with the brand design leads.'
-  },
-  {
-    value: 'beta-pilot',
-    label: 'Beta pilot',
-    description: 'Customer-facing preview for the first invited cohort.'
-  },
-  {
-    value: 'public-release',
-    label: 'Public release',
-    description: 'General rollout after operations sign-off.'
-  }
-] as const;
-
 function App() {
   const [activeTheme, setActiveTheme] = useState<ThemeMode>('light');
-  const [selectedDeploymentLaneLabel, setSelectedDeploymentLaneLabel] = useState('Design review');
-  const [selectedDeploymentLaneValue, setSelectedDeploymentLaneValue] = useState('design-review');
 
   return (
     <main className="consumer-shell" data-brand="custom-brand" data-theme={activeTheme}>
@@ -79,35 +59,6 @@ function App() {
         </div>
       </section>
 
-      <section className="control-grid">
-        <article className="info-card">
-          <p className="eyebrow">Dropdown primitive</p>
-          <div className="dropdown-demo">
-            <FfDropdown
-              fullWidth
-              label="Deployment lane"
-              options={[...deploymentLaneOptions]}
-              placeholder="Choose a deployment lane"
-              value={selectedDeploymentLaneValue}
-              onFfValueChange={(customEvent) => {
-                setSelectedDeploymentLaneLabel(customEvent.detail.label);
-                setSelectedDeploymentLaneValue(customEvent.detail.value);
-              }}
-            />
-
-            <div aria-live="polite" className="selection-card" role="status">
-              <p className="selection-eyebrow">Selection status</p>
-              <strong className="selection-value">
-                Current selection: {selectedDeploymentLaneLabel}
-              </strong>
-              <span className="selection-copy">
-                The custom CSS pack restyles the same dropdown logic without touching interaction code.
-              </span>
-            </div>
-          </div>
-        </article>
-      </section>
-
       <section className="info-grid">
         <article className="info-card">
           <p className="eyebrow">Consumer imports</p>
@@ -129,6 +80,9 @@ function App() {
             <div className="detail-line">The shell flips between light and dark.</div>
             <div className="detail-line">The button keeps the same logic API in both modes.</div>
             <div className="detail-line">Only the imported custom CSS pack changes the look.</div>
+            <div className="detail-line">
+              This stays outside the official sync and proves that a consumer-owned brand can style the same button.
+            </div>
           </div>
         </article>
 
@@ -144,6 +98,9 @@ function App() {
             </div>
             <div className="proof-item">
               Per-instance classes and CSS properties still let the consumer tune details.
+            </div>
+            <div className="proof-item">
+              The shared runtime still ships only the primitive that exists in Figma: the button.
             </div>
           </div>
         </article>

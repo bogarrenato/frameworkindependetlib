@@ -21,8 +21,7 @@ const preview: Preview = {
         items: [
           { value: 'brand-1', title: 'Brand 1' },
           { value: 'brand-2', title: 'Brand 2' },
-          { value: 'brand-3', title: 'Brand 3' },
-          { value: 'custom-brand', title: 'Custom Brand' }
+          { value: 'brand-3', title: 'Brand 3' }
         ]
       }
     }

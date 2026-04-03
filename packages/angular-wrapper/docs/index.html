@@ -395,8 +395,8 @@
           </article>
           <article class="panel">
             <p class="eyebrow">Current primitives</p>
-            <span class="stat-value">FfButton and FfDropdown</span>
-            <p class="stat-copy">Both ship through the shared core and the generated Angular adapter layer.</p>
+            <span class="stat-value">FfButton</span>
+            <p class="stat-copy">The current Figma-aligned PoC ships only the button primitive through the Angular adapter.</p>
           </article>
           <article class="panel">
             <p class="eyebrow">Design model</p>
@@ -413,11 +413,11 @@
           </p>
           <div class="code-block">pnpm add @fuggetlenfe/angular-wrapper @fuggetlenfe/tokens @fuggetlenfe/brand-styles</div>
           <div class="code-block">import { Component } from '@angular/core';
-import { FfButton, FfDropdown } from '@fuggetlenfe/angular-wrapper';
+import { FfButton } from '@fuggetlenfe/angular-wrapper';
 
 @Component({
   selector: 'app-root',
-  imports: [FfButton, FfDropdown],
+  imports: [FfButton],
   templateUrl: './app.html'
 })
 export class AppComponent {}</div>
@@ -455,7 +455,8 @@ export class AppComponent {}</div>
           <h2 class="section-heading">Component reference</h2>
           <p class="section-copy">
             The Angular wrapper preserves the same public primitive API that exists in the Stencil
-            layer. Styling examples below assume the token contract and a brand stylesheet are already loaded.
+            layer. The PoC is intentionally limited to the button because that is the primitive
+            currently represented in Figma and covered by the sync contract.
           </p>
 
           <div class="component-grid">
@@ -488,41 +489,6 @@ export class AppComponent {}</div>
                 </tbody>
               </table>
             </article>
-
-            <article class="component-card">
-              <div>
-                <div class="component-meta">
-                  <span class="meta-pill">Primitive</span>
-                  <span class="meta-pill">Event-driven</span>
-                </div>
-                <h3>FfDropdown</h3>
-                <p>
-                  Accessible dropdown primitive with keyboard support, option selection, and shared
-                  listbox semantics owned by the Stencil runtime and surfaced through Angular event bindings.
-                </p>
-              </div>
-
-              <div class="code-block">&lt;ff-dropdown
-  [fullWidth]="true"
-  label="Release target"
-  [options]="releaseTargetOptions"
-  [value]="selectedReleaseTargetValue()"
-  (ffValueChange)="handleReleaseTargetChange($event)"
-&gt;&lt;/ff-dropdown&gt;</div>
-
-              <table aria-label="FfDropdown API">
-                <thead>
-                  <tr><th>Prop or event</th><th>Type</th><th>Description</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td><code>label</code></td><td><code>string</code></td><td>Visible label and accessible name for the trigger.</td></tr>
-                  <tr><td><code>options</code></td><td><code>FfDropdownOption[]</code></td><td>Full option list rendered by the listbox panel.</td></tr>
-                  <tr><td><code>value</code></td><td><code>string | undefined</code></td><td>Currently selected value for controlled consumption.</td></tr>
-                  <tr><td><code>ffValueChange</code></td><td><code>CustomEvent</code></td><td>Emits the selected label and value.</td></tr>
-                  <tr><td><code>ffOpenChange</code></td><td><code>CustomEvent</code></td><td>Emits when the dropdown opens or closes.</td></tr>
-                </tbody>
-              </table>
-            </article>
           </div>
         </section>
 
@@ -535,7 +501,6 @@ export class AppComponent {}</div>
           </p>
           <div class="code-block">&lt;main class="consumer-shell" data-brand="brand-1" [attr.data-theme]="activeTheme()"&gt;
   &lt;ff-button&gt;Launch selected brand&lt;/ff-button&gt;
-  &lt;ff-dropdown ...&gt;&lt;/ff-dropdown&gt;
 &lt;/main&gt;</div>
           <div class="callout">
             <h3>Supported override paths</h3>

@@ -90,7 +90,6 @@
   --ff-button-radius: 0px;
   --ff-button-padding-inline: 8px;
   --ff-button-padding-block: 0px;
-  --ff-dropdown-radius: 0px;
 }
 
 [data-brand="brand-2"] {
@@ -98,7 +97,6 @@
   --ff-button-radius: 4px;
   --ff-button-padding-inline: 8px;
   --ff-button-padding-block: 0px;
-  --ff-dropdown-radius: 4px;
 }
 
 [data-brand="brand-3"] {
@@ -106,7 +104,6 @@
   --ff-button-radius: 999px;
   --ff-button-padding-inline: 16px;
   --ff-button-padding-block: 4px;
-  --ff-dropdown-radius: 999px;
 }
 
 [data-theme="light"] {
@@ -136,20 +133,6 @@
   --ff-button-fg-active: #5147DB;
   --ff-button-bg-disabled: #BDBDBD;
   --ff-button-fg-disabled: #A9A9A9;
-  --ff-dropdown-label-color: var(--ff-color-text-primary);
-  --ff-dropdown-trigger-bg: var(--ff-color-surface);
-  --ff-dropdown-trigger-fg: var(--ff-color-text-primary);
-  --ff-dropdown-placeholder-color: var(--ff-color-text-primary);
-  --ff-dropdown-border-color: var(--ff-color-border-subtle);
-  --ff-dropdown-panel-bg: var(--ff-color-surface);
-  --ff-dropdown-panel-shadow: 0 18px 42px color-mix(in srgb, #695EFD 18%, transparent);
-  --ff-dropdown-option-fg: var(--ff-color-text-primary);
-  --ff-dropdown-option-description-color: var(--ff-color-text-secondary);
-  --ff-dropdown-option-bg-hover: color-mix(in srgb, #695EFD 12%, var(--ff-color-surface));
-  --ff-dropdown-option-fg-hover: var(--ff-color-text-primary);
-  --ff-dropdown-option-bg-selected: #695EFD;
-  --ff-dropdown-option-fg-selected: #F0EFFF;
-  --ff-dropdown-focus-ring: #695EFD;
 }
 
 [data-brand="brand-1"][data-theme="dark"] {
@@ -161,20 +144,6 @@
   --ff-button-fg-active: #695EFD;
   --ff-button-bg-disabled: #808080;
   --ff-button-fg-disabled: #949494;
-  --ff-dropdown-label-color: var(--ff-color-text-primary);
-  --ff-dropdown-trigger-bg: var(--ff-color-surface);
-  --ff-dropdown-trigger-fg: var(--ff-color-text-primary);
-  --ff-dropdown-placeholder-color: var(--ff-color-text-primary);
-  --ff-dropdown-border-color: var(--ff-color-border-subtle);
-  --ff-dropdown-panel-bg: var(--ff-color-surface);
-  --ff-dropdown-panel-shadow: 0 18px 42px color-mix(in srgb, #5147DB 18%, transparent);
-  --ff-dropdown-option-fg: var(--ff-color-text-primary);
-  --ff-dropdown-option-description-color: var(--ff-color-text-secondary);
-  --ff-dropdown-option-bg-hover: color-mix(in srgb, #5147DB 12%, var(--ff-color-surface));
-  --ff-dropdown-option-fg-hover: var(--ff-color-text-primary);
-  --ff-dropdown-option-bg-selected: #5147DB;
-  --ff-dropdown-option-fg-selected: #100B53;
-  --ff-dropdown-focus-ring: #5147DB;
 }
 
 [data-brand="brand-2"][data-theme="light"] {
@@ -186,20 +155,6 @@
   --ff-button-fg-active: #808080;
   --ff-button-bg-disabled: #BDBDBD;
   --ff-button-fg-disabled: #A9A9A9;
-  --ff-dropdown-label-color: var(--ff-color-text-primary);
-  --ff-dropdown-trigger-bg: var(--ff-color-surface);
-  --ff-dropdown-trigger-fg: var(--ff-color-text-primary);
-  --ff-dropdown-placeholder-color: var(--ff-color-text-primary);
-  --ff-dropdown-border-color: var(--ff-color-border-subtle);
-  --ff-dropdown-panel-bg: var(--ff-color-surface);
-  --ff-dropdown-panel-shadow: 0 18px 42px color-mix(in srgb, #8DFF8D 18%, transparent);
-  --ff-dropdown-option-fg: var(--ff-color-text-primary);
-  --ff-dropdown-option-description-color: var(--ff-color-text-secondary);
-  --ff-dropdown-option-bg-hover: color-mix(in srgb, #8DFF8D 12%, var(--ff-color-surface));
-  --ff-dropdown-option-fg-hover: var(--ff-color-text-primary);
-  --ff-dropdown-option-bg-selected: #8DFF8D;
-  --ff-dropdown-option-fg-selected: #434040;
-  --ff-dropdown-focus-ring: #8DFF8D;
 }
 
 [data-brand="brand-2"][data-theme="dark"] {
@@ -211,20 +166,6 @@
   --ff-button-fg-active: #BDBDBD;
   --ff-button-bg-disabled: #808080;
   --ff-button-fg-disabled: #949494;
-  --ff-dropdown-label-color: var(--ff-color-text-primary);
-  --ff-dropdown-trigger-bg: var(--ff-color-surface);
-  --ff-dropdown-trigger-fg: var(--ff-color-text-primary);
-  --ff-dropdown-placeholder-color: var(--ff-color-text-primary);
-  --ff-dropdown-border-color: var(--ff-color-border-subtle);
-  --ff-dropdown-panel-bg: var(--ff-color-surface);
-  --ff-dropdown-panel-shadow: 0 18px 42px color-mix(in srgb, #6EE96E 18%, transparent);
-  --ff-dropdown-option-fg: var(--ff-color-text-primary);
-  --ff-dropdown-option-description-color: var(--ff-color-text-secondary);
-  --ff-dropdown-option-bg-hover: color-mix(in srgb, #6EE96E 12%, var(--ff-color-surface));
-  --ff-dropdown-option-fg-hover: var(--ff-color-text-primary);
-  --ff-dropdown-option-bg-selected: #6EE96E;
-  --ff-dropdown-option-fg-selected: #FAFAFA;
-  --ff-dropdown-focus-ring: #6EE96E;
 }
 
 [data-brand="brand-3"][data-theme="light"] {
@@ -236,20 +177,6 @@
   --ff-button-fg-active: #808080;
   --ff-button-bg-disabled: #BDBDBD;
   --ff-button-fg-disabled: #A9A9A9;
-  --ff-dropdown-label-color: var(--ff-color-text-primary);
-  --ff-dropdown-trigger-bg: var(--ff-color-surface);
-  --ff-dropdown-trigger-fg: var(--ff-color-text-primary);
-  --ff-dropdown-placeholder-color: var(--ff-color-text-primary);
-  --ff-dropdown-border-color: var(--ff-color-border-subtle);
-  --ff-dropdown-panel-bg: var(--ff-color-surface);
-  --ff-dropdown-panel-shadow: 0 18px 42px color-mix(in srgb, #61F6EA 18%, transparent);
-  --ff-dropdown-option-fg: var(--ff-color-text-primary);
-  --ff-dropdown-option-description-color: var(--ff-color-text-secondary);
-  --ff-dropdown-option-bg-hover: color-mix(in srgb, #61F6EA 12%, var(--ff-color-surface));
-  --ff-dropdown-option-fg-hover: var(--ff-color-text-primary);
-  --ff-dropdown-option-bg-selected: #61F6EA;
-  --ff-dropdown-option-fg-selected: #808080;
-  --ff-dropdown-focus-ring: #61F6EA;
 }
 
 [data-brand="brand-3"][data-theme="dark"] {
@@ -261,18 +188,4 @@
   --ff-button-fg-active: #BDBDBD;
   --ff-button-bg-disabled: #808080;
   --ff-button-fg-disabled: #949494;
-  --ff-dropdown-label-color: var(--ff-color-text-primary);
-  --ff-dropdown-trigger-bg: var(--ff-color-surface);
-  --ff-dropdown-trigger-fg: var(--ff-color-text-primary);
-  --ff-dropdown-placeholder-color: var(--ff-color-text-primary);
-  --ff-dropdown-border-color: var(--ff-color-border-subtle);
-  --ff-dropdown-panel-bg: var(--ff-color-surface);
-  --ff-dropdown-panel-shadow: 0 18px 42px color-mix(in srgb, #49D4C9 18%, transparent);
-  --ff-dropdown-option-fg: var(--ff-color-text-primary);
-  --ff-dropdown-option-description-color: var(--ff-color-text-secondary);
-  --ff-dropdown-option-bg-hover: color-mix(in srgb, #49D4C9 12%, var(--ff-color-surface));
-  --ff-dropdown-option-fg-hover: var(--ff-color-text-primary);
-  --ff-dropdown-option-bg-selected: #49D4C9;
-  --ff-dropdown-option-fg-selected: #BDBDBD;
-  --ff-dropdown-focus-ring: #49D4C9;
 }

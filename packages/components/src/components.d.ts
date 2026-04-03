@@ -5,8 +5,6 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { FfDropdownOpenChangeDetail, FfDropdownOption, FfDropdownValueChangeDetail } from "./components/ff-dropdown/ff-dropdown";
-export { FfDropdownOpenChangeDetail, FfDropdownOption, FfDropdownValueChangeDetail } from "./components/ff-dropdown/ff-dropdown";
 export namespace Components {
     /**
      * Logic-only button primitive shared across every consumer framework.
@@ -34,47 +32,6 @@ export namespace Components {
          */
         "type": 'button' | 'submit' | 'reset';
     }
-    /**
-     * Accessible dropdown primitive that keeps all interaction logic inside Stencil.
-     * The component owns keyboard navigation, selection state, focus handling, and the
-     * public accessibility contract. Visual identity still comes exclusively from the
-     * external token contract and the active brand pack.
-     */
-    interface FfDropdown {
-        /**
-          * Disables opening, keyboard navigation, and option selection.
-          * @default false
-         */
-        "disabled": boolean;
-        /**
-          * Expands the host to the width of its container.
-          * @default false
-         */
-        "fullWidth": boolean;
-        /**
-          * Visible field label and accessible name for the dropdown trigger.
-          * @default 'Select an option'
-         */
-        "label": string;
-        /**
-          * Complete option list rendered by the dropdown panel.
-          * @default []
-         */
-        "options": FfDropdownOption[];
-        /**
-          * Placeholder text shown when no option is currently selected.
-          * @default 'Choose an option'
-         */
-        "placeholder": string;
-        /**
-          * Currently selected option value. Can be controlled from the consuming app shell.
-         */
-        "value"?: string;
-    }
-}
-export interface FfDropdownCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLFfDropdownElement;
 }
 declare global {
     /**
@@ -88,33 +45,8 @@ declare global {
         prototype: HTMLFfButtonElement;
         new (): HTMLFfButtonElement;
     };
-    interface HTMLFfDropdownElementEventMap {
-        "ffValueChange": FfDropdownValueChangeDetail;
-        "ffOpenChange": FfDropdownOpenChangeDetail;
-    }
-    /**
-     * Accessible dropdown primitive that keeps all interaction logic inside Stencil.
-     * The component owns keyboard navigation, selection state, focus handling, and the
-     * public accessibility contract. Visual identity still comes exclusively from the
-     * external token contract and the active brand pack.
-     */
-    interface HTMLFfDropdownElement extends Components.FfDropdown, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLFfDropdownElementEventMap>(type: K, listener: (this: HTMLFfDropdownElement, ev: FfDropdownCustomEvent<HTMLFfDropdownElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLFfDropdownElementEventMap>(type: K, listener: (this: HTMLFfDropdownElement, ev: FfDropdownCustomEvent<HTMLFfDropdownElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-    }
-    var HTMLFfDropdownElement: {
-        prototype: HTMLFfDropdownElement;
-        new (): HTMLFfDropdownElement;
-    };
     interface HTMLElementTagNameMap {
         "ff-button": HTMLFfButtonElement;
-        "ff-dropdown": HTMLFfDropdownElement;
     }
 }
 declare namespace LocalJSX {
@@ -144,51 +76,6 @@ declare namespace LocalJSX {
          */
         "type"?: 'button' | 'submit' | 'reset';
     }
-    /**
-     * Accessible dropdown primitive that keeps all interaction logic inside Stencil.
-     * The component owns keyboard navigation, selection state, focus handling, and the
-     * public accessibility contract. Visual identity still comes exclusively from the
-     * external token contract and the active brand pack.
-     */
-    interface FfDropdown {
-        /**
-          * Disables opening, keyboard navigation, and option selection.
-          * @default false
-         */
-        "disabled"?: boolean;
-        /**
-          * Expands the host to the width of its container.
-          * @default false
-         */
-        "fullWidth"?: boolean;
-        /**
-          * Visible field label and accessible name for the dropdown trigger.
-          * @default 'Select an option'
-         */
-        "label"?: string;
-        /**
-          * Emitted when the dropdown panel opens or closes.
-         */
-        "onFfOpenChange"?: (event: FfDropdownCustomEvent<FfDropdownOpenChangeDetail>) => void;
-        /**
-          * Emitted when the selected value changes.
-         */
-        "onFfValueChange"?: (event: FfDropdownCustomEvent<FfDropdownValueChangeDetail>) => void;
-        /**
-          * Complete option list rendered by the dropdown panel.
-          * @default []
-         */
-        "options"?: FfDropdownOption[];
-        /**
-          * Placeholder text shown when no option is currently selected.
-          * @default 'Choose an option'
-         */
-        "placeholder"?: string;
-        /**
-          * Currently selected option value. Can be controlled from the consuming app shell.
-         */
-        "value"?: string;
-    }
 
     interface FfButtonAttributes {
         "disabled": boolean;
@@ -196,17 +83,9 @@ declare namespace LocalJSX {
         "fullWidth": boolean;
         "label": string;
     }
-    interface FfDropdownAttributes {
-        "label": string;
-        "placeholder": string;
-        "value": string;
-        "disabled": boolean;
-        "fullWidth": boolean;
-    }
 
     interface IntrinsicElements {
         "ff-button": Omit<FfButton, keyof FfButtonAttributes> & { [K in keyof FfButton & keyof FfButtonAttributes]?: FfButton[K] } & { [K in keyof FfButton & keyof FfButtonAttributes as `attr:${K}`]?: FfButtonAttributes[K] } & { [K in keyof FfButton & keyof FfButtonAttributes as `prop:${K}`]?: FfButton[K] };
-        "ff-dropdown": Omit<FfDropdown, keyof FfDropdownAttributes> & { [K in keyof FfDropdown & keyof FfDropdownAttributes]?: FfDropdown[K] } & { [K in keyof FfDropdown & keyof FfDropdownAttributes as `attr:${K}`]?: FfDropdownAttributes[K] } & { [K in keyof FfDropdown & keyof FfDropdownAttributes as `prop:${K}`]?: FfDropdown[K] };
     }
 }
 export { LocalJSX as JSX };
@@ -219,13 +98,6 @@ declare module "@stencil/core" {
              * Visual identity must come from the consuming application's token contract and brand pack.
              */
             "ff-button": LocalJSX.IntrinsicElements["ff-button"] & JSXBase.HTMLAttributes<HTMLFfButtonElement>;
-            /**
-             * Accessible dropdown primitive that keeps all interaction logic inside Stencil.
-             * The component owns keyboard navigation, selection state, focus handling, and the
-             * public accessibility contract. Visual identity still comes exclusively from the
-             * external token contract and the active brand pack.
-             */
-            "ff-dropdown": LocalJSX.IntrinsicElements["ff-dropdown"] & JSXBase.HTMLAttributes<HTMLFfDropdownElement>;
         }
     }
 }

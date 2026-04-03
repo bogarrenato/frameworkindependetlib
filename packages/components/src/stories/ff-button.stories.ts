@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
-const brandOptions = ['brand-1', 'brand-2', 'brand-3', 'custom-brand'] as const;
+const brandOptions = ['brand-1', 'brand-2', 'brand-3'] as const;
 const stateOptions = ['default', 'hover', 'active', 'disabled'] as const;
 const statePreviewStyles = `
   ff-button.demo-state--hover::part(button) {
@@ -196,10 +196,6 @@ function setupLaunchPlayground(root: HTMLElement, brand: string, theme: string) 
 }
 
 function brandLabel(brandKey: string) {
-  if (brandKey === 'custom-brand') {
-    return 'Custom Brand';
-  }
-
   return brandKey.replace('brand-', 'Brand ');
 }
 

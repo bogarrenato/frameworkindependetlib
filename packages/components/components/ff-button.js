@@ -1,1 +1,1 @@
-export { FfButton, defineCustomElement } from '../dist/components/ff-button.js';
+export * from '../dist/components/ff-button.js';

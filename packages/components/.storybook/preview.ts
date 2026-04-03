@@ -1,17 +1,11 @@
 import type { Preview } from '@storybook/web-components-vite';
 import '../../tokens/src/contract.css';
 import '../../tokens/src/figma-preset.css';
-import '../../brand-styles/src/demo.css';
 import './preview.css';
 import { defineCustomElement as defineFfButton } from '../dist/components/ff-button.js';
-import { defineCustomElement as defineFfDropdown } from '../dist/components/ff-dropdown.js';
 
 if (typeof window !== 'undefined' && !window.customElements.get('ff-button')) {
   defineFfButton();
-}
-
-if (typeof window !== 'undefined' && !window.customElements.get('ff-dropdown')) {
-  defineFfDropdown();
 }
 
 const preview: Preview = {
@@ -35,8 +29,7 @@ const preview: Preview = {
         items: [
           { value: 'brand-1', title: 'Brand 1' },
           { value: 'brand-2', title: 'Brand 2' },
-          { value: 'brand-3', title: 'Brand 3' },
-          { value: 'custom-brand', title: 'Custom Brand' }
+          { value: 'brand-3', title: 'Brand 3' }
         ]
       }
     }

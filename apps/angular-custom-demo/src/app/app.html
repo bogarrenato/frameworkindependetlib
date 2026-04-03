@@ -37,32 +37,6 @@
     </div>
   </section>
 
-  <section class="control-grid">
-    <article class="info-card">
-      <p class="eyebrow">Dropdown primitive</p>
-      <div class="dropdown-demo">
-        <ff-dropdown
-          [fullWidth]="true"
-          label="Deployment lane"
-          [options]="deploymentLaneOptions"
-          placeholder="Choose a deployment lane"
-          [value]="selectedDeploymentLaneValue()"
-          (ffValueChange)="handleDeploymentLaneChange($event)"
-        ></ff-dropdown>
-
-        <div class="selection-card" role="status" aria-live="polite">
-          <p class="selection-eyebrow">Selection status</p>
-          <strong class="selection-value">
-            Current selection: {{ selectedDeploymentLaneLabel() }}
-          </strong>
-          <span class="selection-copy">
-            The custom CSS pack restyles the same dropdown logic without touching interaction code.
-          </span>
-        </div>
-      </div>
-    </article>
-  </section>
-
   <section class="info-grid">
     <article class="info-card">
       <p class="eyebrow">Consumer imports</p>
@@ -84,6 +58,7 @@
         <div class="detail-line">The shell flips between light and dark.</div>
         <div class="detail-line">The button keeps the same logic API in both modes.</div>
         <div class="detail-line">Only the imported custom CSS pack changes the look.</div>
+        <div class="detail-line">This remains an app-level override example around the same shared button primitive.</div>
       </div>
     </article>
 
@@ -99,6 +74,9 @@
         </div>
         <div class="proof-item">
           Host classes and custom CSS properties still allow local ownership and tuning.
+        </div>
+        <div class="proof-item">
+          The shipped shared runtime still stays aligned to Figma by exposing only the button.
         </div>
       </div>
     </article>

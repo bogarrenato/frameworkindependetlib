@@ -3,7 +3,7 @@ import App from './App';
 
 describe('React brand 2 showcase app', () => {
   it('renders the key consumer messaging and buttons', () => {
-    const { container } = render(<App />);
+    render(<App />);
 
     expect(
       screen.getByRole('heading', {
@@ -14,7 +14,9 @@ describe('React brand 2 showcase app', () => {
     expect(screen.getByText('Brand 2 default')).toBeInTheDocument();
     expect(screen.getByText('Class-based override')).toBeInTheDocument();
     expect(screen.getByText('Inline token tweak')).toBeInTheDocument();
-    expect(container.querySelector('ff-dropdown')).toBeInTheDocument();
+    expect(
+      screen.getByText(/only the button exists in figma and ships/i)
+    ).toBeInTheDocument();
   });
 
   it('switches the outer shell theme attribute when the user changes theme', () => {
@@ -31,11 +33,4 @@ describe('React brand 2 showcase app', () => {
     expect(mainElement).toHaveAttribute('data-theme', 'light');
   });
 
-  it('renders the dropdown section with the initial release status', () => {
-    const { container } = render(<App />);
-    const dropdownElement = container.querySelector('ff-dropdown') as HTMLElement | null;
-
-    expect(dropdownElement).not.toBeNull();
-    expect(screen.getByRole('status')).toHaveTextContent('Current selection: Pilot release');
-  });
 });

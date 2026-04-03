@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
-import { FfButton, FfDropdown } from '@fuggetlenfe/react-wrapper';
+import { FfButton } from '@fuggetlenfe/react-wrapper';
 import './App.css';
 
 type ThemeMode = 'light' | 'dark';
@@ -21,30 +21,8 @@ const brandTwoInlineTokenStyle = {
   '--ff-button-radius': '6px'
 } as CSSProperties;
 
-const releaseTargetOptions = [
-  {
-    value: 'pilot-release',
-    label: 'Pilot release',
-    description: 'Small audience rollout with monitoring enabled.'
-  },
-  {
-    value: 'production-rollout',
-    label: 'Production rollout',
-    description: 'Full audience release after final verification.'
-  },
-  {
-    value: 'maintenance-window',
-    label: 'Maintenance window',
-    description: 'Restricted release reserved for after-hours work.'
-  }
-] as const;
-
 function App() {
   const [activeTheme, setActiveTheme] = useState<ThemeMode>('light');
-  const [selectedReleaseTargetLabel, setSelectedReleaseTargetLabel] = useState(
-    'Pilot release'
-  );
-  const [selectedReleaseTargetValue, setSelectedReleaseTargetValue] = useState('pilot-release');
 
   return (
     <main className="consumer-shell" data-brand="brand-2" data-theme={activeTheme}>
@@ -81,35 +59,6 @@ function App() {
         </div>
       </section>
 
-      <section className="control-grid">
-        <article className="info-card">
-          <p className="eyebrow">Dropdown primitive</p>
-          <div className="dropdown-demo">
-            <FfDropdown
-              fullWidth
-              label="Release target"
-              options={[...releaseTargetOptions]}
-              placeholder="Choose a release target"
-              value={selectedReleaseTargetValue}
-              onFfValueChange={(customEvent) => {
-                setSelectedReleaseTargetLabel(customEvent.detail.label);
-                setSelectedReleaseTargetValue(customEvent.detail.value);
-              }}
-            />
-
-            <div aria-live="polite" className="selection-card" role="status">
-              <p className="selection-eyebrow">Selection status</p>
-              <strong className="selection-value">
-                Current selection: {selectedReleaseTargetLabel}
-              </strong>
-              <span className="selection-copy">
-                Keyboard support stays in the shared primitive: Arrow keys, Enter, Escape, and Tab.
-              </span>
-            </div>
-          </div>
-        </article>
-      </section>
-
       <section className="info-grid">
         <article className="info-card">
           <p className="eyebrow">Consumer imports</p>
@@ -131,6 +80,9 @@ function App() {
             <div className="detail-line">Light and dark are swapped only by the shell.</div>
             <div className="detail-line">The button keeps the same logic API in both modes.</div>
             <div className="detail-line">Brand 2 colors come from the Figma-derived CSS pack.</div>
+            <div className="detail-line">
+              The current PoC stays intentionally narrow: only the button exists in Figma and ships.
+            </div>
           </div>
         </article>
 
@@ -143,6 +95,9 @@ function App() {
             </div>
             <div className="proof-item">
               The shared components still accept custom classes and per-instance CSS properties.
+            </div>
+            <div className="proof-item">
+              Removing a non-Figma primitive does not change the wrapper contract for the button.
             </div>
           </div>
         </article>

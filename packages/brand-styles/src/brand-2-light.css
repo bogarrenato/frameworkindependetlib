@@ -16,7 +16,6 @@
   --ff-button-radius: 4px;
   --ff-button-padding-inline: 8px;
   --ff-button-padding-block: 0px;
-  --ff-dropdown-radius: 4px;
 }
 
 [data-brand='brand-2'][data-theme='light'] {
@@ -28,18 +27,4 @@
   --ff-button-fg-active: #808080;
   --ff-button-bg-disabled: #BDBDBD;
   --ff-button-fg-disabled: #A9A9A9;
-  --ff-dropdown-label-color: var(--ff-color-text-primary);
-  --ff-dropdown-trigger-bg: var(--ff-color-surface);
-  --ff-dropdown-trigger-fg: var(--ff-color-text-primary);
-  --ff-dropdown-placeholder-color: var(--ff-color-text-primary);
-  --ff-dropdown-border-color: var(--ff-color-border-subtle);
-  --ff-dropdown-panel-bg: var(--ff-color-surface);
-  --ff-dropdown-panel-shadow: 0 18px 42px color-mix(in srgb, var(--ff-button-bg-default) 18%, transparent);
-  --ff-dropdown-option-fg: var(--ff-color-text-primary);
-  --ff-dropdown-option-description-color: var(--ff-color-text-secondary);
-  --ff-dropdown-option-bg-hover: color-mix(in srgb, var(--ff-button-bg-default) 12%, var(--ff-color-surface));
-  --ff-dropdown-option-fg-hover: var(--ff-color-text-primary);
-  --ff-dropdown-option-bg-selected: var(--ff-button-bg-default);
-  --ff-dropdown-option-fg-selected: var(--ff-button-fg-default);
-  --ff-dropdown-focus-ring: var(--ff-button-bg-default);
 }

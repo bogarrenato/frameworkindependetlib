@@ -51,7 +51,6 @@
 }
 
 .button-row,
-.control-grid,
 .info-grid {
   display: grid;
   gap: 1rem;
@@ -104,18 +103,8 @@
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-.control-grid {
-  width: min(980px, 100%);
-  margin: 1rem auto 0;
-}
-
 .info-card {
   padding: 1.2rem;
-}
-
-.dropdown-demo {
-  display: grid;
-  gap: 1rem;
 }
 
 .detail-block {
@@ -139,31 +128,6 @@
 
 .proof-item {
   color: var(--ff-color-text-secondary);
-}
-
-.selection-card {
-  display: grid;
-  gap: 0.45rem;
-  padding: 1rem;
-  border: 1px solid var(--ff-color-border-subtle);
-  background: color-mix(in srgb, var(--ff-color-surface) 90%, transparent);
-}
-
-.selection-eyebrow {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.72rem;
-  color: var(--ff-color-text-muted);
-}
-
-.selection-value {
-  font-size: 1rem;
-}
-
-.selection-copy {
-  color: var(--ff-color-text-secondary);
-  line-height: 1.6;
 }
 
 .custom-shadow::part(button) {

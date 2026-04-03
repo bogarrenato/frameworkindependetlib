@@ -3,7 +3,7 @@ import App from './App';
 
 describe('React custom demo app', () => {
   it('renders the custom-brand messaging and the button examples', () => {
-    const { container } = render(<App />);
+    render(<App />);
 
     expect(
       screen.getByRole('heading', {
@@ -14,7 +14,9 @@ describe('React custom demo app', () => {
     expect(screen.getByText('Custom brand default')).toBeInTheDocument();
     expect(screen.getByText('Host class override')).toBeInTheDocument();
     expect(screen.getByText('Inline token tweak')).toBeInTheDocument();
-    expect(container.querySelector('ff-dropdown')).toBeInTheDocument();
+    expect(
+      screen.getByText(/consumer-owned brand can style the same button/i)
+    ).toBeInTheDocument();
   });
 
   it('updates the shell theme without changing the component API', () => {
@@ -31,11 +33,4 @@ describe('React custom demo app', () => {
     expect(mainElement).toHaveAttribute('data-theme', 'light');
   });
 
-  it('renders the dropdown section with the initial deployment status', () => {
-    const { container } = render(<App />);
-    const dropdownElement = container.querySelector('ff-dropdown') as HTMLElement | null;
-
-    expect(dropdownElement).not.toBeNull();
-    expect(screen.getByRole('status')).toHaveTextContent('Current selection: Design review');
-  });
 });
