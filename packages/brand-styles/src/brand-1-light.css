@@ -1,31 +1,33 @@
+/*
+  Generated from the Figma Variables API.
+  This is an official brand pack file. Do not hand-edit it.
+*/
 [data-theme='light'] {
-  --ff-color-canvas: #fafafa;
-  --ff-color-surface: #ffffff;
-  --ff-color-text-primary: #1d174f;
-  --ff-color-text-secondary: #4d458c;
-  --ff-color-text-muted: #756fa9;
-  --ff-color-border-subtle: #d9d3ff;
+  --ff-color-canvas: #FAFAFA;
+  --ff-color-surface: #FAFAFA;
+  --ff-color-text-primary: #434040;
+  --ff-color-text-secondary: #808080;
+  --ff-color-text-muted: #A9A9A9;
+  --ff-color-border-subtle: #D9D9D9;
 }
 
 [data-brand='brand-1'] {
   --ff-font-family-brand: Arial, sans-serif;
   --ff-button-radius: 0px;
-  --ff-button-padding-inline: 0.85rem;
-  --ff-button-padding-block: 0.45rem;
+  --ff-button-padding-inline: 8px;
+  --ff-button-padding-block: 0px;
   --ff-dropdown-radius: 0px;
-  --ff-dropdown-padding-inline: 0.85rem;
-  --ff-dropdown-padding-block: 0.7rem;
 }
 
 [data-brand='brand-1'][data-theme='light'] {
-  --ff-button-bg-default: #695efd;
-  --ff-button-fg-default: #f0efff;
-  --ff-button-bg-hover: #5147db;
-  --ff-button-fg-hover: #f0efff;
-  --ff-button-bg-active: #100b53;
-  --ff-button-fg-active: #f0efff;
-  --ff-button-bg-disabled: #d8d3ff;
-  --ff-button-fg-disabled: #756fa9;
+  --ff-button-bg-default: #695EFD;
+  --ff-button-fg-default: #F0EFFF;
+  --ff-button-bg-hover: #ADA7FF;
+  --ff-button-fg-hover: #F0EFFF;
+  --ff-button-bg-active: #F0EFFF;
+  --ff-button-fg-active: #5147DB;
+  --ff-button-bg-disabled: #BDBDBD;
+  --ff-button-fg-disabled: #A9A9A9;
   --ff-dropdown-label-color: var(--ff-color-text-primary);
   --ff-dropdown-trigger-bg: var(--ff-color-surface);
   --ff-dropdown-trigger-fg: var(--ff-color-text-primary);

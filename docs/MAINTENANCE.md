@@ -25,7 +25,9 @@ A platform celja, hogy:
 ### Tokens
 
 - public contract
-- Figma sync source
+- Figma Variables sync source
+- explicit nev-alapu bindingok
+- fail-fast validacio
 
 ### Brand styles
 
@@ -67,6 +69,7 @@ A platform celja, hogy:
 
 - `packages/tokens`
 - `packages/brand-styles`
+- eloszor a Figma Variables contractot kell ellenorizni, nem a generalt CSS-t kezzel javitani
 
 ### Ha csak egy app sajat layoutja valtozik
 
@@ -79,6 +82,8 @@ A platform celja, hogy:
 3. A consumer app ne targetaljon belso shadow DOM implementacios reszleteket.
 4. A public token contract atnevezese mindig governance-koteles valtozas.
 5. A copy-ownership registry csak kiveteles escape hatch legyen.
+6. A sync ne olvasson node ID-ket vagy preview frame sorrendet, csak named variable bindingokat.
+7. A consuming app official brand eseten package-et fogyasszon, ne lokalisan forkolt brand packet.
 
 ## 6. Release szabaly
 
@@ -130,3 +135,4 @@ Ez nem a component library dolga.
 - tesztek lefutottak
 - a Storybook tovabbra is epul
 - a docs frissultek, ha public API valtozott
+- a Figma tokenhez szukseges scope-ok dokumentalva vannak, ha a sync valtozott

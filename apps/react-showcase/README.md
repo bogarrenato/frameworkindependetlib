@@ -7,7 +7,6 @@ Ez a consuming app a React wrapper libraryt hasznalja, a design reteg pedig kuls
 ```tsx
 import { FfButton } from '@fuggetlenfe/react-wrapper';
 import '@fuggetlenfe/tokens/contract.css';
-import '@fuggetlenfe/tokens/figma-preset.css';
 import '@fuggetlenfe/brand-styles/brand-2-light.css';
 import '@fuggetlenfe/brand-styles/brand-2-dark.css';
 ```

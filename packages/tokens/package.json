@@ -13,5 +13,8 @@
     "./figma-preset.css": "./src/figma-preset.css",
     "./theme.css": "./src/theme.css",
     "./tokens.json": "./src/tokens.json"
+  },
+  "scripts": {
+    "test": "node --test ./test/*.test.mjs"
   }
 }

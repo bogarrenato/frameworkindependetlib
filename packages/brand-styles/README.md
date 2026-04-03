@@ -14,6 +14,8 @@ Ez a csomag a hivatalos design pack reteg.
 - `@fuggetlenfe/brand-styles/brand-1-dark.css`
 - `@fuggetlenfe/brand-styles/brand-2-light.css`
 - `@fuggetlenfe/brand-styles/brand-2-dark.css`
+- `@fuggetlenfe/brand-styles/brand-3-light.css`
+- `@fuggetlenfe/brand-styles/brand-3-dark.css`
 - `@fuggetlenfe/brand-styles/custom-brand-light.css`
 - `@fuggetlenfe/brand-styles/custom-brand-dark.css`
 - `@fuggetlenfe/brand-styles/custom-brand.css`
@@ -24,8 +26,13 @@ Ez a csomag a hivatalos design pack reteg.
 Import sorrend:
 
 1. token contract
-2. Figma preset
-3. konkret brand pack
+2. konkret brand pack
+
+## Generalasi modell
+
+- az official brand packek a Figma Variables syncbol generalodnak
+- a `custom-brand` tovabbra is consumer-owned minta
+- a consuming appnak nem a `figma-preset.css`-t kell elsodlegesen fogyasztania, hanem a contractot es a konkret official packeket
 
 ## Megjegyzes
 

@@ -7,7 +7,6 @@ Ez a consuming app ugyanazt a React wrapper logicat hasznalja, mint a Brand 2 ap
 ```tsx
 import { FfButton } from '@fuggetlenfe/react-wrapper';
 import '@fuggetlenfe/tokens/contract.css';
-import '@fuggetlenfe/tokens/figma-preset.css';
 import '@fuggetlenfe/brand-styles/custom-brand-light.css';
 import '@fuggetlenfe/brand-styles/custom-brand-dark.css';
 ```

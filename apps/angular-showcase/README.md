@@ -6,7 +6,6 @@ Ez a consuming app az Angular wrapper libraryt hasznalja, a design reteg pedig k
 
 ```css
 @import '@fuggetlenfe/tokens/contract.css';
-@import '@fuggetlenfe/tokens/figma-preset.css';
 @import '@fuggetlenfe/brand-styles/brand-1-light.css';
 @import '@fuggetlenfe/brand-styles/brand-1-dark.css';
 ```

@@ -24,6 +24,8 @@ A platform negy fo retegbol all:
 3. token contract es official brand packek
 4. consuming app shell, amely a `data-brand` es `data-theme` kontextust adja
 
+A token sync nem node ID vagy preview frame scrapingre epul, hanem a Figma Variables API-bol olvasott, nev-alapu bindingokra. Ez azert fontos, mert enterprise kornyezetben a stabil contract a valtozonev, nem pedig a layer pozicioja vagy a frame szerkezete.
+
 ## PlantUML - statikus architektura
 
 ```plantuml
@@ -31,7 +33,7 @@ A platform negy fo retegbol all:
 title Frontend Platform Architecture
 
 package "Design Source" {
-  [Figma tokens] as Figma
+  [Figma variables] as Figma
 }
 
 package "Design Layer" {
@@ -125,12 +127,15 @@ end note
 - central styling governance
 - Angular es React reuse
 - microfrontend-kompatibilis ownership modell
+- named token contract a syncben
+- official brand packek egyetlen generalt forrasbol
 
 ### Negative
 
 - tobb csomag es release koordinacio
 - eros public contract discipline kell
 - wrapper drift veszely, ha nem maradnak vekonyak
+- a Figma tokennek megfelelo `file_variables:read` scope kell a live synchez
 
 ## Rules
 
@@ -138,6 +143,7 @@ end note
 2. A wrapper libraryk ne tartsanak sajat stylingot.
 3. A shell ownership a consuming appban maradjon.
 4. Copy ownership registry csak kiveteles escape hatch legyen.
+5. Official corporate brandet ne forkolt app-level CSS valtozatkent szallitsunk.
 
 ## Rollout
 

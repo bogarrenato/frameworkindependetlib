@@ -23,7 +23,6 @@ import { FfButton } from '@fuggetlenfe/angular-wrapper';
 
 ```css
 @import '@fuggetlenfe/tokens/contract.css';
-@import '@fuggetlenfe/tokens/figma-preset.css';
 @import '@fuggetlenfe/brand-styles/brand-1-light.css';
 @import '@fuggetlenfe/brand-styles/brand-1-dark.css';
 ```

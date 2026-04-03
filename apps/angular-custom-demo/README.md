@@ -6,7 +6,6 @@ Ez a consuming app ugyanazt az Angular wrapper logicat hasznalja, mint a Brand 1
 
 ```css
 @import '@fuggetlenfe/tokens/contract.css';
-@import '@fuggetlenfe/tokens/figma-preset.css';
 @import '@fuggetlenfe/brand-styles/custom-brand-light.css';
 @import '@fuggetlenfe/brand-styles/custom-brand-dark.css';
 ```
