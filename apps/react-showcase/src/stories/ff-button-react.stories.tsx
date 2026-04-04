@@ -135,6 +135,91 @@ export const StateMatrix: Story = {
   )
 };
 
+type CssTokenOverrides = React.CSSProperties & Record<`--ff-${string}`, string>;
+
+export const Variants: Story = {
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story: 'All button API variations rendered in a single view for visual comparison.'
+      }
+    }
+  },
+  render: (_, storyContext) => {
+    const brand = String(storyContext.globals.brand ?? 'brand-1');
+    const theme = String(storyContext.globals.theme ?? 'light');
+
+    const pillStyle: CssTokenOverrides = { '--ff-button-radius': '999px' };
+    const customTokenStyle: CssTokenOverrides = {
+      '--ff-button-bg-default': '#6366f1',
+      '--ff-button-fg-default': '#fff'
+    };
+
+    const sectionHeadingStyle: React.CSSProperties = {
+      margin: '0 0 0.5rem',
+      fontSize: '0.85rem',
+      color: 'var(--ff-color-text-secondary)'
+    };
+
+    return (
+      <div
+        data-brand={brand}
+        data-theme={theme}
+        style={{
+          minHeight: '100vh',
+          padding: '2rem',
+          background: 'var(--ff-color-canvas)',
+          color: 'var(--ff-color-text-primary)',
+          fontFamily: 'Inter, Arial, sans-serif'
+        }}
+      >
+        <div style={{ display: 'grid', gap: '1.5rem', maxWidth: '480px' }}>
+          <section>
+            <h4 style={sectionHeadingStyle}>Default</h4>
+            <FfButton type="button">Default button</FfButton>
+          </section>
+
+          <section>
+            <h4 style={sectionHeadingStyle}>Disabled</h4>
+            <FfButton type="button" disabled>Disabled button</FfButton>
+          </section>
+
+          <section>
+            <h4 style={sectionHeadingStyle}>Full-width</h4>
+            <FfButton type="button" fullWidth>Full-width button</FfButton>
+          </section>
+
+          <section>
+            <h4 style={sectionHeadingStyle}>Submit type</h4>
+            <FfButton type="submit">Submit button</FfButton>
+          </section>
+
+          <section>
+            <h4 style={sectionHeadingStyle}>Reset type</h4>
+            <FfButton type="reset">Reset button</FfButton>
+          </section>
+
+          <section>
+            <h4 style={sectionHeadingStyle}>Pill style (custom radius)</h4>
+            <FfButton type="button" style={pillStyle}>Pill button</FfButton>
+          </section>
+
+          <section>
+            <h4 style={sectionHeadingStyle}>Custom token override</h4>
+            <FfButton type="button" style={customTokenStyle}>Custom tokens</FfButton>
+          </section>
+
+          <section>
+            <h4 style={sectionHeadingStyle}>Label prop only (no slotted content)</h4>
+            <FfButton type="button" label="Label prop button" />
+          </section>
+        </div>
+      </div>
+    );
+  }
+};
+
 function PlaygroundDemo(storyProperties: ButtonStoryProperties & { brand: string; theme: string }) {
   const [launchCount, setLaunchCount] = React.useState(0);
   const [launchMessage, setLaunchMessage] = React.useState('');

@@ -76,6 +76,8 @@
         align-self: start;
         border-radius: var(--radius-lg);
         padding: 1.4rem;
+        max-height: calc(100vh - 2rem);
+        overflow-y: auto;
       }
 
       .brand {
@@ -128,6 +130,16 @@
 
       .sidebar nav a:hover {
         background: var(--accent-soft);
+      }
+
+      .nav-section-label {
+        margin-top: 0.6rem;
+        padding: 0.35rem 0.95rem 0.15rem;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--text-soft);
       }
 
       .content {
@@ -218,6 +230,13 @@
         font-size: 1.9rem;
       }
 
+      .sub-heading {
+        margin: 1.2rem 0 0.5rem;
+        font-family: var(--font-heading);
+        font-size: 1.3rem;
+        color: var(--text);
+      }
+
       .section-copy {
         margin: 0 0 1rem;
         max-width: 76ch;
@@ -269,6 +288,27 @@
         white-space: pre-wrap;
       }
 
+      .code-label {
+        display: block;
+        padding: 0.45rem 1rem;
+        background: #1a2233;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        color: #8899aa;
+        font-family: var(--font-code);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .code-block.has-label {
+        padding-top: 0;
+      }
+
+      .code-block.has-label > .code-body {
+        padding: 0.75rem 1rem 0.95rem;
+      }
+
       table {
         border-collapse: collapse;
         background: var(--surface-strong);
@@ -298,8 +338,20 @@
         font-family: var(--font-code);
       }
 
+      .inline-code {
+        padding: 0.15rem 0.4rem;
+        border-radius: 6px;
+        background: var(--surface-soft);
+        font-size: 0.88em;
+        color: var(--accent-strong);
+      }
+
       .callout {
         background: linear-gradient(135deg, rgba(15, 159, 110, 0.12), rgba(255, 255, 255, 0.92));
+      }
+
+      .callout-warn {
+        background: linear-gradient(135deg, rgba(234, 179, 8, 0.12), rgba(255, 255, 255, 0.92));
       }
 
       .list {
@@ -325,6 +377,69 @@
         top: 0.72rem;
       }
 
+      .layer-diagram {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0.75rem;
+        margin: 1rem 0;
+      }
+
+      .layer-box {
+        border-radius: var(--radius-sm);
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .layer-box h4 {
+        margin: 0 0 0.3rem;
+        font-family: var(--font-heading);
+        font-size: 1rem;
+      }
+
+      .layer-box p {
+        margin: 0;
+        font-size: 0.85rem;
+        color: var(--text-soft);
+        line-height: 1.5;
+      }
+
+      .layer-1 {
+        background: rgba(15, 159, 110, 0.18);
+        border: 1px solid rgba(15, 159, 110, 0.35);
+      }
+
+      .layer-2 {
+        background: rgba(59, 130, 246, 0.12);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+      }
+
+      .layer-3 {
+        background: rgba(168, 85, 247, 0.12);
+        border: 1px solid rgba(168, 85, 247, 0.3);
+      }
+
+      .example-group {
+        margin-top: 1rem;
+      }
+
+      .example-group + .example-group {
+        margin-top: 1.5rem;
+      }
+
+      .example-title {
+        margin: 0 0 0.4rem;
+        font-family: var(--font-heading);
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .example-desc {
+        margin: 0 0 0.5rem;
+        color: var(--text-soft);
+        font-size: 0.92rem;
+        line-height: 1.6;
+      }
+
       @media (max-width: 1024px) {
         .layout {
           grid-template-columns: 1fr;
@@ -332,6 +447,11 @@
 
         .sidebar {
           position: static;
+          max-height: none;
+        }
+
+        .layer-diagram {
+          grid-template-columns: 1fr;
         }
       }
     </style>
@@ -349,19 +469,33 @@
           <a href="#overview">Overview</a>
           <a href="#getting-started">Getting started</a>
           <a href="#architecture">Architecture</a>
-          <a href="#components">Components</a>
+
+          <span class="nav-section-label">API reference</span>
+          <a href="#components">FfButton</a>
+          <a href="#css-custom-properties">CSS custom properties</a>
+          <a href="#shadow-parts">Shadow parts</a>
+          <a href="#slots">Slots</a>
+          <a href="#examples">Usage examples</a>
+
+          <span class="nav-section-label">Design</span>
+          <a href="#token-architecture">Token architecture</a>
           <a href="#theming">Theming</a>
+
+          <span class="nav-section-label">Quality</span>
           <a href="#accessibility">Accessibility</a>
+          <a href="#keyboard-nav">Keyboard navigation</a>
+          <a href="#aria">ARIA</a>
           <a href="#release-model">Release model</a>
         </nav>
       </aside>
 
       <main class="content">
+        <!-- ────────────────────── Overview ────────────────────── -->
         <section class="hero" id="overview">
           <p class="eyebrow">UI kit reference</p>
           <h2>Use the same primitive logic in React without inheriting design decisions.</h2>
           <p class="hero-copy">
-            <code>@fuggetlenfe/react-wrapper</code> turns shared Stencil primitives into React-ready
+            <code class="inline-code">@fuggetlenfe/react-wrapper</code> turns shared Stencil primitives into React-ready
             exports. The package does not own light and dark mode, brand activation, layout policy,
             or product-specific behavior. Consumers import wrapper components, then separately bring
             in the token contract and the official brand pack they want to render.
@@ -404,20 +538,35 @@
           </article>
         </section>
 
+        <!-- ────────────────────── Getting started ────────────────────── -->
         <section id="getting-started">
           <h2 class="section-heading">Getting started</h2>
           <p class="section-copy">
             A React consumer imports the wrapper package for component behavior and separately imports
             the token contract plus the official light and dark brand stylesheets it wants to use.
           </p>
+
+          <h3 class="sub-heading">1. Install packages</h3>
           <div class="code-block">pnpm add @fuggetlenfe/react-wrapper @fuggetlenfe/tokens @fuggetlenfe/brand-styles</div>
+
+          <h3 class="sub-heading">2. Import styles and components</h3>
           <div class="code-block">import '@fuggetlenfe/tokens/contract.css';
 import '@fuggetlenfe/brand-styles/brand-2-light.css';
 import '@fuggetlenfe/brand-styles/brand-2-dark.css';
 
 import { FfButton } from '@fuggetlenfe/react-wrapper';</div>
+
+          <h3 class="sub-heading">3. Activate a brand context</h3>
+          <div class="code-block">export function App() {
+  return (
+    &lt;main data-brand="brand-2" data-theme="light"&gt;
+      &lt;FfButton&gt;Get started&lt;/FfButton&gt;
+    &lt;/main&gt;
+  );
+}</div>
         </section>
 
+        <!-- ────────────────────── Architecture ────────────────────── -->
         <section id="architecture">
           <h2 class="section-heading">Architecture boundaries</h2>
           <p class="section-copy">
@@ -443,8 +592,9 @@ import { FfButton } from '@fuggetlenfe/react-wrapper';</div>
           </div>
         </section>
 
+        <!-- ────────────────────── Component reference ────────────────────── -->
         <section id="components">
-          <h2 class="section-heading">Component reference</h2>
+          <h2 class="section-heading">Component reference &mdash; FfButton</h2>
           <p class="section-copy">
             The current wrapper documents the same public API that the shared Stencil primitives
             expose. The PoC is intentionally limited to the button because that is the primitive
@@ -473,59 +623,449 @@ import { FfButton } from '@fuggetlenfe/react-wrapper';</div>
   );
 }</div>
 
-              <table aria-label="FfButton API">
+              <!-- Props table -->
+              <h3 class="sub-heading">Props</h3>
+              <table aria-label="FfButton props">
                 <thead>
-                  <tr><th>Prop</th><th>Type</th><th>Description</th></tr>
+                  <tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr>
                 </thead>
                 <tbody>
-                  <tr><td><code>label</code></td><td><code>string</code></td><td>Fallback label when no slotted content is provided.</td></tr>
-                  <tr><td><code>disabled</code></td><td><code>boolean</code></td><td>Disables pointer and keyboard interaction.</td></tr>
-                  <tr><td><code>fullWidth</code></td><td><code>boolean</code></td><td>Expands the host without coupling layout to a specific brand.</td></tr>
-                  <tr><td><code>type</code></td><td><code>'button' | 'submit' | 'reset'</code></td><td>Mirrors the native button type attribute.</td></tr>
+                  <tr>
+                    <td><code class="inline-code">label</code></td>
+                    <td><code>string</code></td>
+                    <td><code>undefined</code></td>
+                    <td>Fallback label rendered when no slotted content is provided.</td>
+                  </tr>
+                  <tr>
+                    <td><code class="inline-code">disabled</code></td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>Disables pointer and keyboard interaction. Applies <code class="inline-code">aria-disabled</code> and the <code class="inline-code">--ff-button-bg-disabled</code> / <code class="inline-code">--ff-button-fg-disabled</code> token pair.</td>
+                  </tr>
+                  <tr>
+                    <td><code class="inline-code">fullWidth</code></td>
+                    <td><code>boolean</code></td>
+                    <td><code>false</code></td>
+                    <td>Expands the host element to 100% of its container width without coupling layout to a specific brand.</td>
+                  </tr>
+                  <tr>
+                    <td><code class="inline-code">type</code></td>
+                    <td><code>'button' | 'submit' | 'reset'</code></td>
+                    <td><code>'button'</code></td>
+                    <td>Mirrors the native <code class="inline-code">&lt;button&gt;</code> type attribute. Use <code class="inline-code">'submit'</code> inside <code class="inline-code">&lt;form&gt;</code> elements.</td>
+                  </tr>
                 </tbody>
               </table>
             </article>
           </div>
         </section>
 
+        <!-- ────────────────────── CSS Custom Properties ────────────────────── -->
+        <section id="css-custom-properties">
+          <h2 class="section-heading">CSS custom properties</h2>
+          <p class="section-copy">
+            Every visual property of the button is driven by CSS custom properties sourced from the
+            active brand pack. These tokens can be overridden at any level of the DOM tree for
+            localized customization.
+          </p>
+          <table aria-label="FfButton CSS custom properties">
+            <thead>
+              <tr><th>Token</th><th>Description</th><th>Default</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code class="inline-code">--ff-button-bg-default</code></td>
+                <td>Background color in the default (rest) state.</td>
+                <td>From brand pack</td>
+              </tr>
+              <tr>
+                <td><code class="inline-code">--ff-button-fg-default</code></td>
+                <td>Foreground (text/icon) color in the default state.</td>
+                <td>From brand pack</td>
+              </tr>
+              <tr>
+                <td><code class="inline-code">--ff-button-bg-hover</code></td>
+                <td>Background color on pointer hover.</td>
+                <td>From brand pack</td>
+              </tr>
+              <tr>
+                <td><code class="inline-code">--ff-button-fg-hover</code></td>
+                <td>Foreground color on pointer hover.</td>
+                <td>From brand pack</td>
+              </tr>
+              <tr>
+                <td><code class="inline-code">--ff-button-bg-active</code></td>
+                <td>Background color on press / active state.</td>
+                <td>From brand pack</td>
+              </tr>
+              <tr>
+                <td><code class="inline-code">--ff-button-fg-active</code></td>
+                <td>Foreground color on press / active state.</td>
+                <td>From brand pack</td>
+              </tr>
+              <tr>
+                <td><code class="inline-code">--ff-button-bg-disabled</code></td>
+                <td>Background color when the button is disabled.</td>
+                <td>From brand pack</td>
+              </tr>
+              <tr>
+                <td><code class="inline-code">--ff-button-fg-disabled</code></td>
+                <td>Foreground color when the button is disabled.</td>
+                <td>From brand pack</td>
+              </tr>
+              <tr>
+                <td><code class="inline-code">--ff-button-radius</code></td>
+                <td>Border radius of the button surface.</td>
+                <td>From brand pack</td>
+              </tr>
+              <tr>
+                <td><code class="inline-code">--ff-button-padding-inline</code></td>
+                <td>Horizontal (inline-axis) padding.</td>
+                <td>From brand pack</td>
+              </tr>
+              <tr>
+                <td><code class="inline-code">--ff-button-padding-block</code></td>
+                <td>Vertical (block-axis) padding.</td>
+                <td>From brand pack</td>
+              </tr>
+              <tr>
+                <td><code class="inline-code">--ff-font-family-brand</code></td>
+                <td>Font family applied to button text.</td>
+                <td>From brand pack</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ────────────────────── Shadow Parts ────────────────────── -->
+        <section id="shadow-parts">
+          <h2 class="section-heading">CSS shadow parts</h2>
+          <p class="section-copy">
+            The component exposes shadow parts that allow consumers to target internal elements with
+            the <code class="inline-code">::part()</code> pseudo-element selector when CSS custom properties alone
+            are not sufficient.
+          </p>
+          <table aria-label="FfButton shadow parts">
+            <thead>
+              <tr><th>Part</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code class="inline-code">button</code></td>
+                <td>The native <code class="inline-code">&lt;button&gt;</code> element inside the shadow DOM. Use <code class="inline-code">ff-button::part(button)</code> in stylesheets for direct styling escape hatches.</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="callout callout-warn" style="margin-top: 1rem;">
+            <h3>Prefer tokens over part selectors</h3>
+            <p>
+              Shadow part selectors bypass the token architecture and create tight coupling to the
+              internal DOM structure. Use CSS custom properties as the primary styling mechanism.
+              Reserve <code class="inline-code">::part()</code> for edge cases where token coverage is genuinely insufficient.
+            </p>
+          </div>
+        </section>
+
+        <!-- ────────────────────── Slots ────────────────────── -->
+        <section id="slots">
+          <h2 class="section-heading">Slots</h2>
+          <p class="section-copy">
+            FfButton uses the standard web component slot mechanism to accept projected content.
+          </p>
+          <table aria-label="FfButton slots">
+            <thead>
+              <tr><th>Slot</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code class="inline-code">(default)</code></td>
+                <td>Button content. Accepts text, icons, or any inline markup. Falls back to the <code class="inline-code">label</code> prop value if the slot is empty.</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="code-block"><span class="code-label">Slotted content example</span><div class="code-body">{/* Text via default slot (preferred) */}
+&lt;FfButton&gt;Save changes&lt;/FfButton&gt;
+
+{/* Fallback via label prop */}
+&lt;FfButton label="Save changes" /&gt;</div></div>
+        </section>
+
+        <!-- ────────────────────── Usage Examples ────────────────────── -->
+        <section id="examples">
+          <h2 class="section-heading">Usage examples</h2>
+          <p class="section-copy">
+            Each example below is a self-contained React component demonstrating a specific usage
+            pattern. All examples assume the brand context and token imports shown in the
+            <a href="#getting-started">Getting started</a> section.
+          </p>
+
+          <div class="example-group">
+            <p class="example-title">Disabled button</p>
+            <p class="example-desc">
+              Set <code class="inline-code">disabled</code> to prevent interaction. The component applies
+              <code class="inline-code">aria-disabled="true"</code> and renders the disabled token pair automatically.
+            </p>
+            <div class="code-block">export function DisabledExample() {
+  return &lt;FfButton disabled&gt;Cannot proceed&lt;/FfButton&gt;;
+}</div>
+          </div>
+
+          <div class="example-group">
+            <p class="example-title">Full-width button</p>
+            <p class="example-desc">
+              The <code class="inline-code">fullWidth</code> prop stretches the button to fill its container without
+              hardcoding a CSS class tied to a specific brand.
+            </p>
+            <div class="code-block">export function FullWidthExample() {
+  return (
+    &lt;div style={{ maxWidth: '24rem' }}&gt;
+      &lt;FfButton fullWidth&gt;Continue to checkout&lt;/FfButton&gt;
+    &lt;/div&gt;
+  );
+}</div>
+          </div>
+
+          <div class="example-group">
+            <p class="example-title">Submit button in a form</p>
+            <p class="example-desc">
+              Use <code class="inline-code">type="submit"</code> inside a <code class="inline-code">&lt;form&gt;</code>
+              element so that the button participates in native form submission.
+            </p>
+            <div class="code-block">import { type FormEvent } from 'react';
+
+export function FormExample() {
+  function handleSubmit(event: FormEvent&lt;HTMLFormElement&gt;) {
+    event.preventDefault();
+    // process form data
+  }
+
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;label htmlFor="email"&gt;Email&lt;/label&gt;
+      &lt;input id="email" name="email" type="email" required /&gt;
+      &lt;FfButton type="submit"&gt;Subscribe&lt;/FfButton&gt;
+    &lt;/form&gt;
+  );
+}</div>
+          </div>
+
+          <div class="example-group">
+            <p class="example-title">Custom token override with proper typing</p>
+            <p class="example-desc">
+              When overriding design tokens via the <code class="inline-code">style</code> prop, define a
+              <code class="inline-code">CssTokenOverrides</code> type that extends
+              <code class="inline-code">CSSProperties</code> with the token namespace. This avoids unsafe type
+              assertions and keeps the linter clean.
+            </p>
+            <div class="code-block">import { type CSSProperties } from 'react';
+
+type CssTokenOverrides = CSSProperties &amp; Record&lt;`--ff-${string}`, string&gt;;
+
+const pillStyle: CssTokenOverrides = {
+  '--ff-button-radius': '999px',
+};
+
+export function PillButtonExample() {
+  return &lt;FfButton style={pillStyle}&gt;Pill button&lt;/FfButton&gt;;
+}</div>
+          </div>
+
+          <div class="example-group">
+            <p class="example-title">Multiple buttons with shared context</p>
+            <p class="example-desc">
+              Group several buttons under the same brand and theme context. Each button inherits the
+              active token set from the nearest <code class="inline-code">data-brand</code> /
+              <code class="inline-code">data-theme</code> ancestor.
+            </p>
+            <div class="code-block">export function ActionBar() {
+  return (
+    &lt;footer
+      data-brand="brand-2"
+      data-theme="light"
+      style={{ display: 'flex', gap: '0.75rem' }}
+    &gt;
+      &lt;FfButton type="submit"&gt;Save&lt;/FfButton&gt;
+      &lt;FfButton type="reset"&gt;Reset&lt;/FfButton&gt;
+      &lt;FfButton disabled&gt;Locked&lt;/FfButton&gt;
+    &lt;/footer&gt;
+  );
+}</div>
+          </div>
+        </section>
+
+        <!-- ────────────────────── Token Architecture ────────────────────── -->
+        <section id="token-architecture">
+          <h2 class="section-heading">Token architecture</h2>
+          <p class="section-copy">
+            The design system uses a three-layer token model that separates concerns between the
+            component contract, the brand implementation, and per-instance overrides. Understanding
+            this model is critical for theming and customization.
+          </p>
+
+          <div class="layer-diagram">
+            <div class="layer-box layer-1">
+              <h4>Layer 1: Contract</h4>
+              <p>Semantic token names declared in <code class="inline-code">contract.css</code>. Defines the API surface without providing values.</p>
+            </div>
+            <div class="layer-box layer-2">
+              <h4>Layer 2: Brand pack</h4>
+              <p>Concrete values assigned to contract tokens for each brand + theme combination (e.g., <code class="inline-code">brand-2-light.css</code>).</p>
+            </div>
+            <div class="layer-box layer-3">
+              <h4>Layer 3: Override</h4>
+              <p>Per-instance or per-section token overrides applied via inline <code class="inline-code">style</code> or scoped CSS rules.</p>
+            </div>
+          </div>
+
+          <div class="callout">
+            <h3>Resolution order</h3>
+            <div class="list">
+              <div class="list-item"><strong>Contract</strong> declares token names with empty or fallback values. Imported once at the app root.</div>
+              <div class="list-item"><strong>Brand pack</strong> populates the contract. Activated by <code class="inline-code">data-brand</code> and <code class="inline-code">data-theme</code> attributes on an ancestor element.</div>
+              <div class="list-item"><strong>Override</strong> wins via specificity or inline style. Used sparingly for edge cases like the pill button example above.</div>
+            </div>
+          </div>
+
+          <div class="code-block"><span class="code-label">Scoped override in a stylesheet</span><div class="code-body">/* Override only within a promotional banner */
+.promo-banner ff-button {
+  --ff-button-bg-default: #e63946;
+  --ff-button-fg-default: #ffffff;
+  --ff-button-radius: 999px;
+}</div></div>
+        </section>
+
+        <!-- ────────────────────── Theming ────────────────────── -->
         <section id="theming">
           <h2 class="section-heading">Theming and brand activation</h2>
           <p class="section-copy">
             The wrapper never decides how the component should look. The React app shell imports the
-            token contract and a brand pack, then activates the visual context with <code>data-brand</code>
-            and <code>data-theme</code>.
+            token contract and a brand pack, then activates the visual context with <code class="inline-code">data-brand</code>
+            and <code class="inline-code">data-theme</code>.
           </p>
-          <div class="code-block">&lt;main data-brand="brand-2" data-theme={activeTheme}&gt;
-  &lt;FfButton&gt;Launch selected brand&lt;/FfButton&gt;
-&lt;/main&gt;</div>
+          <div class="code-block">import { useState } from 'react';
+
+type Theme = 'light' | 'dark';
+
+export function ThemeSwitcher() {
+  const [theme, setTheme] = useState&lt;Theme&gt;('light');
+
+  function toggleTheme() {
+    setTheme((prev) =&gt; (prev === 'light' ? 'dark' : 'light'));
+  }
+
+  return (
+    &lt;main data-brand="brand-2" data-theme={theme}&gt;
+      &lt;FfButton&gt;Themed action&lt;/FfButton&gt;
+      &lt;button onClick={toggleTheme}&gt;
+        Switch to {theme === 'light' ? 'dark' : 'light'}
+      &lt;/button&gt;
+    &lt;/main&gt;
+  );
+}</div>
           <div class="callout">
             <h3>Supported override paths</h3>
             <div class="list">
-              <div class="list-item">App shell <code>data-brand</code> and <code>data-theme</code> context.</div>
+              <div class="list-item">App shell <code class="inline-code">data-brand</code> and <code class="inline-code">data-theme</code> context.</div>
               <div class="list-item">Documented CSS custom properties from the shared token contract.</div>
               <div class="list-item">Host classes passed directly from the consuming React app.</div>
             </div>
           </div>
         </section>
 
+        <!-- ────────────────────── Accessibility ────────────────────── -->
         <section id="accessibility">
-          <h2 class="section-heading">Accessibility expectations</h2>
+          <h2 class="section-heading">Accessibility</h2>
           <p class="section-copy">
-            Accessibility behavior belongs to the shared primitive layer, but the React wrapper is
-            responsible for preserving that contract in a React-friendly consumption model.
+            Accessibility behavior is owned by the shared Stencil primitive layer. The React wrapper
+            preserves that contract in a React-friendly consumption model. The sections below cover
+            keyboard interaction, ARIA semantics, and contrast requirements.
           </p>
           <table aria-label="Accessibility checklist">
             <thead>
               <tr><th>Area</th><th>Current expectation</th></tr>
             </thead>
             <tbody>
-              <tr><td>Keyboard support</td><td>Buttons keep native button semantics. Dropdown supports Arrow keys, Enter, Escape, and Tab.</td></tr>
-              <tr><td>ARIA model</td><td>Dropdown uses a listbox pattern with the label, expanded state, and selected state surfaced by the primitive.</td></tr>
-              <tr><td>Theme quality</td><td>Official brand packs are expected to meet WCAG AA contrast targets before release.</td></tr>
+              <tr><td>Keyboard support</td><td>Buttons retain native <code class="inline-code">&lt;button&gt;</code> semantics. See the keyboard navigation table below for key mappings.</td></tr>
+              <tr><td>ARIA model</td><td>Covered in the dedicated ARIA section below. FfButton relies on the native <code class="inline-code">&lt;button&gt;</code> role and augments it with <code class="inline-code">aria-disabled</code> when appropriate.</td></tr>
+              <tr><td>Theme quality</td><td>Official brand packs are expected to meet WCAG 2.1 AA contrast targets (4.5:1 for normal text, 3:1 for large text) before release.</td></tr>
+              <tr><td>Focus indicators</td><td>Focus rings are provided by the primitive and must be visible in both light and dark themes.</td></tr>
             </tbody>
           </table>
         </section>
 
+        <!-- ────────────────────── Keyboard Navigation ────────────────────── -->
+        <section id="keyboard-nav">
+          <h2 class="section-heading">Keyboard navigation</h2>
+          <p class="section-copy">
+            FfButton uses a native <code class="inline-code">&lt;button&gt;</code> element inside its shadow DOM, so all
+            standard keyboard interactions apply without custom JavaScript handlers.
+          </p>
+          <table aria-label="FfButton keyboard interactions">
+            <thead>
+              <tr><th>Key</th><th>Behavior</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><kbd>Tab</kbd></td>
+                <td>Moves focus to the button. When disabled, the button is removed from the tab order.</td>
+              </tr>
+              <tr>
+                <td><kbd>Shift + Tab</kbd></td>
+                <td>Moves focus to the previous focusable element.</td>
+              </tr>
+              <tr>
+                <td><kbd>Enter</kbd></td>
+                <td>Activates the button. If <code class="inline-code">type="submit"</code>, triggers form submission.</td>
+              </tr>
+              <tr>
+                <td><kbd>Space</kbd></td>
+                <td>Activates the button on key-up. The browser may scroll the page on key-down; the native button prevents this.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ────────────────────── ARIA ────────────────────── -->
+        <section id="aria">
+          <h2 class="section-heading">ARIA reference</h2>
+          <p class="section-copy">
+            Because FfButton renders a native <code class="inline-code">&lt;button&gt;</code> element, it inherits the
+            implicit <code class="inline-code">role="button"</code> without requiring explicit ARIA role assignment.
+            The following attributes are managed by the primitive:
+          </p>
+          <table aria-label="FfButton ARIA attributes">
+            <thead>
+              <tr><th>Attribute</th><th>Condition</th><th>Value</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code class="inline-code">role</code></td>
+                <td>Always (implicit)</td>
+                <td><code>button</code> &mdash; inherited from the native element.</td>
+              </tr>
+              <tr>
+                <td><code class="inline-code">aria-disabled</code></td>
+                <td>When <code class="inline-code">disabled</code> prop is <code>true</code></td>
+                <td><code>"true"</code> &mdash; communicates disabled state to assistive technology while keeping the element in the accessibility tree.</td>
+              </tr>
+              <tr>
+                <td><code class="inline-code">aria-label</code></td>
+                <td>When button has no visible text</td>
+                <td>Falls back to the <code class="inline-code">label</code> prop. Consumers should always provide either slotted text or the <code class="inline-code">label</code> prop so the button has an accessible name.</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="callout">
+            <h3>Consumer responsibilities</h3>
+            <div class="list">
+              <div class="list-item">Provide an accessible name via slotted content or the <code class="inline-code">label</code> prop. Buttons without an accessible name will fail automated audits.</div>
+              <div class="list-item">Do not override <code class="inline-code">role</code> on FfButton. The native button role is correct for all supported use cases.</div>
+              <div class="list-item">When using icon-only buttons, set the <code class="inline-code">label</code> prop to a descriptive string (e.g., <code class="inline-code">label="Close dialog"</code>).</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ────────────────────── Release model ────────────────────── -->
         <section id="release-model">
           <h2 class="section-heading">Release and maintenance model</h2>
           <p class="section-copy">

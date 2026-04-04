@@ -112,6 +112,72 @@ type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
 
+export const Variants: Story = {
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story: 'All button API variations rendered in a single view for visual comparison.'
+      }
+    }
+  },
+  render: (_, storyContext) => ({
+    props: {
+      brand: String(storyContext.globals['brand'] ?? 'brand-1'),
+      theme: String(storyContext.globals['theme'] ?? 'light')
+    },
+    template: `
+      <div
+        [attr.data-brand]="brand"
+        [attr.data-theme]="theme"
+        style="min-height:100vh;padding:2rem;background:var(--ff-color-canvas);color:var(--ff-color-text-primary);font-family:Inter,Arial,sans-serif"
+      >
+        <div style="display:grid;gap:1.5rem;max-width:480px">
+          <section>
+            <h4 style="margin:0 0 0.5rem;font-size:0.85rem;color:var(--ff-color-text-secondary)">Default</h4>
+            <ff-button type="button">Default button</ff-button>
+          </section>
+
+          <section>
+            <h4 style="margin:0 0 0.5rem;font-size:0.85rem;color:var(--ff-color-text-secondary)">Disabled</h4>
+            <ff-button type="button" [disabled]="true">Disabled button</ff-button>
+          </section>
+
+          <section>
+            <h4 style="margin:0 0 0.5rem;font-size:0.85rem;color:var(--ff-color-text-secondary)">Full-width</h4>
+            <ff-button type="button" [fullWidth]="true">Full-width button</ff-button>
+          </section>
+
+          <section>
+            <h4 style="margin:0 0 0.5rem;font-size:0.85rem;color:var(--ff-color-text-secondary)">Submit type</h4>
+            <ff-button type="submit">Submit button</ff-button>
+          </section>
+
+          <section>
+            <h4 style="margin:0 0 0.5rem;font-size:0.85rem;color:var(--ff-color-text-secondary)">Reset type</h4>
+            <ff-button type="reset">Reset button</ff-button>
+          </section>
+
+          <section>
+            <h4 style="margin:0 0 0.5rem;font-size:0.85rem;color:var(--ff-color-text-secondary)">Pill style (custom radius)</h4>
+            <ff-button type="button" style="--ff-button-radius:999px">Pill button</ff-button>
+          </section>
+
+          <section>
+            <h4 style="margin:0 0 0.5rem;font-size:0.85rem;color:var(--ff-color-text-secondary)">Custom token override</h4>
+            <ff-button type="button" style="--ff-button-bg-default:#6366f1;--ff-button-fg-default:#fff">Custom tokens</ff-button>
+          </section>
+
+          <section>
+            <h4 style="margin:0 0 0.5rem;font-size:0.85rem;color:var(--ff-color-text-secondary)">Label prop only (no slotted content)</h4>
+            <ff-button type="button" label="Label prop button"></ff-button>
+          </section>
+        </div>
+      </div>
+    `
+  })
+};
+
 export const StateMatrix: Story = {
   parameters: {
     controls: { disable: true },

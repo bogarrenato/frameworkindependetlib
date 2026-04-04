@@ -136,13 +136,13 @@ const landingPage = `<!doctype html>
         gap: 1.25rem;
       }
 
-      .hero, .grid a {
+      .hero, .grid a, .section-panel, .arch-panel, .principle-card {
         border: 1px solid var(--border);
         background: linear-gradient(180deg, rgba(255,255,255,0.04), transparent), var(--panel);
       }
 
       .hero {
-        padding: 1.4rem;
+        padding: 2rem;
       }
 
       .eyebrow {
@@ -153,10 +153,153 @@ const landingPage = `<!doctype html>
         color: var(--muted);
       }
 
-      h1, h2, p { margin: 0; }
+      h1, h2, h3, p { margin: 0; }
       h1 { font-size: clamp(2.2rem, 5vw, 4.6rem); line-height: 0.96; max-width: 11ch; }
+      h2 { font-size: 1.4rem; margin-bottom: 1rem; }
+      h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
       .hero p + p { margin-top: 0.9rem; }
       .subcopy { max-width: 68ch; color: var(--muted); line-height: 1.7; }
+
+      /* Section panels */
+      .section-panel {
+        padding: 2rem;
+      }
+
+      .section-label {
+        display: block;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 0.72rem;
+        color: var(--accent-soft);
+        margin-bottom: 0.75rem;
+      }
+
+      /* Architecture diagram */
+      .arch-panel {
+        padding: 2rem;
+        overflow-x: auto;
+      }
+
+      .arch-diagram {
+        font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+        font-size: 0.82rem;
+        line-height: 1.55;
+        color: var(--muted);
+        white-space: pre;
+        margin: 1rem 0 0;
+        padding: 1.25rem;
+        background: var(--panel-soft);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+      }
+
+      .arch-diagram .highlight {
+        color: var(--accent-soft);
+      }
+
+      /* Design Principles grid */
+      .principles-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 1rem;
+      }
+
+      .principle-card {
+        padding: 1.25rem;
+      }
+
+      .principle-card h3 {
+        color: var(--accent-soft);
+      }
+
+      .principle-card p {
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 0.92rem;
+      }
+
+      /* Token list */
+      .token-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 0.75rem;
+        margin-top: 0.75rem;
+      }
+
+      .token-feature {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.6rem;
+        color: var(--muted);
+        line-height: 1.5;
+        font-size: 0.92rem;
+      }
+
+      .token-feature .bullet {
+        color: var(--accent);
+        font-weight: 700;
+        flex-shrink: 0;
+        margin-top: 0.1rem;
+      }
+
+      /* Quick Start */
+      .quick-start-blocks {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1rem;
+        margin-top: 0.75rem;
+      }
+
+      .code-block {
+        background: var(--panel-soft);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 1rem 1.25rem;
+      }
+
+      .code-block .lang-label {
+        display: block;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-size: 0.68rem;
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+
+      .code-block code {
+        font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+        font-size: 0.8rem;
+        line-height: 1.6;
+        color: var(--text);
+        display: block;
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+
+      .code-note {
+        margin-top: 0.75rem;
+        padding: 0.75rem 1rem;
+        background: rgba(255, 91, 170, 0.08);
+        border: 1px solid rgba(255, 91, 170, 0.18);
+        border-radius: 6px;
+        color: var(--accent-soft);
+        font-size: 0.85rem;
+        line-height: 1.5;
+      }
+
+      .code-note code {
+        font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+        font-size: 0.78rem;
+        background: rgba(255,255,255,0.06);
+        padding: 0.15em 0.35em;
+        border-radius: 3px;
+      }
+
+      /* Links grid */
+      .grid-heading {
+        margin-top: 1rem;
+      }
 
       .grid {
         display: grid;
@@ -170,6 +313,11 @@ const landingPage = `<!doctype html>
         padding: 1rem;
         display: grid;
         gap: 0.55rem;
+        transition: border-color 0.15s ease;
+      }
+
+      .grid a:hover {
+        border-color: var(--accent);
       }
 
       .kicker {
@@ -187,65 +335,195 @@ const landingPage = `<!doctype html>
       .grid strong {
         font-size: 1.05rem;
       }
+
+      /* Divider */
+      .divider {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 1rem 0;
+      }
     </style>
   </head>
   <body>
     <main>
+
+      <!-- Hero -->
       <section class="hero">
-        <p class="eyebrow">GitHub Pages deployment</p>
+        <p class="eyebrow">Enterprise Design System</p>
         <h1>Fuggetlenfe multi-brand design system</h1>
         <p class="subcopy">
-          This static site hosts two React apps, two Angular apps, and the wrapper Storybooks. The component library stays logic-only, while separate CSS packages inject the actual brand identity.
+          A framework-independent component library built on Stencil, with first-class React and Angular wrappers. Design tokens are synced from Figma, injected via CSS custom properties, and swapped per brand at build or runtime.
         </p>
       </section>
 
-      <section class="grid">
-        <a href="./react-brand-2/">
-          <p class="kicker">App</p>
-          <strong>React Brand 2 app</strong>
-          <span>Consumes the React wrapper and a dedicated Brand 2 CSS pack.</span>
-        </a>
-        <a href="./react-custom/">
-          <p class="kicker">App</p>
-          <strong>React custom app</strong>
-          <span>Consumes the same wrapper logic, but styling arrives from a different custom CSS library.</span>
-        </a>
-        <a href="./angular-brand-1/">
-          <p class="kicker">App</p>
-          <strong>Angular Brand 1 app</strong>
-          <span>Consumes the Angular wrapper and a dedicated Brand 1 CSS pack.</span>
-        </a>
-        <a href="./angular-custom/">
-          <p class="kicker">App</p>
-          <strong>Angular custom app</strong>
-          <span>Consumes the same Angular wrapper logic, styled by a separate custom CSS package.</span>
-        </a>
-        <a href="./storybook/stencil/">
-          <p class="kicker">Storybook</p>
-          <strong>Stencil components</strong>
-          <span>Raw web component documentation for the framework-independent library.</span>
-        </a>
-        <a href="./docs/react-wrapper/">
-          <p class="kicker">Docs</p>
-          <strong>React wrapper docs</strong>
-          <span>UI kit style guidance, usage patterns, and component API documentation for React consumers.</span>
-        </a>
-        <a href="./docs/angular-wrapper/">
-          <p class="kicker">Docs</p>
-          <strong>Angular wrapper docs</strong>
-          <span>Angular-facing wrapper guidance, component documentation, and integration patterns.</span>
-        </a>
-        <a href="./storybook/react/">
-          <p class="kicker">Storybook</p>
-          <strong>React wrapper</strong>
-          <span>React-facing stories and docs using the generated wrapper layer.</span>
-        </a>
-        <a href="./storybook/angular/">
-          <p class="kicker">Storybook</p>
-          <strong>Angular wrapper</strong>
-          <span>Angular wrapper docs, playgrounds, and state matrix stories.</span>
-        </a>
+      <!-- Architecture -->
+      <section class="arch-panel">
+        <span class="section-label">Architecture</span>
+        <h2>System layer overview</h2>
+        <p class="subcopy">Every layer has a single responsibility. Components never import brand styles directly; the token contract is the only coupling point between design and code.</p>
+        <div class="arch-diagram">Figma Design System
+      |
+      v
+Sync Layer (Variables API)
+      |
+      v
++-------------------------------------+
+|   Token Contract  (contract.css)    |
+|   Brand Packs     (brand-*.css)     |
++-------------------------------------+
+      |
+      v
++-------------------------------------+
+|  Stencil Web Components  (core)     |
++-------------------------------------+
+      |                |
+      v                v
+React Wrapper    Angular Wrapper
+      |                |
+      v                v
+React Apps       Angular Apps</div>
       </section>
+
+      <!-- Design Principles -->
+      <section class="section-panel">
+        <span class="section-label">Design Principles</span>
+        <h2>Foundation</h2>
+        <div class="principles-grid">
+          <div class="principle-card">
+            <h3>Framework independent</h3>
+            <p>Component logic lives in Stencil web components. React and Angular wrappers are thin bridges, not reimplementations.</p>
+          </div>
+          <div class="principle-card">
+            <h3>Figma first</h3>
+            <p>Design tokens are authored in Figma and synced through the Variables API. Code always reflects the source of truth.</p>
+          </div>
+          <div class="principle-card">
+            <h3>Brand agnostic</h3>
+            <p>Same components, different visual identity. Swap a single CSS import to change every color, radius, and spacing value.</p>
+          </div>
+          <div class="principle-card">
+            <h3>Enterprise ready</h3>
+            <p>Stable public contract surface, independently versioned packages, and automated CI pipelines from Figma to production.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Token Contract -->
+      <section class="section-panel">
+        <span class="section-label">Token Contract</span>
+        <h2>Design token system</h2>
+        <p class="subcopy">The token layer defines a stable CSS custom property contract. Brand packs implement the contract with concrete values. Components only reference the contract, never raw colors or sizes.</p>
+        <div class="token-features">
+          <div class="token-feature">
+            <span class="bullet">&bull;</span>
+            <span>3 official brands (Brand 1, Brand 2, Brand 3)</span>
+          </div>
+          <div class="token-feature">
+            <span class="bullet">&bull;</span>
+            <span>Light and dark theme support</span>
+          </div>
+          <div class="token-feature">
+            <span class="bullet">&bull;</span>
+            <span>Figma Variables API sync</span>
+          </div>
+          <div class="token-feature">
+            <span class="bullet">&bull;</span>
+            <span>Stable CSS custom property contract</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Start -->
+      <section class="section-panel">
+        <span class="section-label">Quick Start</span>
+        <h2>Get started</h2>
+        <div class="quick-start-blocks">
+          <div class="code-block">
+            <span class="lang-label">React</span>
+            <code>import { FfButton } from '@fuggetlenfe/react-wrapper';</code>
+          </div>
+          <div class="code-block">
+            <span class="lang-label">Angular</span>
+            <code>import { FfButton } from '@fuggetlenfe/angular-wrapper';</code>
+          </div>
+        </div>
+        <div class="code-note">
+          Both frameworks require the token contract and a brand pack:<br/>
+          <code>@fuggetlenfe/tokens/contract.css</code> + a brand pack CSS (e.g. <code>brand-1.css</code>)
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <!-- Deployed Apps -->
+      <section>
+        <span class="section-label">Live Demos</span>
+        <h2 class="grid-heading">Applications</h2>
+        <div class="grid">
+          <a href="./react-brand-2/">
+            <p class="kicker">React</p>
+            <strong>Brand 2 showcase</strong>
+            <span>Consumes the React wrapper with a dedicated Brand 2 CSS pack.</span>
+          </a>
+          <a href="./react-custom/">
+            <p class="kicker">React</p>
+            <strong>Custom theme demo</strong>
+            <span>Same wrapper logic styled by a separate custom CSS library.</span>
+          </a>
+          <a href="./angular-brand-1/">
+            <p class="kicker">Angular</p>
+            <strong>Brand 1 showcase</strong>
+            <span>Consumes the Angular wrapper with a dedicated Brand 1 CSS pack.</span>
+          </a>
+          <a href="./angular-custom/">
+            <p class="kicker">Angular</p>
+            <strong>Custom theme demo</strong>
+            <span>Same Angular wrapper logic styled by a separate custom CSS package.</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Storybooks -->
+      <section>
+        <span class="section-label">Component Documentation</span>
+        <h2 class="grid-heading">Storybooks</h2>
+        <div class="grid">
+          <a href="./storybook/stencil/">
+            <p class="kicker">Storybook</p>
+            <strong>Stencil components</strong>
+            <span>Raw web component documentation for the framework-independent core library.</span>
+          </a>
+          <a href="./storybook/react/">
+            <p class="kicker">Storybook</p>
+            <strong>React wrapper</strong>
+            <span>React-facing stories, docs, and component playgrounds.</span>
+          </a>
+          <a href="./storybook/angular/">
+            <p class="kicker">Storybook</p>
+            <strong>Angular wrapper</strong>
+            <span>Angular wrapper docs, playgrounds, and state matrix stories.</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Docs -->
+      <section>
+        <span class="section-label">Integration Guides</span>
+        <h2 class="grid-heading">Wrapper documentation</h2>
+        <div class="grid">
+          <a href="./docs/react-wrapper/">
+            <p class="kicker">Docs</p>
+            <strong>React wrapper docs</strong>
+            <span>Usage patterns, component API documentation, and style guidance for React consumers.</span>
+          </a>
+          <a href="./docs/angular-wrapper/">
+            <p class="kicker">Docs</p>
+            <strong>Angular wrapper docs</strong>
+            <span>Angular-facing wrapper guidance, component documentation, and integration patterns.</span>
+          </a>
+        </div>
+      </section>
+
     </main>
   </body>
 </html>

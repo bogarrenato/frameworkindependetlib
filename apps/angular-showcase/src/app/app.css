@@ -148,6 +148,39 @@
   text-transform: uppercase;
 }
 
+.variants-section {
+  width: min(980px, 100%);
+  margin: 1rem auto 0;
+  border: 1px solid var(--ff-color-border-subtle);
+  background: color-mix(in srgb, var(--ff-color-surface) 92%, transparent);
+  padding: 1.5rem;
+}
+
+.section-title {
+  margin: 0.5rem 0 0;
+  font-family: var(--ff-font-family-brand);
+  font-size: 1.5rem;
+}
+
+.variants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.variant-item {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.variant-label {
+  font-size: 0.78rem;
+  color: var(--ff-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
 @media (max-width: 640px) {
   .consumer-shell {
     padding: 1rem;

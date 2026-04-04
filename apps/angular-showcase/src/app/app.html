@@ -36,6 +36,51 @@
     </div>
   </section>
 
+  <section class="variants-section">
+    <p class="eyebrow">All variants</p>
+    <h2 class="section-title">Component API</h2>
+    <div class="variants-grid">
+      <div class="variant-item">
+        <ff-button>Default</ff-button>
+        <span class="variant-label">Default button</span>
+      </div>
+      <div class="variant-item">
+        <ff-button disabled>Disabled</ff-button>
+        <span class="variant-label">Disabled state</span>
+      </div>
+      <div class="variant-item">
+        <ff-button full-width>Full width</ff-button>
+        <span class="variant-label">Full-width layout</span>
+      </div>
+      <div class="variant-item">
+        <ff-button type="submit">Submit</ff-button>
+        <span class="variant-label">Type: submit</span>
+      </div>
+      <div class="variant-item">
+        <ff-button type="reset">Reset</ff-button>
+        <span class="variant-label">Type: reset</span>
+      </div>
+      <div class="variant-item">
+        <ff-button class="pill-host">Pill shape</ff-button>
+        <span class="variant-label">Class override (border-radius: 999px)</span>
+      </div>
+      <div class="variant-item">
+        <ff-button
+          [style.--ff-button-padding-inline]="inlineTokenStyle.paddingInline"
+          [style.--ff-button-padding-block]="inlineTokenStyle.paddingBlock"
+          [style.--ff-button-radius]="inlineTokenStyle.radius"
+        >
+          Custom tokens
+        </ff-button>
+        <span class="variant-label">Inline token override</span>
+      </div>
+      <div class="variant-item">
+        <ff-button>&rarr; Next</ff-button>
+        <span class="variant-label">Slotted icon text</span>
+      </div>
+    </div>
+  </section>
+
   <section class="info-grid">
     <article class="info-card">
       <p class="eyebrow">Consumer imports</p>

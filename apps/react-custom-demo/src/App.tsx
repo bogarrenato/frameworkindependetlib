@@ -10,16 +10,24 @@ type ThemeToggleOption = {
   value: ThemeMode;
 };
 
+type CssTokenOverrides = CSSProperties & Record<`--ff-${string}`, string>;
+
 const themeToggleOptions: readonly ThemeToggleOption[] = [
   { label: 'Light', value: 'light' },
   { label: 'Dark', value: 'dark' }
 ];
 
-const customBrandInlineTokenStyle = {
+const customBrandInlineTokenStyle: CssTokenOverrides = {
   '--ff-button-radius': '20px',
   '--ff-button-padding-inline': '1.3rem',
   '--ff-button-padding-block': '0.68rem'
-} as CSSProperties;
+};
+
+const variantInlineTokenStyle: CssTokenOverrides = {
+  '--ff-button-padding-inline': '1.1rem',
+  '--ff-button-padding-block': '0.55rem',
+  '--ff-button-radius': '12px'
+};
 
 function App() {
   const [activeTheme, setActiveTheme] = useState<ThemeMode>('light');
@@ -56,6 +64,45 @@ function App() {
           <FfButton className="custom-shadow">Custom brand default</FfButton>
           <FfButton className="poster-host">Host class override</FfButton>
           <FfButton style={customBrandInlineTokenStyle}>Inline token tweak</FfButton>
+        </div>
+      </section>
+
+      <section className="variants-section">
+        <p className="eyebrow">All variants</p>
+        <h2 className="section-title">Component API</h2>
+        <div className="variants-grid">
+          <div className="variant-item">
+            <FfButton>Default</FfButton>
+            <span className="variant-label">Default button</span>
+          </div>
+          <div className="variant-item">
+            <FfButton disabled>Disabled</FfButton>
+            <span className="variant-label">Disabled state</span>
+          </div>
+          <div className="variant-item">
+            <FfButton fullWidth>Full width</FfButton>
+            <span className="variant-label">Full-width layout</span>
+          </div>
+          <div className="variant-item">
+            <FfButton type="submit">Submit</FfButton>
+            <span className="variant-label">Type: submit</span>
+          </div>
+          <div className="variant-item">
+            <FfButton type="reset">Reset</FfButton>
+            <span className="variant-label">Type: reset</span>
+          </div>
+          <div className="variant-item">
+            <FfButton className="poster-host">Pill shape</FfButton>
+            <span className="variant-label">Class override (border-radius)</span>
+          </div>
+          <div className="variant-item">
+            <FfButton style={variantInlineTokenStyle}>Custom tokens</FfButton>
+            <span className="variant-label">Inline token override</span>
+          </div>
+          <div className="variant-item">
+            <FfButton>{'\u2192 Next'}</FfButton>
+            <span className="variant-label">Slotted icon text</span>
+          </div>
         </div>
       </section>
 
