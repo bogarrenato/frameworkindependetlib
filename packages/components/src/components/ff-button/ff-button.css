@@ -1,23 +1,49 @@
 /*
-  Public customization contract:
-  - host class: ff-button-host--full-width
-  - shadow part: button
-  - token inputs: --ff-button-* and --ff-color-* variables from the external design layer
+  Structural CSS for the ff-button web component.
 
-  This stylesheet intentionally keeps only structural and state-related rules.
-  Brand, theme, and semantic color decisions belong to imported token and brand packages.
+  ## Where this file fits in the architecture
+
+  This file owns layout, transitions, and state selectors. It does NOT define any brand
+  colors, font families, or spacing values directly. Instead, it reads from CSS custom
+  properties that are defined in the external token and brand layers:
+
+    packages/tokens/src/contract.css     → defines --ff-button-bg-default etc. (stable API)
+    packages/brand-styles/src/*.css      → overrides those variables per brand+theme
+    this file (ff-button.css)            → reads via var(--ff-button-bg-default, fallback)
+
+  ## How the token flow works in practice
+
+  1. contract.css sets :root { --ff-button-bg-default: #695EFD; }
+  2. A brand pack like brand-1-light.css overrides: [data-brand='brand-1'][data-theme='light'] { --ff-button-bg-default: #...; }
+  3. This file reads: --_button-bg: var(--ff-button-bg-default, transparent);
+  4. The consumer app shell sets data-brand and data-theme → CSS cascade applies the correct values.
+
+  ## Public customization contract
+
+  - Host class: ff-button-host--full-width (layout modifier)
+  - Shadow part: button (for ::part(button) external styling)
+  - Token inputs: --ff-button-* and --ff-color-* variables from the external design layer
 */
+
+/* :host maps to the <ff-button> custom element itself.
+   Private --_button-* variables resolve from the public --ff-button-* contract.
+   The transparent/inherit fallbacks ensure the component renders safely even without a brand pack. */
 :host {
   display: inline-flex;
   --_button-bg: var(--ff-button-bg-default, transparent);
   --_button-fg: var(--ff-button-fg-default, inherit);
 }
 
+/* Layout modifier: switches from inline-flex to block-level flex when fullWidth prop is true.
+   The host class is set by ff-button.tsx via the Host class map. */
 :host(.ff-button-host--full-width) {
   display: flex;
   width: 100%;
 }
 
+/* The native <button> element inside shadow DOM.
+   Exposed as part="button" for external ::part(button) styling.
+   All visual values come from token variables, not hardcoded values. */
 .ff-button {
   display: inline-flex;
   align-items: center;
@@ -25,14 +51,17 @@
   width: 100%;
   min-height: 22px;
   border: 0;
+  /* --ff-button-radius is set by the token contract or brand pack CSS */
   border-radius: var(--ff-button-radius, 0px);
   background: var(--_button-bg);
   color: var(--_button-fg);
   cursor: pointer;
+  /* --ff-font-family-brand is the global brand font from the token contract */
   font-family: var(--ff-font-family-brand, inherit);
   font-size: 16px;
   font-weight: 400;
   line-height: 1.4;
+  /* --ff-button-padding-* values come from the token contract or brand pack */
   padding: var(--ff-button-padding-block, 0px) var(--ff-button-padding-inline, 0px);
   text-align: center;
   transition:
@@ -42,22 +71,31 @@
     box-shadow 160ms ease;
 }
 
+/* Hover state: overrides private vars with hover-specific token values.
+   If --ff-button-bg-hover is not defined by the brand pack, falls back to the default state. */
 .ff-button:hover:not(:disabled) {
   --_button-bg: var(--ff-button-bg-hover, var(--ff-button-bg-default, transparent));
   --_button-fg: var(--ff-button-fg-hover, var(--ff-button-fg-default, inherit));
 }
 
+/* Active state: press feedback with translateY(1px) micro-interaction.
+   Token values for active state come from the brand pack. */
 .ff-button:active:not(:disabled) {
   --_button-bg: var(--ff-button-bg-active, var(--ff-button-bg-default, transparent));
   --_button-fg: var(--ff-button-fg-active, var(--ff-button-fg-default, inherit));
   transform: translateY(1px);
 }
 
+/* Focus-visible state: keyboard navigation indicator.
+   Uses color-mix for a semi-transparent outline derived from the text color token.
+   This ensures the focus ring adapts to whatever brand is active. */
 .ff-button:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--ff-color-text-primary, currentColor) 28%, transparent);
   outline-offset: 2px;
 }
 
+/* Disabled state: uses dedicated token values for disabled appearance.
+   opacity: 1 prevents browser default dimming since the brand pack controls disabled colors. */
 .ff-button:disabled {
   --_button-bg: var(--ff-button-bg-disabled, transparent);
   --_button-fg: var(--ff-button-fg-disabled, inherit);

@@ -1,47 +1,68 @@
-# Tokens
+# @fuggetlenfe/tokens
 
-Ez a csomag a design contractot tartalmazza.
+The design contract layer. This package defines the stable public CSS custom property API that every component reads from. Values are synced from the Figma Variables API and distributed as plain CSS files.
 
-## Felelossege
+## Architecture role
 
-- stabil public CSS token contract
-- Figma Variables API-bol szinkronizalt preset reteg
-- token JSON export
+```
+Figma Variables API
+      |
+      v
+sync-figma.mjs / sync-core.mjs
+      |
+      ├──> contract.css       Stable public API (--ff-button-*, --ff-color-*)
+      ├──> figma-preset.css   Figma-derived default values
+      ├──> theme.css           Theme layer
+      ├──> tokens.json         Machine-readable token export
+      └──> index.js + .d.ts   JS/TS token access
+```
 
-## Retegek
+## Layers
 
-1. `contract.css`
-2. `figma-preset.css`
-3. kulso brand override, peldaul a `brand-styles` csomagbol
+The token system has three layers, applied in cascade order:
 
-## Fontos elv
+1. **`contract.css`** - The stable public API. Defines every `--ff-*` variable with safe fallback values. Components read only from this layer.
+2. **`figma-preset.css`** - Figma-derived default values that fill the contract. This is the bridge between Figma and the token API.
+3. **Brand pack CSS** (from `@fuggetlenfe/brand-styles`) - Per-brand, per-theme overrides that sit on top of the contract. These are what actually give the components a visual identity.
 
-A komponensek a contractot fogyasztjak, nem a konkret brand szineket.
-Ez teszi lehetove, hogy ugyanaz a komponenslogika tobb arculattal fusson.
+Consumer apps import `contract.css` + a brand pack. They do not need `figma-preset.css` directly.
 
-## Sync modell
+## Key principle
 
-- a Figma a source of truth
-- a sync a Variables API-bol olvas
-- a sync explicit, nev-alapu bindingokat old fel
-- ha egy kotelezo token hianyzik, a sync hibaval leall
+Components consume the contract, never concrete brand colors. This is what makes the same component logic work across every brand and theme combination.
 
-Ez tudatosan jobb, mint a node ID vagy frame sorrend alapjan torteno scraping, mert a contract review-zhato es stabilabb.
+## Token categories
 
-## Parancsok
+| Prefix | Scope | Example |
+|---|---|---|
+| `--ff-button-*` | Button component states | `--ff-button-bg-default`, `--ff-button-radius` |
+| `--ff-color-*` | Global color palette | `--ff-color-canvas`, `--ff-color-text-primary` |
+| `--ff-font-*` | Typography | `--ff-font-family-brand` |
+
+## Figma sync
 
 ```bash
 FIGMA_TOKEN=your_token pnpm figma:sync
 ```
 
-Megjegyzes:
+Requirements:
+- The Figma token must have the `file_variables:read` scope
+- The sync reads Figma Variables and maps them to CSS custom properties through explicit name-based bindings defined in `sync-core.mjs`
+- If a required token binding is missing in Figma, the sync fails with a clear error (not silently)
 
-- a tokennek rendelkeznie kell a `file_variables:read` scope-pal
-- a sync a `packages/brand-styles/src` ala is generalja az official brand packeket
+The sync also generates the official brand packs in `packages/brand-styles/src/`.
 
-## Exportok
+## Exports
 
-- `@fuggetlenfe/tokens/contract.css`
-- `@fuggetlenfe/tokens/figma-preset.css`
-- `@fuggetlenfe/tokens/theme.css`
-- `@fuggetlenfe/tokens/tokens.json`
+| Export | Format | Purpose |
+|---|---|---|
+| `@fuggetlenfe/tokens/contract.css` | CSS | Stable public token API |
+| `@fuggetlenfe/tokens/figma-preset.css` | CSS | Figma-derived defaults |
+| `@fuggetlenfe/tokens/theme.css` | CSS | Theme layer |
+| `@fuggetlenfe/tokens/tokens.json` | JSON | Machine-readable tokens |
+
+## What must not go here
+
+- Component-specific logic
+- Brand selection or switching logic
+- Consumer-specific overrides (those go in brand-styles or the consumer app)

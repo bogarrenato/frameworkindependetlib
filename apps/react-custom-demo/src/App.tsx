@@ -1,5 +1,11 @@
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
+/*
+  FfButton is the same React wrapper used in the Brand 2 showcase.
+  The component logic is identical — only the CSS imports in main.tsx differ.
+  This app imports custom-brand-light.css / custom-brand-dark.css instead of brand-2-*.css,
+  proving that the same component binary works with a completely different visual identity.
+*/
 import { FfButton } from '@fuggetlenfe/react-wrapper';
 import './App.css';
 
@@ -10,6 +16,10 @@ type ThemeToggleOption = {
   value: ThemeMode;
 };
 
+/*
+  CssTokenOverrides: Intersection type that extends CSSProperties with --ff-* custom property keys.
+  This avoids `as CSSProperties` type assertions while allowing inline token overrides.
+*/
 type CssTokenOverrides = CSSProperties & Record<`--ff-${string}`, string>;
 
 const themeToggleOptions: readonly ThemeToggleOption[] = [
@@ -33,6 +43,9 @@ function App() {
   const [activeTheme, setActiveTheme] = useState<ThemeMode>('light');
 
   return (
+    {/* data-brand="custom-brand" activates the hand-authored custom brand CSS pack.
+        Unlike official brand packs (synced from Figma), this pack is consumer-owned.
+        It overrides the same --ff-button-* contract variables with custom values. */}
     <main className="consumer-shell" data-brand="custom-brand" data-theme={activeTheme}>
       <section className="hero-card">
         <p className="eyebrow">React app · custom brand CSS lib</p>

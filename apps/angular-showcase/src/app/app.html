@@ -1,3 +1,7 @@
+<!-- data-brand and data-theme on the shell element activate the brand pack CSS.
+     The brand pack overrides --ff-button-* variables via [data-brand][data-theme] selectors.
+     Every <ff-button> inside this shell inherits the Brand 1 visual identity automatically.
+     Theme switching is driven by Angular signals — no component logic change needed. -->
 <main class="consumer-shell" data-brand="brand-1" [attr.data-theme]="activeTheme()">
   <section class="hero-card">
     <p class="eyebrow">Angular app · external CSS brand pack</p>
