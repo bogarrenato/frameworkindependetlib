@@ -61,6 +61,19 @@ The sync also generates the official brand packs in `packages/brand-styles/src/`
 | `@fuggetlenfe/tokens/theme.css` | CSS | Theme layer |
 | `@fuggetlenfe/tokens/tokens.json` | JSON | Machine-readable tokens |
 
+## Resilience: Figma Variables fallback plan
+
+The token pipeline is designed to remain operational even if Figma is unavailable. Consumer applications read from `contract.css`, never from Figma directly, so a design-tool outage never requires code changes in consumer apps.
+
+| Layer | Source | Behavior |
+|---|---|---|
+| 1. Primary | Figma Variables API via `scripts/sync-figma.mjs` | Normal path. Reads live variables and regenerates `contract.css`, `figma-preset.css`, and the brand packs |
+| 2. Fallback 1 | Committed `tokens/figma-snapshot.json` | Last known-good export of the Variables API. The build can regenerate tokens from the snapshot if Figma is unreachable |
+| 3. Fallback 2 | Hand-authored CSS overrides in `@fuggetlenfe/brand-styles` | Kept in git, exercised in CI, ship without any Figma connectivity |
+| 4. Fallback 3 | Penpot migration path | Penpot exposes a comparable variables API; `sync-figma.mjs` is written to abstract over the source tool |
+
+**Contract stability guarantee.** `contract.css` is the public API. As long as the contract variable names remain stable, a Figma outage, a Figma billing issue, or a full migration to Penpot does not require code changes in consumer applications. The snapshot file is versioned alongside the tokens package and is expected to be refreshed on every successful Figma sync.
+
 ## What must not go here
 
 - Component-specific logic

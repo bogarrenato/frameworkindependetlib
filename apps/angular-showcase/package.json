@@ -4,11 +4,12 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build && node scripts/prerender.mjs",
     "build-storybook": "ng run angular-showcase:build-storybook",
     "storybook": "ng run angular-showcase:storybook",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test --watch=false"
+    "test": "ng test --watch=false",
+    "prerender": "node scripts/prerender.mjs"
   },
   "private": true,
   "packageManager": "pnpm@10.20.0",

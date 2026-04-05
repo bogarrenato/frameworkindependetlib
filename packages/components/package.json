@@ -9,13 +9,38 @@
   "types": "dist/types/components.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/types/components.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs.js"
+    },
+    "./loader": {
+      "types": "./loader/index.d.ts",
+      "import": "./loader/index.js"
+    },
+    "./hydrate": {
+      "types": "./hydrate/index.d.ts",
+      "import": "./hydrate/index.mjs",
+      "require": "./hydrate/index.js"
+    },
+    "./components": {
+      "types": "./components/index.d.ts",
+      "import": "./components/index.js"
+    },
+    "./components/*.js": {
+      "types": "./components/*.d.ts",
+      "import": "./components/*.js"
+    }
+  },
   "files": [
     "dist/",
     "loader/",
-    "components/"
+    "components/",
+    "hydrate/"
   ],
   "scripts": {
-    "build": "stencil build",
+    "build": "stencil build && node scripts/patch-custom-elements-types.mjs",
     "build-storybook": "storybook build -c .storybook -o ../../storybook-static/stencil",
     "dev": "stencil build --dev --watch",
     "storybook": "storybook dev -p 6006 -c .storybook --ci",

@@ -2,10 +2,18 @@ import type { Preview } from '@storybook/web-components-vite';
 import '../../tokens/src/contract.css';
 import '../../tokens/src/figma-preset.css';
 import './preview.css';
-import { defineCustomElement as defineFfButton } from '../dist/components/ff-button.js';
+// Stencil dist-custom-elements now writes to ../components/ (see stencil.config.ts).
+// We register every shipped primitive so Storybook can render stories for any of them.
+import { defineCustomElement as defineFfButton } from '../components/ff-button.js';
+import { defineCustomElement as defineFfDropdown } from '../components/ff-dropdown.js';
+import { defineCustomElement as defineFfDataTable } from '../components/ff-data-table.js';
+import { defineCustomElement as defineFfModal } from '../components/ff-modal.js';
 
-if (typeof window !== 'undefined' && !window.customElements.get('ff-button')) {
-  defineFfButton();
+if (typeof window !== 'undefined') {
+  if (!window.customElements.get('ff-button')) defineFfButton();
+  if (!window.customElements.get('ff-dropdown')) defineFfDropdown();
+  if (!window.customElements.get('ff-data-table')) defineFfDataTable();
+  if (!window.customElements.get('ff-modal')) defineFfModal();
 }
 
 const preview: Preview = {

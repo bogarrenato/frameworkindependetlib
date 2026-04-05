@@ -5,11 +5,38 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { FfDataTableColumn, FfDataTableRow } from "./components/ff-data-table/ff-data-table";
+import { FfDropdownOption } from "./components/ff-dropdown/ff-dropdown";
+export { FfDataTableColumn, FfDataTableRow } from "./components/ff-data-table/ff-data-table";
+export { FfDropdownOption } from "./components/ff-dropdown/ff-dropdown";
 export namespace Components {
     /**
-     * Logic-only button primitive shared across every consumer framework.
-     * The component intentionally owns only semantic behavior and a stable DOM contract.
-     * Visual identity must come from the consuming application's token contract and brand pack.
+     * ff-button — framework-agnostic button primitive.
+     * ## Architectural role
+     * Owns semantic behavior and a stable DOM contract. Visual identity is supplied from
+     * outside via CSS custom properties (token contract + brand pack). This file never
+     * references colors, fonts, or spacing values directly.
+     * ## SSR / SSG readiness contract
+     * This component is written to be safe inside any server rendering context
+     * (Next.js RSC, Angular Universal, Nuxt, Vite prerender, Stencil hydrate).
+     *  1. The render() method is a pure function of props — no DOM access, no browser globals.
+     *  2. connectedCallback has NO side effects. Any API that requires a real DOM
+     *     (focus, click dispatch, observers) is only touched inside componentDidLoad,
+     *     which Stencil deliberately does not invoke in the hydrate module.
+     *  3. Public imperative methods (`setFocus`, `click`) are server-safe: they short-circuit
+     *     when the host element is not attached to a real document.
+     *  4. Shadow DOM output is serialized by the Stencil hydrate module as
+     *     Declarative Shadow DOM (`<template shadowrootmode="open">`), so the first paint
+     *     is correct even before client-side JS finishes downloading.
+     *  5. State that differs between server and client (media queries, stored preferences)
+     *     is NEVER read inside this file. The consumer passes brand/theme through the shell
+     *     element's `data-brand` / `data-theme` attributes, which the CSS cascade picks up.
+     * ## Where the visual identity comes from (NOT here)
+     *  - ff-button.css reads --ff-button-* CSS custom properties (bg, fg, radius, padding).
+     *  - Those variables are defined in packages/tokens/src/contract.css (stable API).
+     *  - Concrete brand values come from packages/brand-styles/src/*.css.
+     *  - The consumer app shell sets data-brand + data-theme on any ancestor → the token
+     *    cascade applies the correct overrides via attribute selectors in the brand pack.
      */
     interface FfButton {
         /**
@@ -17,6 +44,10 @@ export namespace Components {
           * @default false
          */
         "disabled": boolean;
+        /**
+          * Optional aria-label for accessible name when the button only contains an icon.
+         */
+        "ffAriaLabel"?: string;
         /**
           * Expands the host to full width without coupling layout rules to a brand theme.
           * @default false
@@ -27,33 +58,343 @@ export namespace Components {
          */
         "label"?: string;
         /**
+          * Imperatively move keyboard focus to the underlying native button. SSR-safe: the hydrate module never invokes this method because it only runs browser-triggered code paths. Still, we guard for `typeof document` to make consumer code defensively safe when called from isomorphic effects.
+         */
+        "setFocus": () => Promise<void>;
+        /**
           * Mirrors the native button type attribute so forms keep expected behavior.
           * @default 'button'
          */
         "type": 'button' | 'submit' | 'reset';
+        /**
+          * Semantic variant for analytics and optional brand-pack styling hooks.
+          * @default 'primary'
+         */
+        "variant": 'primary' | 'secondary' | 'ghost' | 'danger';
+    }
+    interface FfDataTable {
+        /**
+          * Column definitions. Accept both JSON string (attribute) and array (property).
+          * @default []
+         */
+        "columns": ParsedInput<FfDataTableColumn>;
+        /**
+          * Message displayed when the rows array is empty.
+          * @default 'No data to display.'
+         */
+        "emptyLabel": string;
+        /**
+          * Accessible caption for screen readers.
+         */
+        "ffCaption"?: string;
+        /**
+          * Row data. Accept both JSON string (attribute) and array (property).
+          * @default []
+         */
+        "rows": ParsedInput<FfDataTableRow>;
+        /**
+          * Array of selected row ids (controlled).
+          * @default []
+         */
+        "selectedIds": (string | number)[] | string;
+        /**
+          * Selection mode. 'none' disables selection entirely.
+          * @default 'none'
+         */
+        "selectionMode": 'none' | 'single' | 'multiple';
+        /**
+          * Current sort direction (controlled).
+          * @default 'asc'
+         */
+        "sortDirection": 'asc' | 'desc';
+        /**
+          * Currently sorted column key (controlled).
+         */
+        "sortKey"?: string;
+        /**
+          * When true, header clicks toggle sort direction for sortable columns.
+          * @default true
+         */
+        "sortable": boolean;
+    }
+    interface FfDropdown {
+        /**
+          * Imperative API — programmatically close the dropdown. SSR-safe no-op on server.
+         */
+        "closeDropdown": () => Promise<void>;
+        /**
+          * Disables the entire dropdown.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Accessible name for the dropdown trigger.
+         */
+        "ffAriaLabel"?: string;
+        /**
+          * Controlled open state. Consumers can drive open/close from outside.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Imperative API — programmatically open the dropdown. SSR-safe no-op on server.
+         */
+        "openDropdown": () => Promise<void>;
+        /**
+          * Array of options. Accept both attribute (JSON string) and property (live array).
+          * @default []
+         */
+        "options": FfDropdownOption[] | string;
+        /**
+          * Visible placeholder when nothing is selected.
+          * @default 'Select…'
+         */
+        "placeholder": string;
+        /**
+          * Selected value (controlled). Omit or pass `undefined` for uncontrolled mode.
+         */
+        "value"?: string;
+    }
+    /**
+     * ff-modal — framework-agnostic modal dialog primitive.
+     * ## Architectural role
+     * Owns dialog semantics, focus trap, escape handling, and scroll lock. Visual chrome
+     * (surface color, radius, backdrop, shadow, typography) comes from the token contract
+     * and brand pack via CSS custom properties. No brand values in this file.
+     * ## SSR / SSG readiness contract
+     *  1. `open` is a prop, default `false`. Server and client render the same DOM on first
+     *     paint — the modal is present but hidden via `aria-hidden="true"` + display:none,
+     *     eliminating hydration mismatches even when the modal state is computed from a
+     *     URL parameter or cookie.
+     *  2. Focus management, scroll lock, and keydown listeners are only attached inside
+     *     componentDidLoad (client-only). No `document.body.style.overflow` touch on server.
+     *  3. The modal uses a div with role="dialog" rather than the native <dialog> element,
+     *     because <dialog> has inconsistent SSR behavior across browsers when rendered via
+     *     Declarative Shadow DOM.
+     *  4. Portalization is NOT done here. The element renders in its natural DOM position.
+     *     Host apps that need a portal can wrap the component themselves — this keeps the
+     *     SSR output deterministic and avoids teleport-induced hydration warnings.
+     * ## Token contract inputs
+     *  --ff-modal-backdrop, --ff-modal-surface, --ff-modal-radius,
+     *  --ff-modal-shadow, --ff-modal-title-color, --ff-modal-body-color,
+     *  --ff-color-text-primary, --ff-font-family-brand
+     */
+    interface FfModal {
+        /**
+          * Accessible description id reference for aria-describedby.
+         */
+        "ariaDescribedbyId"?: string;
+        /**
+          * Imperative API — close the modal from code.
+         */
+        "close": () => Promise<void>;
+        /**
+          * When false, clicking the backdrop will NOT close the modal.
+          * @default true
+         */
+        "closeOnBackdrop": boolean;
+        /**
+          * When false, pressing Escape will NOT close the modal.
+          * @default true
+         */
+        "closeOnEscape": boolean;
+        /**
+          * Title displayed in the modal header. Falls back to slot="title".
+         */
+        "ffTitle"?: string;
+        /**
+          * Prevents body scroll while the modal is open. Defaults to true.
+          * @default true
+         */
+        "lockScroll": boolean;
+        /**
+          * Controlled open state. Parent app drives open/close.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Imperative API — open the modal from code.
+         */
+        "show": () => Promise<void>;
     }
 }
+export interface FfButtonCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLFfButtonElement;
+}
+export interface FfDataTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLFfDataTableElement;
+}
+export interface FfDropdownCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLFfDropdownElement;
+}
+export interface FfModalCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLFfModalElement;
+}
 declare global {
+    interface HTMLFfButtonElementEventMap {
+        "ffClick": MouseEvent;
+    }
     /**
-     * Logic-only button primitive shared across every consumer framework.
-     * The component intentionally owns only semantic behavior and a stable DOM contract.
-     * Visual identity must come from the consuming application's token contract and brand pack.
+     * ff-button — framework-agnostic button primitive.
+     * ## Architectural role
+     * Owns semantic behavior and a stable DOM contract. Visual identity is supplied from
+     * outside via CSS custom properties (token contract + brand pack). This file never
+     * references colors, fonts, or spacing values directly.
+     * ## SSR / SSG readiness contract
+     * This component is written to be safe inside any server rendering context
+     * (Next.js RSC, Angular Universal, Nuxt, Vite prerender, Stencil hydrate).
+     *  1. The render() method is a pure function of props — no DOM access, no browser globals.
+     *  2. connectedCallback has NO side effects. Any API that requires a real DOM
+     *     (focus, click dispatch, observers) is only touched inside componentDidLoad,
+     *     which Stencil deliberately does not invoke in the hydrate module.
+     *  3. Public imperative methods (`setFocus`, `click`) are server-safe: they short-circuit
+     *     when the host element is not attached to a real document.
+     *  4. Shadow DOM output is serialized by the Stencil hydrate module as
+     *     Declarative Shadow DOM (`<template shadowrootmode="open">`), so the first paint
+     *     is correct even before client-side JS finishes downloading.
+     *  5. State that differs between server and client (media queries, stored preferences)
+     *     is NEVER read inside this file. The consumer passes brand/theme through the shell
+     *     element's `data-brand` / `data-theme` attributes, which the CSS cascade picks up.
+     * ## Where the visual identity comes from (NOT here)
+     *  - ff-button.css reads --ff-button-* CSS custom properties (bg, fg, radius, padding).
+     *  - Those variables are defined in packages/tokens/src/contract.css (stable API).
+     *  - Concrete brand values come from packages/brand-styles/src/*.css.
+     *  - The consumer app shell sets data-brand + data-theme on any ancestor → the token
+     *    cascade applies the correct overrides via attribute selectors in the brand pack.
      */
     interface HTMLFfButtonElement extends Components.FfButton, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLFfButtonElementEventMap>(type: K, listener: (this: HTMLFfButtonElement, ev: FfButtonCustomEvent<HTMLFfButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLFfButtonElementEventMap>(type: K, listener: (this: HTMLFfButtonElement, ev: FfButtonCustomEvent<HTMLFfButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLFfButtonElement: {
         prototype: HTMLFfButtonElement;
         new (): HTMLFfButtonElement;
     };
+    interface HTMLFfDataTableElementEventMap {
+        "ffSortChange": { sortKey: string; sortDirection: 'asc' | 'desc' };
+        "ffSelectionChange": { selectedIds: (string | number)[] };
+    }
+    interface HTMLFfDataTableElement extends Components.FfDataTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLFfDataTableElementEventMap>(type: K, listener: (this: HTMLFfDataTableElement, ev: FfDataTableCustomEvent<HTMLFfDataTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLFfDataTableElementEventMap>(type: K, listener: (this: HTMLFfDataTableElement, ev: FfDataTableCustomEvent<HTMLFfDataTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLFfDataTableElement: {
+        prototype: HTMLFfDataTableElement;
+        new (): HTMLFfDataTableElement;
+    };
+    interface HTMLFfDropdownElementEventMap {
+        "ffChange": {
+    value: string;
+    option: { value: string; label: string; disabled?: boolean };
+  };
+        "ffOpenChange": { open: boolean };
+    }
+    interface HTMLFfDropdownElement extends Components.FfDropdown, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLFfDropdownElementEventMap>(type: K, listener: (this: HTMLFfDropdownElement, ev: FfDropdownCustomEvent<HTMLFfDropdownElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLFfDropdownElementEventMap>(type: K, listener: (this: HTMLFfDropdownElement, ev: FfDropdownCustomEvent<HTMLFfDropdownElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLFfDropdownElement: {
+        prototype: HTMLFfDropdownElement;
+        new (): HTMLFfDropdownElement;
+    };
+    interface HTMLFfModalElementEventMap {
+        "ffClose": void;
+    }
+    /**
+     * ff-modal — framework-agnostic modal dialog primitive.
+     * ## Architectural role
+     * Owns dialog semantics, focus trap, escape handling, and scroll lock. Visual chrome
+     * (surface color, radius, backdrop, shadow, typography) comes from the token contract
+     * and brand pack via CSS custom properties. No brand values in this file.
+     * ## SSR / SSG readiness contract
+     *  1. `open` is a prop, default `false`. Server and client render the same DOM on first
+     *     paint — the modal is present but hidden via `aria-hidden="true"` + display:none,
+     *     eliminating hydration mismatches even when the modal state is computed from a
+     *     URL parameter or cookie.
+     *  2. Focus management, scroll lock, and keydown listeners are only attached inside
+     *     componentDidLoad (client-only). No `document.body.style.overflow` touch on server.
+     *  3. The modal uses a div with role="dialog" rather than the native <dialog> element,
+     *     because <dialog> has inconsistent SSR behavior across browsers when rendered via
+     *     Declarative Shadow DOM.
+     *  4. Portalization is NOT done here. The element renders in its natural DOM position.
+     *     Host apps that need a portal can wrap the component themselves — this keeps the
+     *     SSR output deterministic and avoids teleport-induced hydration warnings.
+     * ## Token contract inputs
+     *  --ff-modal-backdrop, --ff-modal-surface, --ff-modal-radius,
+     *  --ff-modal-shadow, --ff-modal-title-color, --ff-modal-body-color,
+     *  --ff-color-text-primary, --ff-font-family-brand
+     */
+    interface HTMLFfModalElement extends Components.FfModal, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLFfModalElementEventMap>(type: K, listener: (this: HTMLFfModalElement, ev: FfModalCustomEvent<HTMLFfModalElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLFfModalElementEventMap>(type: K, listener: (this: HTMLFfModalElement, ev: FfModalCustomEvent<HTMLFfModalElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLFfModalElement: {
+        prototype: HTMLFfModalElement;
+        new (): HTMLFfModalElement;
+    };
     interface HTMLElementTagNameMap {
         "ff-button": HTMLFfButtonElement;
+        "ff-data-table": HTMLFfDataTableElement;
+        "ff-dropdown": HTMLFfDropdownElement;
+        "ff-modal": HTMLFfModalElement;
     }
 }
 declare namespace LocalJSX {
     /**
-     * Logic-only button primitive shared across every consumer framework.
-     * The component intentionally owns only semantic behavior and a stable DOM contract.
-     * Visual identity must come from the consuming application's token contract and brand pack.
+     * ff-button — framework-agnostic button primitive.
+     * ## Architectural role
+     * Owns semantic behavior and a stable DOM contract. Visual identity is supplied from
+     * outside via CSS custom properties (token contract + brand pack). This file never
+     * references colors, fonts, or spacing values directly.
+     * ## SSR / SSG readiness contract
+     * This component is written to be safe inside any server rendering context
+     * (Next.js RSC, Angular Universal, Nuxt, Vite prerender, Stencil hydrate).
+     *  1. The render() method is a pure function of props — no DOM access, no browser globals.
+     *  2. connectedCallback has NO side effects. Any API that requires a real DOM
+     *     (focus, click dispatch, observers) is only touched inside componentDidLoad,
+     *     which Stencil deliberately does not invoke in the hydrate module.
+     *  3. Public imperative methods (`setFocus`, `click`) are server-safe: they short-circuit
+     *     when the host element is not attached to a real document.
+     *  4. Shadow DOM output is serialized by the Stencil hydrate module as
+     *     Declarative Shadow DOM (`<template shadowrootmode="open">`), so the first paint
+     *     is correct even before client-side JS finishes downloading.
+     *  5. State that differs between server and client (media queries, stored preferences)
+     *     is NEVER read inside this file. The consumer passes brand/theme through the shell
+     *     element's `data-brand` / `data-theme` attributes, which the CSS cascade picks up.
+     * ## Where the visual identity comes from (NOT here)
+     *  - ff-button.css reads --ff-button-* CSS custom properties (bg, fg, radius, padding).
+     *  - Those variables are defined in packages/tokens/src/contract.css (stable API).
+     *  - Concrete brand values come from packages/brand-styles/src/*.css.
+     *  - The consumer app shell sets data-brand + data-theme on any ancestor → the token
+     *    cascade applies the correct overrides via attribute selectors in the brand pack.
      */
     interface FfButton {
         /**
@@ -61,6 +402,10 @@ declare namespace LocalJSX {
           * @default false
          */
         "disabled"?: boolean;
+        /**
+          * Optional aria-label for accessible name when the button only contains an icon.
+         */
+        "ffAriaLabel"?: string;
         /**
           * Expands the host to full width without coupling layout rules to a brand theme.
           * @default false
@@ -71,21 +416,209 @@ declare namespace LocalJSX {
          */
         "label"?: string;
         /**
+          * Fired on click. Exposed as a dedicated event so consumers in every framework (React, Angular, Vue, plain HTML) can subscribe through the generated wrapper without worrying about DOM event bubbling semantics.
+         */
+        "onFfClick"?: (event: FfButtonCustomEvent<MouseEvent>) => void;
+        /**
           * Mirrors the native button type attribute so forms keep expected behavior.
           * @default 'button'
          */
         "type"?: 'button' | 'submit' | 'reset';
+        /**
+          * Semantic variant for analytics and optional brand-pack styling hooks.
+          * @default 'primary'
+         */
+        "variant"?: 'primary' | 'secondary' | 'ghost' | 'danger';
+    }
+    interface FfDataTable {
+        /**
+          * Column definitions. Accept both JSON string (attribute) and array (property).
+          * @default []
+         */
+        "columns"?: ParsedInput<FfDataTableColumn>;
+        /**
+          * Message displayed when the rows array is empty.
+          * @default 'No data to display.'
+         */
+        "emptyLabel"?: string;
+        /**
+          * Accessible caption for screen readers.
+         */
+        "ffCaption"?: string;
+        "onFfSelectionChange"?: (event: FfDataTableCustomEvent<{ selectedIds: (string | number)[] }>) => void;
+        "onFfSortChange"?: (event: FfDataTableCustomEvent<{ sortKey: string; sortDirection: 'asc' | 'desc' }>) => void;
+        /**
+          * Row data. Accept both JSON string (attribute) and array (property).
+          * @default []
+         */
+        "rows"?: ParsedInput<FfDataTableRow>;
+        /**
+          * Array of selected row ids (controlled).
+          * @default []
+         */
+        "selectedIds"?: (string | number)[] | string;
+        /**
+          * Selection mode. 'none' disables selection entirely.
+          * @default 'none'
+         */
+        "selectionMode"?: 'none' | 'single' | 'multiple';
+        /**
+          * Current sort direction (controlled).
+          * @default 'asc'
+         */
+        "sortDirection"?: 'asc' | 'desc';
+        /**
+          * Currently sorted column key (controlled).
+         */
+        "sortKey"?: string;
+        /**
+          * When true, header clicks toggle sort direction for sortable columns.
+          * @default true
+         */
+        "sortable"?: boolean;
+    }
+    interface FfDropdown {
+        /**
+          * Disables the entire dropdown.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Accessible name for the dropdown trigger.
+         */
+        "ffAriaLabel"?: string;
+        /**
+          * Emitted when the selection changes.  Note: the inner `option` shape is inlined rather than referencing FfDropdownOption, because the
+          * @stencil /angular-output-target type emitter cannot resolve external type aliases inside generic EventEmitter arguments. Keeping the shape inline preserves a clean Angular directive surface without `any` leaks.
+         */
+        "onFfChange"?: (event: FfDropdownCustomEvent<{
+    value: string;
+    option: { value: string; label: string; disabled?: boolean };
+  }>) => void;
+        /**
+          * Emitted whenever the dropdown opens or closes.
+         */
+        "onFfOpenChange"?: (event: FfDropdownCustomEvent<{ open: boolean }>) => void;
+        /**
+          * Controlled open state. Consumers can drive open/close from outside.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Array of options. Accept both attribute (JSON string) and property (live array).
+          * @default []
+         */
+        "options"?: FfDropdownOption[] | string;
+        /**
+          * Visible placeholder when nothing is selected.
+          * @default 'Select…'
+         */
+        "placeholder"?: string;
+        /**
+          * Selected value (controlled). Omit or pass `undefined` for uncontrolled mode.
+         */
+        "value"?: string;
+    }
+    /**
+     * ff-modal — framework-agnostic modal dialog primitive.
+     * ## Architectural role
+     * Owns dialog semantics, focus trap, escape handling, and scroll lock. Visual chrome
+     * (surface color, radius, backdrop, shadow, typography) comes from the token contract
+     * and brand pack via CSS custom properties. No brand values in this file.
+     * ## SSR / SSG readiness contract
+     *  1. `open` is a prop, default `false`. Server and client render the same DOM on first
+     *     paint — the modal is present but hidden via `aria-hidden="true"` + display:none,
+     *     eliminating hydration mismatches even when the modal state is computed from a
+     *     URL parameter or cookie.
+     *  2. Focus management, scroll lock, and keydown listeners are only attached inside
+     *     componentDidLoad (client-only). No `document.body.style.overflow` touch on server.
+     *  3. The modal uses a div with role="dialog" rather than the native <dialog> element,
+     *     because <dialog> has inconsistent SSR behavior across browsers when rendered via
+     *     Declarative Shadow DOM.
+     *  4. Portalization is NOT done here. The element renders in its natural DOM position.
+     *     Host apps that need a portal can wrap the component themselves — this keeps the
+     *     SSR output deterministic and avoids teleport-induced hydration warnings.
+     * ## Token contract inputs
+     *  --ff-modal-backdrop, --ff-modal-surface, --ff-modal-radius,
+     *  --ff-modal-shadow, --ff-modal-title-color, --ff-modal-body-color,
+     *  --ff-color-text-primary, --ff-font-family-brand
+     */
+    interface FfModal {
+        /**
+          * Accessible description id reference for aria-describedby.
+         */
+        "ariaDescribedbyId"?: string;
+        /**
+          * When false, clicking the backdrop will NOT close the modal.
+          * @default true
+         */
+        "closeOnBackdrop"?: boolean;
+        /**
+          * When false, pressing Escape will NOT close the modal.
+          * @default true
+         */
+        "closeOnEscape"?: boolean;
+        /**
+          * Title displayed in the modal header. Falls back to slot="title".
+         */
+        "ffTitle"?: string;
+        /**
+          * Prevents body scroll while the modal is open. Defaults to true.
+          * @default true
+         */
+        "lockScroll"?: boolean;
+        /**
+          * Emitted before the modal closes. Consumers may call preventDefault on the underlying event to cancel closing (e.g. unsaved changes guard).
+         */
+        "onFfClose"?: (event: FfModalCustomEvent<void>) => void;
+        /**
+          * Controlled open state. Parent app drives open/close.
+          * @default false
+         */
+        "open"?: boolean;
     }
 
     interface FfButtonAttributes {
         "disabled": boolean;
         "type": 'button' | 'submit' | 'reset';
         "fullWidth": boolean;
+        "variant": 'primary' | 'secondary' | 'ghost' | 'danger';
         "label": string;
+        "ffAriaLabel": string;
+    }
+    interface FfDataTableAttributes {
+        "columns": ParsedInput<FfDataTableColumn>;
+        "rows": ParsedInput<FfDataTableRow>;
+        "sortable": boolean;
+        "sortKey": string;
+        "sortDirection": 'asc' | 'desc';
+        "selectionMode": 'none' | 'single' | 'multiple';
+        "selectedIds": (string | number)[] | string;
+        "emptyLabel": string;
+        "ffCaption": string;
+    }
+    interface FfDropdownAttributes {
+        "options": FfDropdownOption[] | string;
+        "value": string;
+        "placeholder": string;
+        "disabled": boolean;
+        "open": boolean;
+        "ffAriaLabel": string;
+    }
+    interface FfModalAttributes {
+        "open": boolean;
+        "ffTitle": string;
+        "ariaDescribedbyId": string;
+        "closeOnBackdrop": boolean;
+        "closeOnEscape": boolean;
+        "lockScroll": boolean;
     }
 
     interface IntrinsicElements {
         "ff-button": Omit<FfButton, keyof FfButtonAttributes> & { [K in keyof FfButton & keyof FfButtonAttributes]?: FfButton[K] } & { [K in keyof FfButton & keyof FfButtonAttributes as `attr:${K}`]?: FfButtonAttributes[K] } & { [K in keyof FfButton & keyof FfButtonAttributes as `prop:${K}`]?: FfButton[K] };
+        "ff-data-table": Omit<FfDataTable, keyof FfDataTableAttributes> & { [K in keyof FfDataTable & keyof FfDataTableAttributes]?: FfDataTable[K] } & { [K in keyof FfDataTable & keyof FfDataTableAttributes as `attr:${K}`]?: FfDataTableAttributes[K] } & { [K in keyof FfDataTable & keyof FfDataTableAttributes as `prop:${K}`]?: FfDataTable[K] };
+        "ff-dropdown": Omit<FfDropdown, keyof FfDropdownAttributes> & { [K in keyof FfDropdown & keyof FfDropdownAttributes]?: FfDropdown[K] } & { [K in keyof FfDropdown & keyof FfDropdownAttributes as `attr:${K}`]?: FfDropdownAttributes[K] } & { [K in keyof FfDropdown & keyof FfDropdownAttributes as `prop:${K}`]?: FfDropdown[K] };
+        "ff-modal": Omit<FfModal, keyof FfModalAttributes> & { [K in keyof FfModal & keyof FfModalAttributes]?: FfModal[K] } & { [K in keyof FfModal & keyof FfModalAttributes as `attr:${K}`]?: FfModalAttributes[K] } & { [K in keyof FfModal & keyof FfModalAttributes as `prop:${K}`]?: FfModal[K] };
     }
 }
 export { LocalJSX as JSX };
@@ -93,11 +626,61 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             /**
-             * Logic-only button primitive shared across every consumer framework.
-             * The component intentionally owns only semantic behavior and a stable DOM contract.
-             * Visual identity must come from the consuming application's token contract and brand pack.
+             * ff-button — framework-agnostic button primitive.
+             * ## Architectural role
+             * Owns semantic behavior and a stable DOM contract. Visual identity is supplied from
+             * outside via CSS custom properties (token contract + brand pack). This file never
+             * references colors, fonts, or spacing values directly.
+             * ## SSR / SSG readiness contract
+             * This component is written to be safe inside any server rendering context
+             * (Next.js RSC, Angular Universal, Nuxt, Vite prerender, Stencil hydrate).
+             *  1. The render() method is a pure function of props — no DOM access, no browser globals.
+             *  2. connectedCallback has NO side effects. Any API that requires a real DOM
+             *     (focus, click dispatch, observers) is only touched inside componentDidLoad,
+             *     which Stencil deliberately does not invoke in the hydrate module.
+             *  3. Public imperative methods (`setFocus`, `click`) are server-safe: they short-circuit
+             *     when the host element is not attached to a real document.
+             *  4. Shadow DOM output is serialized by the Stencil hydrate module as
+             *     Declarative Shadow DOM (`<template shadowrootmode="open">`), so the first paint
+             *     is correct even before client-side JS finishes downloading.
+             *  5. State that differs between server and client (media queries, stored preferences)
+             *     is NEVER read inside this file. The consumer passes brand/theme through the shell
+             *     element's `data-brand` / `data-theme` attributes, which the CSS cascade picks up.
+             * ## Where the visual identity comes from (NOT here)
+             *  - ff-button.css reads --ff-button-* CSS custom properties (bg, fg, radius, padding).
+             *  - Those variables are defined in packages/tokens/src/contract.css (stable API).
+             *  - Concrete brand values come from packages/brand-styles/src/*.css.
+             *  - The consumer app shell sets data-brand + data-theme on any ancestor → the token
+             *    cascade applies the correct overrides via attribute selectors in the brand pack.
              */
             "ff-button": LocalJSX.IntrinsicElements["ff-button"] & JSXBase.HTMLAttributes<HTMLFfButtonElement>;
+            "ff-data-table": LocalJSX.IntrinsicElements["ff-data-table"] & JSXBase.HTMLAttributes<HTMLFfDataTableElement>;
+            "ff-dropdown": LocalJSX.IntrinsicElements["ff-dropdown"] & JSXBase.HTMLAttributes<HTMLFfDropdownElement>;
+            /**
+             * ff-modal — framework-agnostic modal dialog primitive.
+             * ## Architectural role
+             * Owns dialog semantics, focus trap, escape handling, and scroll lock. Visual chrome
+             * (surface color, radius, backdrop, shadow, typography) comes from the token contract
+             * and brand pack via CSS custom properties. No brand values in this file.
+             * ## SSR / SSG readiness contract
+             *  1. `open` is a prop, default `false`. Server and client render the same DOM on first
+             *     paint — the modal is present but hidden via `aria-hidden="true"` + display:none,
+             *     eliminating hydration mismatches even when the modal state is computed from a
+             *     URL parameter or cookie.
+             *  2. Focus management, scroll lock, and keydown listeners are only attached inside
+             *     componentDidLoad (client-only). No `document.body.style.overflow` touch on server.
+             *  3. The modal uses a div with role="dialog" rather than the native <dialog> element,
+             *     because <dialog> has inconsistent SSR behavior across browsers when rendered via
+             *     Declarative Shadow DOM.
+             *  4. Portalization is NOT done here. The element renders in its natural DOM position.
+             *     Host apps that need a portal can wrap the component themselves — this keeps the
+             *     SSR output deterministic and avoids teleport-induced hydration warnings.
+             * ## Token contract inputs
+             *  --ff-modal-backdrop, --ff-modal-surface, --ff-modal-radius,
+             *  --ff-modal-shadow, --ff-modal-title-color, --ff-modal-body-color,
+             *  --ff-color-text-primary, --ff-font-family-brand
+             */
+            "ff-modal": LocalJSX.IntrinsicElements["ff-modal"] & JSXBase.HTMLAttributes<HTMLFfModalElement>;
         }
     }
 }

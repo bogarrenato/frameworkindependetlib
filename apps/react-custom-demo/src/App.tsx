@@ -42,10 +42,12 @@ const variantInlineTokenStyle: CssTokenOverrides = {
 function App() {
   const [activeTheme, setActiveTheme] = useState<ThemeMode>('light');
 
+  /*
+    data-brand="custom-brand" activates the hand-authored custom brand CSS pack.
+    Unlike official brand packs (synced from Figma), this pack is consumer-owned.
+    It overrides the same --ff-button-* contract variables with custom values.
+  */
   return (
-    {/* data-brand="custom-brand" activates the hand-authored custom brand CSS pack.
-        Unlike official brand packs (synced from Figma), this pack is consumer-owned.
-        It overrides the same --ff-button-* contract variables with custom values. */}
     <main className="consumer-shell" data-brand="custom-brand" data-theme={activeTheme}>
       <section className="hero-card">
         <p className="eyebrow">React app · custom brand CSS lib</p>

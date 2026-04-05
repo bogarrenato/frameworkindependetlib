@@ -1,4 +1,4 @@
-import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
+import { copyFile, cp, mkdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
@@ -44,6 +44,13 @@ await run(
   ],
   { cwd: repoRoot }
 );
+/*
+ * Run the Angular showcase SSG prerender AFTER ng build so the Stencil hydrate
+ * module can see the already-compiled components. The prerender emits
+ * `dist/ssr-demo.html` at the app root; we copy it into the actual Angular
+ * output dir below so GitHub Pages serves it alongside the SPA.
+ */
+await run('pnpm', ['--filter', '@fuggetlenfe/angular-showcase', 'prerender'], { cwd: repoRoot });
 await run(
   'pnpm',
   [
@@ -59,6 +66,7 @@ await run(
   ],
   { cwd: repoRoot }
 );
+await run('pnpm', ['--filter', '@fuggetlenfe/angular-custom-demo', 'prerender'], { cwd: repoRoot });
 await run('pnpm', ['--filter', '@fuggetlenfe/components', 'build-storybook'], { cwd: repoRoot });
 await run('pnpm', ['--filter', '@fuggetlenfe/react-showcase', 'build-storybook'], { cwd: repoRoot });
 await run('pnpm', ['--filter', '@fuggetlenfe/angular-showcase', 'build-storybook'], { cwd: repoRoot });
@@ -74,10 +82,21 @@ await cp(path.join(repoRoot, 'apps', 'react-custom-demo', 'dist'), path.join(sit
 await cp(resolveAngularBrowserDir('angular-showcase', 'angular-pages'), path.join(siteRoot, 'angular-brand-1'), {
   recursive: true
 });
+// The Angular prerender script writes ssr-demo.html to apps/<app>/dist/ssr-demo.html,
+// one level above the ng build output. Copy it explicitly into the served directory
+// so GitHub Pages exposes it at `/<base>/angular-brand-1/ssr-demo.html`.
+await copyFile(
+  path.join(repoRoot, 'apps', 'angular-showcase', 'dist', 'ssr-demo.html'),
+  path.join(siteRoot, 'angular-brand-1', 'ssr-demo.html')
+);
 
 await cp(resolveAngularBrowserDir('angular-custom-demo', 'angular-custom-pages'), path.join(siteRoot, 'angular-custom'), {
   recursive: true
 });
+await copyFile(
+  path.join(repoRoot, 'apps', 'angular-custom-demo', 'dist', 'ssr-demo.html'),
+  path.join(siteRoot, 'angular-custom', 'ssr-demo.html')
+);
 
 await cp(path.join(repoRoot, 'storybook-static', 'stencil'), path.join(siteRoot, 'storybook', 'stencil'), {
   recursive: true
@@ -405,6 +424,10 @@ React Apps       Angular Apps</div>
             <h3>Enterprise ready</h3>
             <p>Stable public contract surface, independently versioned packages, and automated CI pipelines from Figma to production.</p>
           </div>
+          <div class="principle-card">
+            <h3>SSR / SSG safe</h3>
+            <p>Every primitive renders through the Stencil hydrate module with Declarative Shadow DOM. First paint is visually correct before client JS hydrates.</p>
+          </div>
         </div>
       </section>
 
@@ -479,6 +502,41 @@ React Apps       Angular Apps</div>
             <p class="kicker">Angular</p>
             <strong>Custom theme demo</strong>
             <span>Same Angular wrapper logic styled by a separate custom CSS package.</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- SSR demos -->
+      <section>
+        <span class="section-label">SSR / SSG demos</span>
+        <h2 class="grid-heading">Server-rendered outputs</h2>
+        <p class="subcopy">
+          Each dedicated SSR page below is produced in Node by the Stencil hydrate
+          module. Open DevTools and search for <code>&lt;template shadowrootmode="open"&gt;</code>
+          — the shadow tree and scoped CSS are inlined so first paint is visually
+          correct before any client JS runs. These pages serve as the contract test
+          for the SSR-safe component authoring rules.
+        </p>
+        <div class="grid">
+          <a href="./react-brand-2/ssr-demo.html">
+            <p class="kicker">React · Brand 2</p>
+            <strong>SSR demo — Brand 2</strong>
+            <span>ff-button, ff-dropdown, ff-data-table, ff-modal rendered to DSD.</span>
+          </a>
+          <a href="./react-custom/ssr-demo.html">
+            <p class="kicker">React · Custom</p>
+            <strong>SSR demo — Custom brand</strong>
+            <span>Same four primitives, consumer-owned brand pack.</span>
+          </a>
+          <a href="./angular-brand-1/ssr-demo.html">
+            <p class="kicker">Angular · Brand 1</p>
+            <strong>SSR demo — Brand 1</strong>
+            <span>Angular Universal compatible hydrate module output.</span>
+          </a>
+          <a href="./angular-custom/ssr-demo.html">
+            <p class="kicker">Angular · Custom</p>
+            <strong>SSR demo — Custom brand</strong>
+            <span>Consumer-owned brand under Angular Universal contract.</span>
           </a>
         </div>
       </section>

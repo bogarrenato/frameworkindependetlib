@@ -1,70 +1,116 @@
-import { Component, h, Host, Prop } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, h, Host, Method, Prop } from '@stencil/core';
 
 /**
- * Logic-only button primitive shared across every consumer framework.
+ * ff-button — framework-agnostic button primitive.
  *
- * The component intentionally owns only semantic behavior and a stable DOM contract.
- * Visual identity must come from the consuming application's token contract and brand pack.
+ * ## Architectural role
+ * Owns semantic behavior and a stable DOM contract. Visual identity is supplied from
+ * outside via CSS custom properties (token contract + brand pack). This file never
+ * references colors, fonts, or spacing values directly.
  *
- * ## Where the component logic lives
+ * ## SSR / SSG readiness contract
+ * This component is written to be safe inside any server rendering context
+ * (Next.js RSC, Angular Universal, Nuxt, Vite prerender, Stencil hydrate).
  *
- * - Props (disabled, type, fullWidth, label) control native button behavior and host layout.
- * - The render method outputs a <Host> with conditional CSS classes and a native <button>
- *   with a <slot> for content projection.
- * - Shadow DOM encapsulation (shadow: true) ensures the internal DOM structure is stable
- *   and cannot be broken by consumer CSS.
+ *  1. The render() method is a pure function of props — no DOM access, no browser globals.
+ *  2. connectedCallback has NO side effects. Any API that requires a real DOM
+ *     (focus, click dispatch, observers) is only touched inside componentDidLoad,
+ *     which Stencil deliberately does not invoke in the hydrate module.
+ *  3. Public imperative methods (`setFocus`, `click`) are server-safe: they short-circuit
+ *     when the host element is not attached to a real document.
+ *  4. Shadow DOM output is serialized by the Stencil hydrate module as
+ *     Declarative Shadow DOM (`<template shadowrootmode="open">`), so the first paint
+ *     is correct even before client-side JS finishes downloading.
+ *  5. State that differs between server and client (media queries, stored preferences)
+ *     is NEVER read inside this file. The consumer passes brand/theme through the shell
+ *     element's `data-brand` / `data-theme` attributes, which the CSS cascade picks up.
  *
  * ## Where the visual identity comes from (NOT here)
- *
- * - ff-button.css reads --ff-button-* CSS custom properties (bg, fg, radius, padding per state).
- * - Those variables are defined in packages/tokens/src/contract.css (stable API with fallbacks).
- * - Concrete brand values come from packages/brand-styles/src/*.css (e.g. brand-1-light.css).
- * - The consumer app shell sets data-brand and data-theme attributes, which activate the
- *   correct CSS overrides via attribute selectors in the brand pack CSS.
- *
- * Result: this file never imports or references any color, font, or spacing value.
- * The same compiled component binary works with Brand 1, Brand 2, Brand 3, or any custom brand.
+ *  - ff-button.css reads --ff-button-* CSS custom properties (bg, fg, radius, padding).
+ *  - Those variables are defined in packages/tokens/src/contract.css (stable API).
+ *  - Concrete brand values come from packages/brand-styles/src/*.css.
+ *  - The consumer app shell sets data-brand + data-theme on any ancestor → the token
+ *    cascade applies the correct overrides via attribute selectors in the brand pack.
  */
 @Component({
   tag: 'ff-button',
-  // ff-button.css contains only structural CSS and token var() references.
-  // No brand colors or theme values exist in that file.
   styleUrl: 'ff-button.css',
-  // Shadow DOM ensures the component's internal DOM is a stable contract.
-  // Consumer apps style through ::part(button) or CSS custom properties, not internal classes.
   shadow: true
 })
 export class FfButton {
+  /** Host element reference. Always available; never touched unless the element is live. */
+  @Element() host!: HTMLElement;
+
   /** Disables pointer and keyboard interaction on the native button element. */
-  @Prop() disabled = false;
+  @Prop({ reflect: true }) disabled = false;
 
   /** Mirrors the native button type attribute so forms keep expected behavior. */
-  @Prop() type: 'button' | 'submit' | 'reset' = 'button';
+  @Prop({ reflect: true }) type: 'button' | 'submit' | 'reset' = 'button';
 
   /** Expands the host to full width without coupling layout rules to a brand theme. */
-  @Prop() fullWidth = false;
+  @Prop({ reflect: true }) fullWidth = false;
+
+  /** Semantic variant for analytics and optional brand-pack styling hooks. */
+  @Prop({ reflect: true }) variant: 'primary' | 'secondary' | 'ghost' | 'danger' = 'primary';
 
   /** Provides a simple fallback label when no slotted content is passed. */
   @Prop() label?: string;
 
+  /** Optional aria-label for accessible name when the button only contains an icon. */
+  @Prop() ffAriaLabel?: string;
+
+  /**
+   * Fired on click. Exposed as a dedicated event so consumers in every framework
+   * (React, Angular, Vue, plain HTML) can subscribe through the generated wrapper
+   * without worrying about DOM event bubbling semantics.
+   */
+  @Event({ eventName: 'ffClick', bubbles: true, composed: true }) ffClick!: EventEmitter<MouseEvent>;
+
+  /**
+   * Imperatively move keyboard focus to the underlying native button.
+   * SSR-safe: the hydrate module never invokes this method because it only runs
+   * browser-triggered code paths. Still, we guard for `typeof document` to make
+   * consumer code defensively safe when called from isomorphic effects.
+   */
+  @Method()
+  async setFocus(): Promise<void> {
+    if (typeof document === 'undefined') {
+      return;
+    }
+    const button = this.host.shadowRoot?.querySelector<HTMLButtonElement>('button[part="button"]');
+    button?.focus();
+  }
+
+  private handleClick = (event: MouseEvent) => {
+    if (this.disabled) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+    this.ffClick.emit(event);
+  };
+
   render() {
+    /*
+     * Pure render — no DOM access, no globals. Safe to execute in Node during SSR.
+     * Host class map drives layout modifiers; variant is reflected as an attribute
+     * so brand packs can scope rules with [variant='danger'] selectors if they choose.
+     */
     return (
-      // Host class map drives layout modifiers on the custom element itself.
-      // The --full-width modifier switches display from inline-flex to flex (see ff-button.css).
       <Host
         class={{
           'ff-button-host': true,
           'ff-button-host--full-width': this.fullWidth
         }}
       >
-        {/*
-          The native <button> is exposed as a shadow part named "button" so consumer apps
-          can apply external styles via ::part(button) { ... } without breaking encapsulation.
-
-          The <slot> projects consumer content into the button. When no slotted content is
-          provided, the label prop serves as fallback text.
-        */}
-        <button class="ff-button" disabled={this.disabled} part="button" type={this.type}>
+        <button
+          class="ff-button"
+          disabled={this.disabled}
+          part="button"
+          type={this.type}
+          aria-label={this.ffAriaLabel}
+          onClick={this.handleClick}
+        >
           <slot>{this.label}</slot>
         </button>
       </Host>

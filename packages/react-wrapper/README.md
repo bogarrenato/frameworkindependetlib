@@ -72,6 +72,30 @@ const customStyle: CssTokenOverrides = {
 | Export | Web component | Description |
 |---|---|---|
 | `FfButton` | `<ff-button>` | Button primitive with disabled, type, fullWidth, label props |
+| `FfDropdown` | `<ff-dropdown>` | Single-select combobox with controlled `open` / `value` and JSON or array options |
+| `FfDataTable` | `<ff-data-table>` | Sortable, selectable table with controlled sort and selection state |
+| `FfModal` | `<ff-modal>` | Focus-trapped dialog with scroll lock and `ffClose` event |
+
+## Server entry point (SSR)
+
+The package exposes a dedicated server subpath, `@fuggetlenfe/react-wrapper/server`, which re-exports the Node-runnable hydrate API from `@fuggetlenfe/components/hydrate`. This is the React-side entry for Next.js, Remix, Astro, or any custom React SSR / SSG pipeline that needs to serialize `<ff-*>` elements into **Declarative Shadow DOM** at build time or per request.
+
+```ts
+import { renderToString } from '@fuggetlenfe/react-wrapper/server';
+
+const html = `
+  <main data-brand="brand-2" data-theme="light">
+    <ff-button>Hello</ff-button>
+  </main>
+`;
+
+const { html: rendered } = await renderToString(html, {
+  serializeShadowRoot: 'declarative-shadow-dom',
+  fullDocument: false,
+});
+```
+
+The output contains `<template shadowrootmode="open">` blocks for every `<ff-*>` element and hydrates without a flash of unstyled content on Chrome 111+, Safari 16.4+, and Firefox 123+. The `hydrateDocument` counterpart is also re-exported for full-document rendering.
 
 ## Commands
 

@@ -80,7 +80,31 @@ export class AppComponent { }
 | Export | Selector | Inputs | Description |
 |---|---|---|---|
 | `FfButton` | `ff-button` | `disabled`, `fullWidth`, `label`, `type` | Button primitive directive |
+| `FfDropdown` | `ff-dropdown` | `options`, `value`, `open`, `disabled`, `placeholder` | Single-select combobox directive |
+| `FfDataTable` | `ff-data-table` | `columns`, `rows`, `sortKey`, `sortDirection`, `selection`, `selectedIds` | Sortable, selectable table directive |
+| `FfModal` | `ff-modal` | `open`, `closeOnBackdrop`, `closeOnEscape`, `label` | Focus-trapped dialog directive |
 | `DIRECTIVES` | - | - | Array of all directive exports for convenience |
+
+## Server entry point (SSR)
+
+The package exposes a dedicated server subpath, `@fuggetlenfe/angular-wrapper/server`, which re-exports the Node-runnable hydrate API from `@fuggetlenfe/components/hydrate`. This is the Angular-side entry for Angular Universal and any custom Angular SSR / prerender pipeline that needs to serialize `<ff-*>` elements into **Declarative Shadow DOM**.
+
+```ts
+import { renderToString } from '@fuggetlenfe/angular-wrapper/server';
+
+const shellHtml = `
+  <main data-brand="brand-1" data-theme="light">
+    <ff-button>Hello</ff-button>
+  </main>
+`;
+
+const { html } = await renderToString(shellHtml, {
+  serializeShadowRoot: 'declarative-shadow-dom',
+  fullDocument: false,
+});
+```
+
+The server call is typically wired into the Angular Universal render pipeline after Angular has produced its own HTML shell: the `<ff-*>` elements in that shell are then expanded into DSD markup before the response is returned to the browser. The `hydrateDocument` counterpart is also re-exported for full-document rendering.
 
 ## Commands
 
