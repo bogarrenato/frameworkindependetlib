@@ -30,15 +30,45 @@
  *    produced client-only output, which is a regression.
  */
 
-import { readFileSync, writeFileSync, copyFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderToString as hydrateToString } from '@fuggetlenfe/react-wrapper/server';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const appRoot = resolve(here, '..');
+const repoRoot = resolve(appRoot, '..', '..');
 const distDir = resolve(appRoot, 'dist');
 const outPath = resolve(distDir, 'ssr-demo.html');
+
+/*
+ * Brand identity for this SSR demo — overridable via SSR_BRAND / SSR_THEME env
+ * vars so the same script produces differently-skinned outputs for each
+ * showcase app without code duplication.
+ */
+const BRAND = process.env.SSR_BRAND || 'brand-2';
+const THEME = process.env.SSR_THEME || 'light';
+
+/*
+ * Inline the token contract + active brand pack CSS as "critical CSS" in the
+ * demo document head. This is the key architectural step of SSR for tokenized
+ * web components: the first paint needs the --ff-* custom properties set
+ * BEFORE any shadow DOM rule can resolve its var(...) references. Without
+ * this, every shadow DOM CSS rule falls back to its transparent/inherit
+ * default and the page looks unstyled even though the DSD serialization
+ * itself is 100% correct.
+ *
+ * Reading the source files directly keeps the prerender self-contained: no
+ * preprocessor, no bundler output dependency, deterministic bytes.
+ */
+const tokenContractCss = readFileSync(
+  resolve(repoRoot, 'packages', 'tokens', 'src', 'contract.css'),
+  'utf8'
+);
+const brandPackCss = readFileSync(
+  resolve(repoRoot, 'packages', 'brand-styles', 'src', `${BRAND}-${THEME}.css`),
+  'utf8'
+);
 
 // Minimal document template. Uses the same brand pack as the runtime React SPA
 // (brand-2 light) so the visual identity matches byte-for-byte.
@@ -77,13 +107,17 @@ const template = /* html */ `<!doctype html>
       }
     </style>
     <!--
-      NOTE: the real token contract + brand pack CSS is wired up by the main SPA's
-      bundler (Vite) into assets/index-*.css. The SSR demo purposefully keeps its
-      <head> lean so reviewers can see the declarative-shadow-dom output clearly
-      without external CSS distracting from the hydrate module's work.
+      Critical CSS for the SSR first paint: token contract + active brand pack
+      inlined below. These two style blocks set the --ff-* custom properties
+      that the shadow DOM rules read via var(...) references. Without them the
+      first paint would show unstyled native buttons even though the DSD markup
+      is 100% correct — a classic SSR "I serialized the component but forgot
+      the cascade" pitfall.
     -->
+    <style data-ff-critical="token-contract">${tokenContractCss}</style>
+    <style data-ff-critical="brand-pack">${brandPackCss}</style>
   </head>
-  <body data-brand="custom-brand" data-theme="light">
+  <body data-brand="${BRAND}" data-theme="${THEME}">
     <main class="ssr-shell">
       <header>
         <h1>Server-rendered primitives · Declarative Shadow DOM</h1>

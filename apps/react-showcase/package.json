@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && node scripts/prerender.mjs",
+    "build": "tsc -b && vite build && SSR_BRAND=brand-2 SSR_THEME=light node scripts/prerender.mjs",
     "build:spa": "tsc -b && vite build",
-    "prerender": "node scripts/prerender.mjs",
+    "prerender": "SSR_BRAND=brand-2 SSR_THEME=light node scripts/prerender.mjs",
     "build-storybook": "storybook build -c .storybook -o ../../storybook-static/react",
     "lint": "eslint .",
     "preview": "vite preview",

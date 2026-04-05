@@ -4,10 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 4201",
-    "build": "ng build && node scripts/prerender.mjs",
+    "build": "ng build && SSR_BRAND=custom-brand SSR_THEME=light node scripts/prerender.mjs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test --watch=false",
-    "prerender": "node scripts/prerender.mjs"
+    "prerender": "SSR_BRAND=custom-brand SSR_THEME=light node scripts/prerender.mjs"
   },
   "private": true,
   "packageManager": "pnpm@10.20.0",
