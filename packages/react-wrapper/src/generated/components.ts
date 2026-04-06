@@ -9,9 +9,6 @@
 
 import { type FfButtonCustomEvent } from "@fuggetlenfe/components";
 import { FfButton as FfButtonElement, defineCustomElement as defineFfButton } from "@fuggetlenfe/components/components/ff-button.js";
-import { FfDataTable as FfDataTableElement, defineCustomElement as defineFfDataTable } from "@fuggetlenfe/components/components/ff-data-table.js";
-import { FfDropdown as FfDropdownElement, defineCustomElement as defineFfDropdown } from "@fuggetlenfe/components/components/ff-dropdown.js";
-import { FfModal as FfModalElement, defineCustomElement as defineFfModal } from "@fuggetlenfe/components/components/ff-modal.js";
 import type { EventName, StencilReactComponent } from '@stencil/react-output-target/runtime';
 import { createComponent } from '@stencil/react-output-target/runtime';
 import React from 'react';
@@ -25,52 +22,4 @@ export const FfButton: StencilReactComponent<FfButtonElement, FfButtonEvents> = 
     react: React,
     events: { onFfClick: 'ffClick' } as FfButtonEvents,
     defineCustomElement: defineFfButton
-});
-
-type FfDataTableEvents = {
-    onFfSortChange: EventName<CustomEvent<{ sortKey: string; sortDirection: 'asc' | 'desc' }>>,
-    onFfSelectionChange: EventName<CustomEvent<{ selectedIds: (string | number)[] }>>
-};
-
-export const FfDataTable: StencilReactComponent<FfDataTableElement, FfDataTableEvents> = /*@__PURE__*/ createComponent<FfDataTableElement, FfDataTableEvents>({
-    tagName: 'ff-data-table',
-    elementClass: FfDataTableElement,
-    // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
-    react: React,
-    events: {
-        onFfSortChange: 'ffSortChange',
-        onFfSelectionChange: 'ffSelectionChange'
-    } as FfDataTableEvents,
-    defineCustomElement: defineFfDataTable
-});
-
-type FfDropdownEvents = {
-    onFfChange: EventName<CustomEvent<{
-        value: string;
-        option: { value: string; label: string; disabled?: boolean };
-    }>>,
-    onFfOpenChange: EventName<CustomEvent<{ open: boolean }>>
-};
-
-export const FfDropdown: StencilReactComponent<FfDropdownElement, FfDropdownEvents> = /*@__PURE__*/ createComponent<FfDropdownElement, FfDropdownEvents>({
-    tagName: 'ff-dropdown',
-    elementClass: FfDropdownElement,
-    // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
-    react: React,
-    events: {
-        onFfChange: 'ffChange',
-        onFfOpenChange: 'ffOpenChange'
-    } as FfDropdownEvents,
-    defineCustomElement: defineFfDropdown
-});
-
-type FfModalEvents = { onFfClose: EventName<CustomEvent<void>> };
-
-export const FfModal: StencilReactComponent<FfModalElement, FfModalEvents> = /*@__PURE__*/ createComponent<FfModalElement, FfModalEvents>({
-    tagName: 'ff-modal',
-    elementClass: FfModalElement,
-    // @ts-ignore - React type of Stencil Output Target may differ from the React version used in the Nuxt.js project, this can be ignored.
-    react: React,
-    events: { onFfClose: 'ffClose' } as FfModalEvents,
-    defineCustomElement: defineFfModal
 });

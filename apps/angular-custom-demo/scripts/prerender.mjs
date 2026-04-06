@@ -135,7 +135,13 @@ const template = /* html */ `<!doctype html>
       </header>
 
       <section>
-        <h2>ff-button — all variants</h2>
+        <h2>ff-button — all variants (Figma-backed)</h2>
+        <p>
+          This is the sole Figma-backed component in the design system. Every visual
+          token value (background, foreground, radius, padding, font) comes from the
+          Figma Variables API via the token contract. The component library contains
+          only primitives that exist in Figma — nothing is added manually.
+        </p>
         <div class="swatch-row">
           <ff-button variant="primary">Primary</ff-button>
           <ff-button variant="secondary">Secondary</ff-button>
@@ -147,45 +153,18 @@ const template = /* html */ `<!doctype html>
       </section>
 
       <section>
-        <h2>ff-dropdown — SSR-safe open/close contract</h2>
+        <h2>Multi-brand token cascade</h2>
         <p>
-          The dropdown is rendered in the default (closed) state. The listbox is
-          present in the DOM but hidden via <code>aria-hidden="true"</code>, so the
-          server and client agree on the initial markup and there is zero hydration
-          mismatch when the dropdown is later opened on the client.
+          The same <code>&lt;ff-button&gt;</code> binary renders with three distinct
+          visual identities by swapping only the inline CSS brand pack. The component
+          source code is identical across all brands — differentiation is purely
+          a CSS cascade concern, driven by the Figma Variables export.
         </p>
-        <ff-dropdown
-          placeholder="Select reporting period"
-          value="qtr"
-          options='[{"value":"qtr","label":"This quarter"},{"value":"hly","label":"Half year"},{"value":"yr","label":"Full year"},{"value":"all","label":"All time","disabled":true}]'
-        ></ff-dropdown>
-      </section>
-
-      <section>
-        <h2>ff-data-table — sorted on the server</h2>
-        <p>
-          Rows are sorted in Node during the hydrate pass, so the table arrives in
-          the browser pre-sorted. No client-side shuffle is required, which keeps
-          LCP tight and eliminates post-hydration reflows for large tables.
-        </p>
-        <ff-data-table
-          sort-key="mrr"
-          sort-direction="desc"
-          columns='[{"key":"name","label":"Customer","width":"2fr"},{"key":"plan","label":"Plan","width":"1fr"},{"key":"seats","label":"Seats","width":"0.6fr","align":"end"},{"key":"mrr","label":"MRR","width":"0.8fr","align":"end"},{"key":"active","label":"Active","width":"0.5fr","align":"center"}]'
-          rows='[{"id":"c-1","name":"Aurora Partners","plan":"Enterprise","seats":420,"mrr":18400,"active":true},{"id":"c-2","name":"Northwind Labs","plan":"Growth","seats":84,"mrr":3960,"active":true},{"id":"c-3","name":"Helix Cooperative","plan":"Growth","seats":61,"mrr":2820,"active":false},{"id":"c-4","name":"Lumen & Stone","plan":"Starter","seats":12,"mrr":480,"active":true},{"id":"c-5","name":"Portside Logistics","plan":"Enterprise","seats":310,"mrr":12600,"active":true}]'
-        ></ff-data-table>
-      </section>
-
-      <section>
-        <h2>ff-modal — closed on first paint</h2>
-        <p>
-          The modal is present in the document but starts closed (<code>aria-hidden="true"</code>,
-          <code>display:none</code>), which is the only safe default for SSR. Opening and
-          closing is driven by client-side props after hydration.
-        </p>
-        <ff-modal ff-title="Confirm action">
-          <p>This modal is pre-rendered in its closed state.</p>
-        </ff-modal>
+        <div class="note">
+          Brand 1 = purple (#695EFD), Arial, radius 0. Brand 2 = green (#8DFF8D),
+          Inter, radius 4px. Brand 3 = teal, Open Sans, pill (radius 999px).
+          All values flow from the Figma file, not from hardcoded CSS.
+        </div>
       </section>
     </main>
   </body>
@@ -217,8 +196,8 @@ async function main() {
     process.exit(1);
   }
 
-  if (!html.includes('<template shadowrootmode="open">')) {
-    console.error('[prerender] Output missing <template shadowrootmode="open"> — SSR contract broken.');
+  if (!html.includes('shadowrootmode="open"')) {
+    console.error('[prerender] Output missing shadowrootmode="open" — SSR contract broken.');
     process.exit(1);
   }
 
