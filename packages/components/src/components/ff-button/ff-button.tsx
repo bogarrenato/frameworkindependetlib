@@ -37,9 +37,9 @@ import { Component, Element, Event, EventEmitter, h, Host, Method, Prop } from '
   styleUrl: 'ff-button.css',
   // delegatesFocus makes the host element transparently forward any focus()
   // call (programmatic or via Tab) to the first tabbable descendant inside
-  // the shadow root, i.e. the native <button>. Without this, parent focus
-  // traps (ff-modal) cannot focus a slotted ff-button because the host has
-  // no tabindex of its own and the native <button> lives behind the shadow
+  // the shadow root, i.e. the native <button>. Without this, a consumer-owned
+  // focus trap cannot focus a slotted ff-button because the host has no
+  // tabindex of its own and the native <button> lives behind the shadow
   // boundary. delegatesFocus also mirrors how native <button> behaves when
   // clicked, so there is no behavioral regression for mouse users.
   shadow: { delegatesFocus: true }

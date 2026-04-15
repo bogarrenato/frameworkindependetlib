@@ -102,8 +102,8 @@ Sync Layer ── scripts/sync-figma.mjs ── Figma Variables API
 | `@fuggetlenfe/components` | Framework-independent Stencil web components | Props, slots, `::part` exports, CSS token inputs |
 | `@fuggetlenfe/tokens` | Stable CSS custom property contract + Figma preset | `contract.css` variables |
 | `@fuggetlenfe/brand-styles` | Per-brand, per-theme CSS packs (Figma-synced) | `data-brand` + `data-theme` selectors |
-| `@fuggetlenfe/react-wrapper` | Auto-generated React component bridge + `/server` SSR entry point | `FfButton`, `FfDropdown`, `FfDataTable`, `FfModal` component exports |
-| `@fuggetlenfe/angular-wrapper` | Auto-generated Angular standalone directive bridge + `/server` SSR entry point | `FfButton`, `FfDropdown`, `FfDataTable`, `FfModal` directive exports |
+| `@fuggetlenfe/react-wrapper` | Auto-generated React component bridge + `/server` SSR entry point | `FfButton` component export |
+| `@fuggetlenfe/angular-wrapper` | Auto-generated Angular standalone directive bridge + `/server` SSR entry point | `FfButton` directive export |
 
 ## Applications
 
@@ -116,14 +116,22 @@ Sync Layer ── scripts/sync-figma.mjs ── Figma Variables API
 
 ## Current component scope
 
-The PoC ships **4 primitives** (`ff-button`, `ff-dropdown`, `ff-data-table`, `ff-modal`). The original scope was a single button, used to validate the full pipeline (Figma sync, token contract, brand packs, Stencil core, framework wrappers, consumer apps). The set was then extended with three additional primitives to stress-test SSR, keyboard semantics, controlled/uncontrolled state, and composition under the same contract model. All four components read exclusively from the token contract and carry no brand values in their source.
+The platform ships **one stable primitive** (`ff-button`) and has **one roadmap primitive** (`ff-input`). Scope is governed by the **Source Alignment Gate** (see [`docs/governance.md`](./docs/governance.md)): a primitive ships only if it has an authoritative Figma source registered in [`fuggetlenfe-tokens/src/figma-source-manifest.json`](../fuggetlenfe-tokens/src/figma-source-manifest.json). Items without Figma source are not shipped, even if previous iterations of this PoC contained implementations.
 
-| Component | Role |
-|---|---|
-| `ff-button` | Button primitive |
-| `ff-dropdown` | Single-select combobox with keyboard navigation |
-| `ff-data-table` | Sortable, selectable data table |
-| `ff-modal` | Focus-trapped dialog with scroll lock |
+| Component | Status | Role |
+|---|---|---|
+| `ff-button` | stable | Button primitive (Default, Hover, Active, Disabled states) |
+| `ff-input` | roadmap | Text input primitive (Default, Hover, Active, Filled, Disabled states). Pending resolution of two design decisions recorded in the manifest before implementation. |
+
+The `FormInput` composite (label + input) is in the Figma file but is intentionally **not** shipped as a platform primitive. It is trivially composable in two lines of consumer code, so it lives in `docs/patterns/` rather than on npm. This follows the governance rule that composites live in docs, primitives live in packages.
+
+### Non-shipped inventory (audit trail)
+
+The following components existed in earlier iterations of this PoC and have been removed because they lack Figma source. They are not re-introduced without a new Figma source. See `nonShippedInventory` in the manifest for the audit trail.
+
+- `ff-dropdown` — removed 2026-04
+- `ff-modal` — removed 2026-04
+- `ff-data-table` — removed 2026-04
 
 ## SSR / SSG contract
 
@@ -165,7 +173,7 @@ The stability guarantee is that `contract.css` is the public API. As long as the
 
 - Stencil component props, slots, and `::part` exports
 - CSS custom property names in `packages/tokens/src/contract.css`
-- Wrapper package public exports (`FfButton`, `FfDropdown`, `FfDataTable`, `FfModal`) and their `/server` entry points
+- Wrapper package public exports (`FfButton` today; additions must match primitives marked `status: "stable"` in [`figma-source-manifest.json`](../fuggetlenfe-tokens/src/figma-source-manifest.json)) and their `/server` entry points
 - Shell context: `data-brand` and `data-theme` attributes on the consuming app shell
 
 ## What must not happen at platform level

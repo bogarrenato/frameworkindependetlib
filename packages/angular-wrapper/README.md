@@ -80,10 +80,9 @@ export class AppComponent { }
 | Export | Selector | Inputs | Description |
 |---|---|---|---|
 | `FfButton` | `ff-button` | `disabled`, `fullWidth`, `label`, `type` | Button primitive directive |
-| `FfDropdown` | `ff-dropdown` | `options`, `value`, `open`, `disabled`, `placeholder` | Single-select combobox directive |
-| `FfDataTable` | `ff-data-table` | `columns`, `rows`, `sortKey`, `sortDirection`, `selection`, `selectedIds` | Sortable, selectable table directive |
-| `FfModal` | `ff-modal` | `open`, `closeOnBackdrop`, `closeOnEscape`, `label` | Focus-trapped dialog directive |
 | `DIRECTIVES` | - | - | Array of all directive exports for convenience |
+
+The exported surface matches the `shipping: ["core", "react-wrapper", "angular-wrapper"]` entries in [`figma-source-manifest.json`](../../../fuggetlenfe-tokens/src/figma-source-manifest.json). `FfInput` is the next scheduled export and will land together with the stable `ff-input` primitive in `@fuggetlenfe/components`.
 
 ## Server entry point (SSR)
 

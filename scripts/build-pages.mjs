@@ -521,12 +521,12 @@ React Apps       Angular Apps</div>
           <a href="./react-brand-2/ssr-demo.html">
             <p class="kicker">React · Brand 2</p>
             <strong>SSR demo — Brand 2</strong>
-            <span>ff-button, ff-dropdown, ff-data-table, ff-modal rendered to DSD.</span>
+            <span>ff-button rendered to Declarative Shadow DOM.</span>
           </a>
           <a href="./react-custom/ssr-demo.html">
             <p class="kicker">React · Custom</p>
             <strong>SSR demo — Custom brand</strong>
-            <span>Same four primitives, consumer-owned brand pack.</span>
+            <span>Same primitive, consumer-owned brand pack.</span>
           </a>
           <a href="./angular-brand-1/ssr-demo.html">
             <p class="kicker">Angular · Brand 1</p>

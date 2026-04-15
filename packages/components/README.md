@@ -24,7 +24,7 @@ Components consume token variables through CSS `var()` fallbacks. They never imp
 
 This package ships with an additional Stencil output target, `dist-hydrate-script`, written to `packages/components/hydrate/`. The hydrate bundle runs on Node and exposes `renderToString(html, options)` and `hydrateDocument(doc, options)`, which serialize every `<ff-*>` web component into **Declarative Shadow DOM** (`<template shadowrootmode="open">`). This is the foundation for server-rendered pages in the React and Angular wrappers (see `@fuggetlenfe/react-wrapper/server` and `@fuggetlenfe/angular-wrapper/server`).
 
-Every component in this package must obey the SSR author-time rules below. The three new primitives (`ff-dropdown`, `ff-modal`, `ff-data-table`) were designed against these rules from day one.
+Every component in this package must obey the SSR author-time rules below. All shipped primitives are designed against these rules from day one.
 
 ### Author-time SSR rules
 
@@ -36,7 +36,9 @@ Every component in this package must obey the SSR author-time rules below. The t
 
 ## Current components
 
-The package ships 4 primitives: `ff-button`, `ff-dropdown`, `ff-data-table`, and `ff-modal`. All four are SSR-safe, all four read exclusively from the token contract, and none of them carry brand values in their source files.
+The package ships a single stable primitive, `ff-button`, governed by the **Source Alignment Gate** (see [`docs/governance.md`](../../docs/governance.md)): only primitives with an authoritative Figma source listed in [`fuggetlenfe-tokens/src/figma-source-manifest.json`](../../../fuggetlenfe-tokens/src/figma-source-manifest.json) are shipped. `ff-input` is the next scheduled primitive (status `roadmap` in the manifest), pending resolution of the open design decisions recorded there.
+
+`ff-button` is SSR-safe, reads exclusively from the token contract, and carries no brand values in its source files.
 
 ### `ff-button`
 
@@ -87,116 +89,24 @@ These variables are consumed by `ff-button.css` and must be defined by the token
 |---|---|
 | Default | Projected content inside the button. Falls back to `label` prop value. |
 
-### `ff-dropdown`
+### `ff-input` (roadmap)
 
-A framework-agnostic single-select combobox with full keyboard navigation and ARIA combobox semantics. The `open` state is controlled via a prop so the host application can drive it (useful for forms and modals). Options may be passed as a real array via the property or as a JSON string through the attribute, which makes the component usable from plain HTML and from server-rendered markup.
+Registered in the manifest with `status: "roadmap"`. The Figma component set `114:402` defines Default, Hover, Active, Filled, and Disabled states. Implementation is blocked on two design decisions recorded in the manifest:
 
-Source: `src/components/ff-dropdown/`.
+1. Whether the `Filled` state is a distinct visual surface or a CSS-driven `:not(:placeholder-shown)` derivation of the Default state.
+2. Whether the element exposes only `::part(input)` or additionally `::part(label)`. The `FormInput` composite in Figma implies the label is a separate DOM layer owned by the consumer, which argues for `::part(input)` only.
 
-#### Key props
+Until these are resolved, no `ff-input` source exists in this package and no wrapper export is published.
 
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `options` | `FfDropdownOption[] \| string` | `[]` | Array of `{ value, label, disabled? }` or a JSON string with the same shape |
-| `value` | `string \| undefined` | `undefined` | Currently selected option value (controlled) |
-| `open` | `boolean` | `false` | Controlled open/close state |
-| `disabled` | `boolean` | `false` | Disables the trigger and prevents interaction |
-| `placeholder` | `string` | `'Select...'` | Label when no value is selected |
+## Non-shipped inventory
 
-Emits `ffChange` with the new option value and `ffOpenChange` with the next open state.
+Previously inventoried components that were removed because they lacked Figma source (see `nonShippedInventory` in the manifest):
 
-#### Slots
+- `ff-dropdown` — removed 2026-04
+- `ff-modal` — removed 2026-04
+- `ff-data-table` — removed 2026-04
 
-| Slot | Description |
-|---|---|
-| `trigger` | Optional override for the trigger content. Defaults to the selected label or placeholder |
-
-#### Shadow parts
-
-| Part | Purpose |
-|---|---|
-| `trigger` | The button element that opens the list |
-| `listbox` | The options container |
-| `option` | Each option row |
-
-#### SSR notes
-
-The dropdown is fully SSR-safe. `render()` emits the listbox markup (with `aria-hidden` and `hidden` controlled by the `open` prop) so servers produce stable markup regardless of client state. Keyboard listeners are attached in `componentDidLoad`. Positioning uses CSS only — no measurements are read during render.
-
-### `ff-modal`
-
-A framework-agnostic modal dialog with focus trap, scroll lock, Escape handling, and a backdrop. The component intentionally uses a `div` with `role="dialog"` and `aria-modal="true"` rather than the native `<dialog>` element, because native `<dialog>` is not serializable through Declarative Shadow DOM and would break SSR.
-
-Source: `src/components/ff-modal/`.
-
-#### Key props
-
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `open` | `boolean` | `false` | Controlled visibility |
-| `closeOnBackdrop` | `boolean` | `true` | Clicks on the backdrop close the modal |
-| `closeOnEscape` | `boolean` | `true` | Escape key closes the modal |
-| `label` | `string \| undefined` | `undefined` | Accessible name, mapped to `aria-label` if no slotted title is present |
-
-Emits `ffClose` when the user dismisses the modal via backdrop, Escape, or the close button.
-
-#### Slots
-
-| Slot | Description |
-|---|---|
-| Default | Modal body content |
-| `title` | Heading area, wired to `aria-labelledby` |
-| `footer` | Optional footer area (action buttons) |
-
-#### Shadow parts
-
-| Part | Purpose |
-|---|---|
-| `backdrop` | The dimmed overlay behind the dialog |
-| `dialog` | The dialog surface |
-| `close` | The close affordance in the header |
-
-#### SSR notes
-
-`render()` is pure and produces the full dialog markup regardless of `open` state; visibility is driven by a CSS attribute selector, so the server output is deterministic. Focus trap wiring, scroll-lock application, and document-level key listeners all live in `componentDidLoad` / `disconnectedCallback` and never run on the server.
-
-### `ff-data-table`
-
-A framework-agnostic data table with sortable columns, row selection (none, single, multiple), per-column alignment, and controlled sort state. Sorting is computed inside `render()` as a pure function of `rows`, `sortKey`, and `sortDirection`, which means the server and client produce identical markup. This also makes the component trivially usable with server-driven sort: the consumer hands it pre-sorted rows and leaves `sortKey` / `sortDirection` unset.
-
-Source: `src/components/ff-data-table/`.
-
-#### Key props
-
-| Prop | Type | Default | Description |
-|---|---|---|---|
-| `columns` | `FfDataTableColumn[]` | `[]` | Column definitions: `{ key, label, sortable?, align? }` |
-| `rows` | `FfDataTableRow[]` | `[]` | Data rows keyed by `id` |
-| `sortKey` | `string \| undefined` | `undefined` | Currently sorted column key (controlled) |
-| `sortDirection` | `'asc' \| 'desc' \| undefined` | `undefined` | Sort direction (controlled) |
-| `selection` | `'none' \| 'single' \| 'multiple'` | `'none'` | Row selection mode |
-| `selectedIds` | `string[]` | `[]` | Currently selected row ids (controlled) |
-
-Emits `ffSortChange` with `{ key, direction }` and `ffSelectionChange` with the next list of selected ids.
-
-#### Slots
-
-| Slot | Description |
-|---|---|
-| `empty` | Rendered in place of the tbody when `rows` is empty |
-
-#### Shadow parts
-
-| Part | Purpose |
-|---|---|
-| `table` | The root `<table>` element |
-| `header-cell` | Each header cell |
-| `row` | Each data row |
-| `cell` | Each data cell |
-
-#### SSR notes
-
-Sorting runs in `render()` on a shallow copy of `rows`, so the first server paint matches the client exactly. No DOM measurements are read during render. All event wiring (header click-to-sort, checkbox selection) happens through declarative JSX handlers that Stencil hydrate binds on the client during hydration.
+Re-introduction requires a new Figma source and a manifest entry, per the Source Alignment Gate.
 
 ## What must not go here
 

@@ -72,9 +72,8 @@ const customStyle: CssTokenOverrides = {
 | Export | Web component | Description |
 |---|---|---|
 | `FfButton` | `<ff-button>` | Button primitive with disabled, type, fullWidth, label props |
-| `FfDropdown` | `<ff-dropdown>` | Single-select combobox with controlled `open` / `value` and JSON or array options |
-| `FfDataTable` | `<ff-data-table>` | Sortable, selectable table with controlled sort and selection state |
-| `FfModal` | `<ff-modal>` | Focus-trapped dialog with scroll lock and `ffClose` event |
+
+The exported surface matches the `shipping: ["core", "react-wrapper", "angular-wrapper"]` entries in [`figma-source-manifest.json`](../../../fuggetlenfe-tokens/src/figma-source-manifest.json). `FfInput` is the next scheduled export and will land together with the stable `ff-input` primitive in `@fuggetlenfe/components`.
 
 ## Server entry point (SSR)
 
