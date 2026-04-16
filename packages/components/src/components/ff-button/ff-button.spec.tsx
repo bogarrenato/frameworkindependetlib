@@ -174,4 +174,38 @@ describe('ff-button', () => {
     expect(button.hasAttribute('disabled')).toBe(true);
     expect(button.textContent).toContain('Combined');
   });
+
+  it('renders icon-start slot when content is provided', async () => {
+    const page = await newSpecPage({
+      components: [FfButton],
+      html: '<ff-button><svg slot="icon-start" data-testid="icon"></svg>Label</ff-button>'
+    });
+    const button = getNativeButton(page);
+    const slots = button.querySelectorAll('slot');
+    const iconStartSlot = Array.from(slots).find(s => s.getAttribute('name') === 'icon-start');
+    expect(iconStartSlot).toBeDefined();
+  });
+
+  it('renders icon-end slot when content is provided', async () => {
+    const page = await newSpecPage({
+      components: [FfButton],
+      html: '<ff-button>Label<svg slot="icon-end" data-testid="icon"></svg></ff-button>'
+    });
+    const button = getNativeButton(page);
+    const slots = button.querySelectorAll('slot');
+    const iconEndSlot = Array.from(slots).find(s => s.getAttribute('name') === 'icon-end');
+    expect(iconEndSlot).toBeDefined();
+  });
+
+  it('renders both icon slots simultaneously', async () => {
+    const page = await newSpecPage({
+      components: [FfButton],
+      html: '<ff-button><span slot="icon-start">←</span>Label<span slot="icon-end">→</span></ff-button>'
+    });
+    const button = getNativeButton(page);
+    const slots = button.querySelectorAll('slot');
+    const slotNames = Array.from(slots).map(s => s.getAttribute('name')).filter(Boolean);
+    expect(slotNames).toContain('icon-start');
+    expect(slotNames).toContain('icon-end');
+  });
 });

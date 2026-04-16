@@ -7,14 +7,14 @@
   colors, font families, or spacing values directly. Instead, it reads from CSS custom
   properties that are defined in the external token and brand layers:
 
-    packages/tokens/src/contract.css     → defines --ff-button-bg-default etc. (stable API)
-    packages/brand-styles/src/*.css      → overrides those variables per brand+theme
+    @fuggetlenfe/tokens/contract.css     → defines semantic color tokens, shared control tokens, and component aliases
+    @fuggetlenfe/brand-styles/*.css      → overrides those variables per brand+theme
     this file (ff-button.css)            → reads via var(--ff-button-bg-default, fallback)
 
   ## How the token flow works in practice
 
-  1. contract.css sets :root { --ff-button-bg-default: #695EFD; }
-  2. A brand pack like brand-1-light.css overrides: [data-brand='brand-1'][data-theme='light'] { --ff-button-bg-default: #...; }
+  1. contract.css sets shared control tokens such as --ff-control-radius and aliases such as --ff-button-radius.
+  2. A brand pack like brand-1-light.css overrides semantic colors plus shared control tokens via [data-brand][data-theme].
   3. This file reads: --_button-bg: var(--ff-button-bg-default, transparent);
   4. The consumer app shell sets data-brand and data-theme → CSS cascade applies the correct values.
 
@@ -22,7 +22,7 @@
 
   - Host class: ff-button-host--full-width (layout modifier)
   - Shadow part: button (for ::part(button) external styling)
-  - Token inputs: --ff-button-* and --ff-color-* variables from the external design layer
+  - Token inputs: --ff-button-*, --ff-control-*, and --ff-color-* variables from the external design layer
 */
 
 /* :host maps to the <ff-button> custom element itself.
@@ -47,12 +47,14 @@
 .ff-button {
   display: inline-flex;
   align-items: center;
+  /* Spacing between icon slots and label content. */
+  gap: var(--ff-button-gap, 0.5em);
   justify-content: center;
   width: 100%;
   min-height: 22px;
   border: 0;
-  /* --ff-button-radius is set by the token contract or brand pack CSS */
-  border-radius: var(--ff-button-radius, 0px);
+  /* --ff-button-radius defaults to the shared control radius in the token contract. */
+  border-radius: var(--ff-button-radius, var(--ff-control-radius, 0px));
   background: var(--_button-bg);
   color: var(--_button-fg);
   cursor: pointer;
@@ -61,8 +63,10 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 1.4;
-  /* --ff-button-padding-* values come from the token contract or brand pack */
-  padding: var(--ff-button-padding-block, 0px) var(--ff-button-padding-inline, 0px);
+  /* Button spacing resolves through button aliases first, then shared control spacing tokens. */
+  padding:
+    var(--ff-button-padding-block, var(--ff-control-padding-block, 0px))
+    var(--ff-button-padding-inline, var(--ff-control-padding-inline, 0px));
   text-align: center;
   transition:
     background-color 160ms ease,
@@ -90,7 +94,7 @@
    Uses color-mix for a semi-transparent outline derived from the text color token.
    This ensures the focus ring adapts to whatever brand is active. */
 .ff-button:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--ff-color-text-primary, currentColor) 28%, transparent);
+  outline: 2px solid var(--ff-color-focus-ring, color-mix(in srgb, var(--ff-color-text-primary, currentColor) 28%, transparent));
   outline-offset: 2px;
 }
 
@@ -101,4 +105,16 @@
   --_button-fg: var(--ff-button-fg-disabled, inherit);
   cursor: not-allowed;
   opacity: 1;
+}
+
+/* Icon slot layout: ensure slotted SVGs and images inherit the button foreground color
+   and size to a sensible default without requiring the consumer to add their own styles. */
+::slotted([slot="icon-start"]),
+::slotted([slot="icon-end"]) {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  pointer-events: none;
 }

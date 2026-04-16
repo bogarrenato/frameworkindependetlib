@@ -97,9 +97,16 @@ export class FfButton {
     this.ffClick.emit(event);
   };
 
+  /**
+   * Renders the button with three slot regions:
+   *  - `icon-start` — named slot before the default content (e.g. a leading icon)
+   *  - default slot — primary label / projected content
+   *  - `icon-end`   — named slot after the default content (e.g. a trailing icon)
+   *
+   * Pure render — no DOM access, no globals. Safe to execute in Node during SSR.
+   */
   render() {
     /*
-     * Pure render — no DOM access, no globals. Safe to execute in Node during SSR.
      * Host class map drives layout modifiers; variant is reflected as an attribute
      * so brand packs can scope rules with [variant='danger'] selectors if they choose.
      */
@@ -118,7 +125,9 @@ export class FfButton {
           aria-label={this.ffAriaLabel}
           onClick={this.handleClick}
         >
+          <slot name="icon-start"></slot>
           <slot>{this.label}</slot>
+          <slot name="icon-end"></slot>
         </button>
       </Host>
     );
